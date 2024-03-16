@@ -1,102 +1,118 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  @vite('resources/css/app.css')
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;800&display=swap"
-  rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    @vite('resources/css/app.css')
 </head>
-<style>
-    .hidden-sidebar {
-      display: none;
-    }
-  </style>
+
 <body>
-<header>
-    <nav class="fixed w-full bg-gray-800 h-20">
-        <h1>Tailwindbar </h1>
-    </nav>
-    <aside>
-        <span class="absolute text-white text-4xl top-5 left-4 cursor-pointer lg:hidden" onclick="Openbar()">
-            <i class="bi bi-filter-left px-2 bg-gray-900 rounded-md"></i>
-          </span>
-          <span class="absolute text-white text-4xl top-5 left-4 cursor-pointer hidden lg:block" onclick="Openlg()">
-            <i class="bi bi-filter-left px-2 bg-gray-900 rounded-md"></i>
-          </span>
-          <div class="sidebar fixed w-full lg:w-fit top-0 bottom-0 left-0 hidden lg:block
-            p-2 w-[300px] overflow-y-auto text-center bg-gray-900 shadow h-screen">
-            <div class="text-gray-100 text-xl">
-              <div class="p-2.5 mt-1 flex items-center rounded-md ">
-                <i class="bi bi-app-indicator px-2 py-1 bg-blue-600 rounded-md"></i>
-                <h1 class="text-[15px]  ml-3 text-xl text-gray-200 font-bold">Tailwindbar</h1>
-                <i class="bi bi-x ml-20 cursor-pointer lg:hidden" onclick="Openbar()"></i>
-                <i class="bi bi-x ml-20 cursor-pointer hidden lg:block" onclick="Openlg()"></i>
-              </div>
-              <hr class="my-2 text-gray-600">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" />
 
-              <div>
-                <div class="p-2.5 mt-3 flex items-center rounded-md
-                px-4 duration-300 cursor-pointer  bg-gray-700">
-                  <i class="bi bi-search text-sm"></i>
-                  <input class="text-[15px] ml-4 w-full bg-transparent focus:outline-none" placeholder="Serach" />
-                </div>
-
-                <div class="p-2.5 mt-2 flex items-center rounded-md px-4 duration-300 cursor-pointer  hover:bg-blue-600">
-                  <i class="bi bi-house-door-fill"></i>
-                  <span class="text-[15px] ml-4 text-gray-200">Home</span>
-                </div>
-                <div class="p-2.5 mt-2 flex items-center rounded-md px-4 duration-300 cursor-pointer  hover:bg-blue-600">
-                  <i class="bi bi-bookmark-fill"></i>
-                  <span class="text-[15px] ml-4 text-gray-200">Bookmark</span>
-                </div>
-                <hr class="my-4 text-gray-600">
-                <div class="p-2.5 mt-2 flex items-center rounded-md px-4 duration-300 cursor-pointer  hover:bg-blue-600">
-                  <i class="bi bi-envelope-fill"></i>
-                  <span class="text-[15px] ml-4 text-gray-200">Messages</span>
-                </div>
-
-                <div class="p-2.5 mt-2 flex items-center rounded-md px-4 duration-300 cursor-pointer  hover:bg-blue-600">
-                  <i class="bi bi-chat-left-text-fill"></i>
-                  <div class="flex justify-between w-full items-center" onclick="dropDown()">
-                    <span class="text-[15px] ml-4 text-gray-200">Chatbox</span>
-                    <span class="text-sm rotate-0" id="arrow">
-                      <i class="bi bi-chevron-down"></i>
-                    </span>
-                  </div>
-                </div>
-                <div class="hidden leading-7 text-left text-sm font-thin mt-2 w-4/5 mx-auto" id="submenu">
-                  <h1 class="cursor-pointer p-2 hover:bg-gray-700 rounded-md mt-1">Social</h1>
-                  <h1 class="cursor-pointer p-2 hover:bg-gray-700 rounded-md mt-1">Personal</h1>
-                  <h1 class="cursor-pointer p-2 hover:bg-gray-700 rounded-md mt-1">Friends</h1>
-                </div>
-                <div class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer  hover:bg-blue-600">
-                  <i class="bi bi-box-arrow-in-right"></i>
-                  <span class="text-[15px] ml-4 text-gray-200">Logout</span>
-                </div>
-
-              </div>
+    <!-- page -->
+    <main class="min-h-screen w-full bg-gray-100 text-gray-700">
+        <!-- header page -->
+        <header class="flex sticky top-0 w-full h-20 items-center justify-between border-b-2 border-gray-200 bg-[#A9DEF9] p-2">
+            <!-- logo -->
+            <div class="flex items-center space-x-2">
+                <button type="button" class="text-3xl lg:hidden" onclick="Openbar()"><i
+                        class="bx bx-menu"></i>close</button>
             </div>
-          </div>
 
-          <script>
-            function dropDown() {
-              document.querySelector('#submenu').classList.toggle('hidden')
-              document.querySelector('#arrow').classList.toggle('rotate-180')
-            }
+            <div class="w-full flex items-center justify-center">
+              <input type="text" class="w-full md:w-1/2 p-2 rounded-lg shadow-lg" placeholder="Search Something Cool Here">
+            </div>
 
-            function Openbar() {
-              document.querySelector('.sidebar').classList.toggle('hidden')
-            }
+            <div>
+                <button type="button" class="h-9 w-9 overflow-hidden rounded-full">
+                    <img src="https://plchldr.co/i/40x40?bg=111111" alt="plchldr.co" />
+                </button>
+            </div>
+        </header>
 
-            function Openlg() {
-                document.querySelector('.sidebar').classList.toggle('hidden-sidebar')
-            }
-          </script>
-    </aside>
-</header>
-@yield('content')
+        <div class="flex">
+            <!-- aside -->
+            <aside
+                class="sidebar hidden lg:block fixed left-0 h-svh w-72 space-y-2 border-r-2 border-gray-200 bg-white p-2">
+                <a href="#"
+                    class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
+                    <span class="text-2xl"><i class="bx bx-home"></i></span>
+                    <span>Dashboard</span>
+                </a>
 
+                <a href="#"
+                    class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
+                    <span class="text-2xl"><i class="bx bx-cart"></i></span>
+                    <span>Cart</span>
+                </a>
+
+                <a href="#"
+                    class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
+                    <span class="text-2xl"><i class="bx bx-shopping-bag"></i></span>
+                    <span>Shopping</span>
+                </a>
+
+                <a href="#"
+                    class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
+                    <span class="text-2xl"><i class="bx bx-heart"></i></span>
+                    <span>My Favourite</span>
+                </a>
+
+                <a href="#"
+                    class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
+                    <span class="text-2xl"><i class="bx bx-user"></i></span>
+                    <span>Profile</span>
+                </a>
+            </aside>
+
+            <!-- main content page -->
+            <div class="w-full p-4 lg:ml-72">
+                @yield('content')
+            </div>
+
+            <!-- aside recomend -->
+            <aside class="hidden lg:flex w-72 flex-col space-y-2 border-r-2 border-gray-200 bg-white h-svh">
+                <a href="#"
+                    class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
+                    <span class="text-2xl"><i class="bx bx-home"></i></span>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="#"
+                    class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
+                    <span class="text-2xl"><i class="bx bx-cart"></i></span>
+                    <span>Cart</span>
+                </a>
+
+                <a href="#"
+                    class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
+                    <span class="text-2xl"><i class="bx bx-shopping-bag"></i></span>
+                    <span>Shopping</span>
+                </a>
+
+                <a href="#"
+                    class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
+                    <span class="text-2xl"><i class="bx bx-heart"></i></span>
+                    <span>My Favourite</span>
+                </a>
+
+                <a href="#"
+                    class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
+                    <span class="text-2xl"><i class="bx bx-user"></i></span>
+                    <span>Profile</span>
+                </a>
+            </aside>
+        </div>
+    </main>
+
+    <script>
+        function Openbar() {
+            document.querySelector('.sidebar').classList.toggle('hidden')
+        }
+    </script>
 </body>
+
 </html>
