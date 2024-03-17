@@ -28,7 +28,7 @@
 
             <div>
                 <button type="button" class="h-9 w-9 overflow-hidden rounded-full">
-                    <img src="https://plchldr.co/i/40x40?bg=111111" alt="plchldr.co" />
+                    <img src="{{ auth()->user()->image }}" alt="plchldr.co" />
                 </button>
             </div>
         </header>
@@ -37,6 +37,10 @@
             <!-- aside -->
             <aside
                 class="sidebar hidden lg:block fixed left-0 h-svh w-72 space-y-2 border-r-2 border-gray-200 bg-white p-2">
+                <div class="flex flex-col items-center">
+                    <img src="{{auth()->user()->image}}" alt="" class="w-1/2 h-1/2 rounded-lg border">
+                    <h1 class="text-xl font-bold">{{auth()->user()->name}}</h1>
+                </div>
                 <a href="#"
                     class="flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600">
                     <span class="text-2xl"><i class="bx bx-home"></i></span>
