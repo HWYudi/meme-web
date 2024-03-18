@@ -33,5 +33,7 @@ Route::get('/login' , function () {
 Route::post('/login' , [AuthController::class , 'login'])->name('login');
 
 Route::post('/' , [PostController::class , 'store'])->name('posts.store');
+Route::post('/posts/{id}/like', [PostController::class, 'like'])->name('posts.like');
+
 
 Route::get('/' , [PostController::class , 'index'])->name('posts.index');

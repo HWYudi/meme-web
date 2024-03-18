@@ -10,7 +10,7 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::with('user')->latest()->get();
+        $posts = Post::with(['like', 'user' , 'comment'])->latest()->get();
         return view('homepage', compact('posts'));
     }
 
@@ -30,4 +30,14 @@ class PostController extends Controller
 
         return back()->with('success', 'Post created successfully');
     }
+
+    public function like($id)
+{
+    $post = Post::findOrFail($id);
+    $post->like()->create(['user_id' => auth()->id()]);
+
+    return back();
+}
+
+
 }
