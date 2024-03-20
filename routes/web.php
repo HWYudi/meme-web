@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,8 +33,10 @@ Route::get('/login' , function () {
 
 Route::post('/login' , [AuthController::class , 'login'])->name('login');
 
-Route::post('/' , [PostController::class , 'store'])->name('posts.store');
+Route::post('/post' , [PostController::class , 'store'])->name('posts.store');
 Route::post('/posts/{id}/like', [PostController::class, 'like'])->name('posts.like');
 
 
 Route::get('/' , [PostController::class , 'index'])->name('posts.index');
+
+Route::post('/comment' , [CommentController::class , 'store'])->name('comments.store');

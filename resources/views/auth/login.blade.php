@@ -7,6 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     @vite('resources/css/app.css')
+    <style>
+        body{
+            background-color: black;
+            color: white;
+        }
+    </style>
 </head>
 
 <body class="bg-black text-white">

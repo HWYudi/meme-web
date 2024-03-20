@@ -14,17 +14,27 @@
         rel="stylesheet">
 </head>
 
-<body class="bg-black">
+<body class="bg-black text-white">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" />
 
     <!-- page -->
-    <main class="min-h-screen w-full text-white">
+    <main class="min-h-screen w-full">
         <!-- header page -->
         <div class="flex">
             <!-- aside -->
             <aside
-                class="sidebar hidden bg-black lg:block fixed left-0 h-svh w-full lg:w-1/4 border-r border-gray-200 border-opacity-20  p-2 px-5 pt-5 overflow-y-auto">
-                <div class="flex flex-col gap-3">
+                class="sidebar hidden bg-black text-white lg:block fixed z-20 left-0 h-svh w-full lg:w-1/4 border-r border-white
+                border-opacity-20 overflow-y-auto">
+                <div class="absolute right-4 block lg:hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" class="bi bi-x-lg" viewBox="0 0 16 16" onclick="Openbar()">
+                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                      </svg>
+                </div>
+                <div class="w-full h-16 gap-3 flex items-center justify-start lg:justify-center border-b border-white border-opacity-20">
+                    <img src="https://ichef.bbci.co.uk/news/976/cpsprodpb/16620/production/_91408619_55df76d5-2245-41c1-8031-07a4da3f313f.jpg" alt="" class="w-10 h-10 rounded-full">
+                    <h1 class="text-xl font-bold">MIM</h1>
+                </div>
+                <div class="flex flex-col gap-3 p-4">
                     <a href="#" class="hover:bg-opacity-10 hover:bg-white rounded-lg flex items-center gap-2 p-2">
                         <svg width="34" height="33" viewBox="0 0 30 32" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -91,12 +101,12 @@
                             </svg>
                         <h1>More</h1>
                     </a>
-                    <div class="w-full h-fit bg-white rounded-full my-3">
-                        <h1 class="text-center text-xl text-black py-3 font-medium">Post</h1>
+                    <div class="w-full h-fit cursor-pointer bg-white rounded-full my-3" onclick="Openbar()">
+                        <h1 class="text-center w-full text-xl text-black py-3 font-medium" onclick="togglePopup()">Post</h1>
                     </div>
                     <div class="flex h-fit gap-2">
                         <div class="flex items-end">
-                            <img src="{{ auth()->user()->image }}" alt="" class="w-10 h-10 rounded-full">
+                            <img src="{{ auth()->user()->image }}" alt="" class="w-12 h-full object-cover rounded-full">
                         </div>
                         <div>
                             <p class="font-semibold text-base">{{ auth()->user()->username }}</p>
@@ -107,18 +117,29 @@
             </aside>
 
             <!-- main content page -->
-            <div class="w-full p-4">
+            <div class="w-full">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" class="bi bi-list" viewBox="0 0 16 16" onclick="Openbar()">
+                    <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+                  </svg>
                 @yield('content')
             </div>
 
             <aside
-            class="sidebar hidden lg:block fixed right-0 min-h-svh w-full lg:w-1/4 border-l border-gray-200 border-opacity-20  p-2 px-5 overflow-y-auto">
+            class="sidebar hidden z-20 lg:block fixed right-0 min-h-svh w-full lg:w-1/4 border-l border-white border-opacity-20  p-2 px-5 overflow-y-auto">
             <div>
                 <input type="text" placeholder="Search" class="w-full p-4 mb-3 rounded-full">
             </div>
-            <div class="w-full h-fit bg-white bg-opacity-10 rounded-full my-3 p-4">
+            <div class="w-full h-fit bg-white text-white bg-opacity-10 rounded-lg my-3 p-4">
                 <h1 class="font-bold text-xl">Trend For You</h1>
-            </div>
+                    <div class="flex text-sm font-thin gap-4">
+                        <p>Entertainment</p>
+                        <p>Trending</p>
+                    </div>
+                    <div>
+                        <h1>Bitcoin</h1>
+                        <p>1 post</p>
+                    </div>
+                </div>
         </aside>
         </div>
     </main>
