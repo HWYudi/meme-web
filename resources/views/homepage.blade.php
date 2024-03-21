@@ -1,11 +1,10 @@
 @extends('template.index')
 
 @section('content')
-    <div
-        class="fixed w-full top-0 bg-black z-10 flex justify-center items-center border-b border-white border-opacity-20 text-white h-16">
-        <div class="w-full  lg:w-1/2 flex justify-center gap-10 text-xl">
-            <h1 class="font-bold border-b-2 border-[#2B7BC5] p-1">For You</h1>
-            <h1 class="p-1">Following</h1>
+    <div class="fixed top-0 flex justify-center items-center h-16 w-full border-b">
+        <div class="w-full lg:w-1/2 flex items-center justify-evenly">
+            <h1>Tes</h1>
+            <h1>Tes</h1>
         </div>
     </div>
     <div class="popup fixed z-10 inset-0 flex items-center hidden justify-center  bg-black bg-opacity-80">
@@ -50,14 +49,14 @@
                                     <h1 class="font-light text-base text-white text-opacity-50">
                                         {{ $post->created_at->diffForHumans() }}</h1>
                                 </div>
-                                <p class="text-white">{{ $post->title }}</p>
+                                <p class="text-white text-break whitespace-normal">{{ $post->title }}</p>
                             </div>
                             <div>
                                 <svg width="20" height="4" viewBox="0 0 20 4" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <rect width="4" height="4" rx="2" fill="white" fill-opacity="0.5" />
                                     <rect x="8" width="4" height="4" rx="2" fill="white"
-                                        fill-opacity="0.5" />
+                                        fill-opacity="0.5" />/
                                     <rect x="16" width="4" height="4" rx="2" fill="white"
                                         fill-opacity="0.5" />
                                 </svg>
@@ -75,53 +74,82 @@
                                 <img src="{{ $post->body }}" alt="Post Image" class="w-full h-72 mt-4 rounded-lg">
                             @endif
                         </div>
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white"
-                                viewBox="0 0 16 16" id="comment" onclick="toggleComment({{ $post->id }})">
-                                <path fill="#212121"
-                                    d="M1 4.5C1 3.11929 2.11929 2 3.5 2H12.5C13.8807 2 15 3.11929 15 4.5V9.5C15 10.8807 13.8807 12 12.5 12H8.68787L5.62533 14.6797C4.99168 15.2342 4 14.7842 4 13.9422V12H3.5C2.11929 12 1 10.8807 1 9.5V4.5ZM3.5 3C2.67157 3 2 3.67157 2 4.5V9.5C2 10.3284 2.67157 11 3.5 11H5V13.8981L8.31213 11H12.5C13.3284 11 14 10.3284 14 9.5V4.5C14 3.67157 13.3284 3 12.5 3H3.5Z">
-                                </path>
-                            </svg>
+                        <div class="flex p-2">
+                            <div class="w-1/3 flex gap-2 items-center justify-start">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" onclick="toggleComment({{ $post->id }})">
+                                    <path
+                                        d="M19 9.50003C19.0034 10.8199 18.6951 12.1219 18.1 13.3C17.3944 14.7118 16.3098 15.8992 14.9674 16.7293C13.6251 17.5594 12.0782 17.9994 10.5 18C9.18013 18.0035 7.87812 17.6951 6.7 17.1L1 19L2.9 13.3C2.30493 12.1219 1.99656 10.8199 2 9.50003C2.00061 7.92179 2.44061 6.37488 3.27072 5.03258C4.10083 3.69028 5.28825 2.6056 6.7 1.90003C7.87812 1.30496 9.18013 0.996587 10.5 1.00003H11C13.0843 1.11502 15.053 1.99479 16.5291 3.47089C18.0052 4.94699 18.885 6.91568 19 9.00003V9.50003Z"
+                                        stroke="white" stroke-opacity="0.5" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                                <h1>{{ $post->comment->count() }}</h1>
+                            </div>
+                            <div class="w-1/3 flex gap-2 items-center justify-center">
+                                <svg width="22" height="20" viewBox="0 0 22 20" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M1.87187 9.59832C0.798865 6.24832 2.05287 2.41932 5.56987 1.28632C7.41987 0.689322 9.46187 1.04132 10.9999 2.19832C12.4549 1.07332 14.5719 0.693322 16.4199 1.28632C19.9369 2.41932 21.1989 6.24832 20.1269 9.59832C18.4569 14.9083 10.9999 18.9983 10.9999 18.9983C10.9999 18.9983 3.59787 14.9703 1.87187 9.59832Z"
+                                        stroke="white" stroke-opacity="0.5" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M15 4.70001C16.07 5.04601 16.826 6.00101 16.917 7.12201" stroke="white"
+                                        stroke-opacity="0.5" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                                <h1>{{ $post->like->count() }}</h1>
+                            </div>
+                            <div class="w-1/3 flex gap-3 justify-end">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M19 21L12 16L5 21V5C5 4.46957 5.21071 3.96086 5.58579 3.58579C5.96086 3.21071 6.46957 3 7 3H17C17.5304 3 18.0391 3.21071 18.4142 3.58579C18.7893 3.96086 19 4.46957 19 5V21Z"
+                                        stroke="white" stroke-opacity="0.5" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M4 12V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V12"
+                                        stroke="white" stroke-opacity="0.5" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M16 6L12 2L8 6" stroke="white" stroke-opacity="0.5" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M12 2V15" stroke="white" stroke-opacity="0.5" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div id="comment-{{ $post->id }}" class="fixed z-10 inset-0 flex justify-center items-center">
-                    <div class="text-white w-full lg:w-1/3">
-                        <div class="w-full flex justify-between p-3 border-b bg-white">
-                            <h1 class="font-bold text-black text-center">Comments</h1>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-x-lg" viewBox="0 0 16 16" onclick="toggleComment({{ $post->id }})">
-                                <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
-                              </svg>
+
+                <div id="comment-{{$post->id}}" class="hidden fixed inset-0 flex items-center justify-center">
+                    <div class="w-full lg:w-[45%] h-[80vh] relative bg-black">
+                        <h1>komen</h1>
+                        <div class="absolute top-0 right-0" onclick="toggleComment({{$post->id}})">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18 6L6 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M6 6L18 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
                         </div>
-                        <div class="bg-white text-black break-words whitespace-normal h-96  p-2 px-5 overflow-y-auto relative">
-                            @foreach ($post->comment as $comment)
-                            <div class="w-full whitespace-normal break-words flex my-4">
-                                <img src="{{ $comment->user->image }}" alt="" class="w-12 h-12 rounded-full">
-                                <div class="bg-slate-50 border px-2">
-                                    <h1 class="font-bold text-lg ">{{ $comment->user->name }}</h1>
-                                    <p class="text-gray-500">{{ $comment->body }}</p>
-                                    <h1 class="text-gray-500">{{ $comment->created_at->diffForHumans() }}</h1>
-                                </div>
+                        <div class="h-full overflow-y-auto">
+                        <div class="flex items-center gap-3 p-4">
+                            <img src="{{$post->user->image}}" alt="" class="w-12 h-12 rounded-full">
+                            <div>
+                                <h1>{{$post->user->username}}</h1>
+                                <h1>{{$post->title}}</h1>
                             </div>
+                        </div>
+
+                        <img src="{{$post->body}}" alt="" class="w-full h-[50%]">
+                        <div class="bg-black border">
+                            @foreach ($post->comment as $comment)
+                                <p>{{$comment->body}}</p>
+                                <p>{{$comment->body}}</p>
+                                <p>{{$comment->body}}</p>
                             @endforeach
                         </div>
-                        <div class="sticky bottom-0 left-4 right-4 flex">
-                            <img src="{{ auth()->user()->image }}" alt="" class="w-12 h-12 rounded-full border">
-                            <form action="{{ route('comments.store') }}" method="POST"
-                                class="bg-slate-50 w-full flex gap-2 items-center">
-                                @csrf
-                                <input type="hidden" name="post_id" value="{{ $post->id }}">
-                                <input type="text" name="body" placeholder="Create a comment" class="w-full p-2 px-5">
-                                <button type="submit">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        class="bi bi-send" viewBox="0 0 16 16">
-                                        <path
-                                            d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z" />
-                                    </svg>
-                                </button>
-                            </form>
-                        </div>
                     </div>
+                </div>
                 </div>
 
 

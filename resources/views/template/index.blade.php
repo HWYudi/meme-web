@@ -24,7 +24,7 @@
             <!-- aside -->
             <aside
                 class="sidebar hidden bg-black text-white lg:block fixed z-20 left-0 h-svh w-full lg:w-1/4 border-r border-white
-                border-opacity-20 overflow-y-auto">
+                border-opacity-20">
                 <div class="absolute right-4 block lg:hidden">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" class="bi bi-x-lg" viewBox="0 0 16 16" onclick="Openbar()">
                         <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
@@ -34,7 +34,7 @@
                     <img src="https://ichef.bbci.co.uk/news/976/cpsprodpb/16620/production/_91408619_55df76d5-2245-41c1-8031-07a4da3f313f.jpg" alt="" class="w-10 h-10 rounded-full">
                     <h1 class="text-xl font-bold">MIM</h1>
                 </div>
-                <div class="flex flex-col gap-3 p-4">
+                <div class="flex flex-col gap-3 p-4 h-svh overflow-y-auto">
                     <a href="#" class="hover:bg-opacity-10 hover:bg-white rounded-lg flex items-center gap-2 p-2">
                         <svg width="34" height="33" viewBox="0 0 30 32" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
