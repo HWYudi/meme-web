@@ -23,7 +23,7 @@
         <div class="flex">
             <!-- aside -->
             <aside
-                class="sidebar hidden bg-black text-white lg:block fixed z-20 left-0 h-svh w-full lg:w-1/4 border-r border-white
+                class="sidebar hidden overflow-y-auto bg-black text-white lg:block fixed z-20 left-0 h-svh w-full lg:w-1/4 border-r border-white
                 border-opacity-20">
                 <div class="absolute right-4 block lg:hidden">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" class="bi bi-x-lg" viewBox="0 0 16 16" onclick="Openbar()">
@@ -34,7 +34,7 @@
                     <img src="https://ichef.bbci.co.uk/news/976/cpsprodpb/16620/production/_91408619_55df76d5-2245-41c1-8031-07a4da3f313f.jpg" alt="" class="w-10 h-10 rounded-full">
                     <h1 class="text-xl font-bold">MIM</h1>
                 </div>
-                <div class="flex flex-col gap-3 p-4 h-svh overflow-y-auto">
+                <div class="flex flex-col gap-3 p-4">
                     <a href="#" class="hover:bg-opacity-10 hover:bg-white rounded-lg flex items-center gap-2 p-2">
                         <svg width="34" height="33" viewBox="0 0 30 32" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -104,7 +104,7 @@
                     <div class="w-full h-fit cursor-pointer bg-white rounded-full my-3" onclick="Openbar()">
                         <h1 class="text-center w-full text-xl text-black py-3 font-medium" onclick="togglePopup()">Post</h1>
                     </div>
-                    <div class="flex h-fit gap-2">
+                    <div class="flex gap-2">
                         <div class="flex items-end">
                             <img src="{{ auth()->user()->image }}" alt="" class="w-12 h-full object-cover rounded-full">
                         </div>

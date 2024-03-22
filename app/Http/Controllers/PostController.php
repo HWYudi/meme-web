@@ -10,7 +10,7 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::with(['like', 'user' , 'comment'])->latest()->get();
+        $posts = Post::with(['like', 'user' , 'comment.reply'])->latest()->get();
         return view('homepage', compact('posts'));
     }
 

@@ -1,7 +1,7 @@
 @extends('template.index')
 
 @section('content')
-    <div class="fixed top-0 flex justify-center items-center h-16 w-full border-b">
+    <div class="fixed top-0 flex justify-center items-center h-16 w-full border-b border-white border-opacity-20 bg-black">
         <div class="w-full lg:w-1/2 flex items-center justify-evenly">
             <h1>Tes</h1>
             <h1>Tes</h1>
@@ -122,36 +122,132 @@
                     </div>
                 </div>
 
-                <div id="comment-{{$post->id}}" class="hidden fixed inset-0 flex items-center justify-center">
-                    <div class="w-full lg:w-[45%] h-[80vh] relative bg-black">
-                        <h1>komen</h1>
-                        <div class="absolute top-0 right-0" onclick="toggleComment({{$post->id}})">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M18 6L6 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M6 6L18 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                        <div class="h-full overflow-y-auto">
-                        <div class="flex items-center gap-3 p-4">
-                            <img src="{{$post->user->image}}" alt="" class="w-12 h-12 rounded-full">
-                            <div>
-                                <h1>{{$post->user->username}}</h1>
-                                <h1>{{$post->title}}</h1>
+                <div id="comment-{{ $post->id }}" class="fixed inset-0 translate-y-full opacity-0  flex items-center justify-center transition-transform duration-500">
+                    <div class="w-full lg:w-[45%] h-svh lg:h-[90vh] relative bg-black border-2 border-white border-opacity-50 rounded-lg flex flex-col">
+                        <div class="p-4 h-14 sticky top-0 bg-black border border-white border-opacity-20 w-full flex justify-between items-center rounded-t-lg">
+                            <h1 class="text-center">Postingan {{ $post->user->username }}</h1>
+                            <div onclick="toggleComment({{ $post->id }})">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M18 6L6 18" stroke="white" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M6 6L18 18" stroke="white" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
                             </div>
                         </div>
+                        <div class="h-full overflow-y-auto w-full relative">
+                            <img src="{{$post->body}}" alt="" class="w-full h-1/2">
+                            <div class="flex justify-between p-2 border-y border-white border-opacity-60">
+                                <div class="w-1/2 flex justify-between items-center gap-2">
+                                    <div class="flex gap-1 items-center">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg" onclick="toggleComment({{ $post->id }})">
+                                            <path
+                                                d="M19 9.50003C19.0034 10.8199 18.6951 12.1219 18.1 13.3C17.3944 14.7118 16.3098 15.8992 14.9674 16.7293C13.6251 17.5594 12.0782 17.9994 10.5 18C9.18013 18.0035 7.87812 17.6951 6.7 17.1L1 19L2.9 13.3C2.30493 12.1219 1.99656 10.8199 2 9.50003C2.00061 7.92179 2.44061 6.37488 3.27072 5.03258C4.10083 3.69028 5.28825 2.6056 6.7 1.90003C7.87812 1.30496 9.18013 0.996587 10.5 1.00003H11C13.0843 1.11502 15.053 1.99479 16.5291 3.47089C18.0052 4.94699 18.885 6.91568 19 9.00003V9.50003Z"
+                                                stroke="white" stroke-opacity="0.5" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+                                        <h1>{{ $post->comment->count() }}</h1>
+                                    </div>
+                                    <div class="flex gap-1 items-center">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg" onclick="toggleComment({{ $post->id }})">
+                                            <path
+                                                d="M19 9.50003C19.0034 10.8199 18.6951 12.1219 18.1 13.3C17.3944 14.7118 16.3098 15.8992 14.9674 16.7293C13.6251 17.5594 12.0782 17.9994 10.5 18C9.18013 18.0035 7.87812 17.6951 6.7 17.1L1 19L2.9 13.3C2.30493 12.1219 1.99656 10.8199 2 9.50003C2.00061 7.92179 2.44061 6.37488 3.27072 5.03258C4.10083 3.69028 5.28825 2.6056 6.7 1.90003C7.87812 1.30496 9.18013 0.996587 10.5 1.00003H11C13.0843 1.11502 15.053 1.99479 16.5291 3.47089C18.0052 4.94699 18.885 6.91568 19 9.00003V9.50003Z"
+                                                stroke="white" stroke-opacity="0.5" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+                                        <h1>{{ $post->comment->count() }}</h1>
+                                    </div>
+                                    <div class="flex gap-1 items-center">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg" onclick="toggleComment({{ $post->id }})">
+                                            <path
+                                                d="M19 9.50003C19.0034 10.8199 18.6951 12.1219 18.1 13.3C17.3944 14.7118 16.3098 15.8992 14.9674 16.7293C13.6251 17.5594 12.0782 17.9994 10.5 18C9.18013 18.0035 7.87812 17.6951 6.7 17.1L1 19L2.9 13.3C2.30493 12.1219 1.99656 10.8199 2 9.50003C2.00061 7.92179 2.44061 6.37488 3.27072 5.03258C4.10083 3.69028 5.28825 2.6056 6.7 1.90003C7.87812 1.30496 9.18013 0.996587 10.5 1.00003H11C13.0843 1.11502 15.053 1.99479 16.5291 3.47089C18.0052 4.94699 18.885 6.91568 19 9.00003V9.50003Z"
+                                                stroke="white" stroke-opacity="0.5" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+                                        <h1>{{ $post->comment->count() }}</h1>
+                                    </div>
+                                </div>
+                                <div class="w-1/2 flex gap-3 justify-end">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M19 21L12 16L5 21V5C5 4.46957 5.21071 3.96086 5.58579 3.58579C5.96086 3.21071 6.46957 3 7 3H17C17.5304 3 18.0391 3.21071 18.4142 3.58579C18.7893 3.96086 19 4.46957 19 5V21Z"
+                                            stroke="white" stroke-opacity="0.5" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M4 12V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V12"
+                                            stroke="white" stroke-opacity="0.5" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                        <path d="M16 6L12 2L8 6" stroke="white" stroke-opacity="0.5" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M12 2V15" stroke="white" stroke-opacity="0.5" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                @foreach ($post->comment as $comment)
+                                <div class="flex items-start mb-4">
+                                    <img src="{{ $comment->user->image }}" alt="{{ $comment->user->name }}" class="w-12 h-12 rounded-full mr-3">
+                                    <div class="rounded-lg">
+                                        <div class="flex gap-2 items-center font-normal text-white text-opacity-50">
+                                            <p>{{ $comment->user->username }}</p>
+                                            <svg width="4" height="5" viewBox="0 0 4 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <circle cx="2" cy="2.5" r="2" fill="white" fill-opacity="0.5"/>
+                                                </svg>
+                                            <p>{{$comment->created_at->diffForHumans()}}</p>
+                                        </div>
+                                        <p class="text-white">{{ $comment->body }}</p>
+                                        <p class="text-[#2B7BC4] text-xs">reply</p>
+                                        <div class="">
+                                            @foreach ($comment->reply as $reply)
+                                            <div class="flex items-start my-4">
+                                                <img src="{{ $reply->user->image }}" alt="{{ $reply->user->name }}" class="w-12 h-12 rounded-full mr-3">
+                                                <div class="rounded-lg">
+                                                    <div class="flex gap-2 items-center font-normal text-white text-opacity-50">
+                                                        <p>{{ $reply->user->username }}</p>
+                                                        <svg width="4" height="5" viewBox="0 0 4 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <circle cx="2" cy="2.5" r="2" fill="white" fill-opacity="0.5"/>
+                                                            </svg>
+                                                        <p>{{$reply->created_at->diffForHumans()}}</p>
+                                                    </div>
+                                                    <p class="text-white">{{ $reply->body }}</p>
+                                                    <p class="text-[#2B7BC4] text-xs">reply</p>
+                                                </div>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
 
-                        <img src="{{$post->body}}" alt="" class="w-full h-[50%]">
-                        <div class="bg-black border">
-                            @foreach ($post->comment as $comment)
-                                <p>{{$comment->body}}</p>
-                                <p>{{$comment->body}}</p>
-                                <p>{{$comment->body}}</p>
-                            @endforeach
+                        </div>
+                        <div class="border-t border-white border-opacity-50 w-full py-10 px-5 sticky bottom-0">
+                            <div class="flex gap-4 h-full">
+                                <img src="{{ auth()->user()->image }}" alt="" class="w-12 h-full rounded-full">
+                                <form action="{{url("/comment")}}" method="POST" class="w-full relative flex items-center">
+                                    @csrf
+                                    <input type="hidden" name="post_id" value="{{$post->id}}">
+                                    <input type="text" placeholder="add a comment" name="body" class="placeholder:text-white w-full h-full p-1 rounded-lg bg-black border border-white border-opacity-50">
+                                    <button type="submit" class="absolute right-3">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M13.8325 6.17463L8.10904 11.9592L1.59944 7.88767C0.66675 7.30414 0.860765 5.88744 1.91572 5.57893L17.3712 1.05277C18.3373 0.769629 19.2326 1.67283 18.9456 2.642L14.3731 18.0868C14.0598 19.1432 12.6512 19.332 12.0732 18.3953L8.10601 11.9602" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-                </div>
-
 
             @endforeach
         </div>
@@ -168,9 +264,11 @@
         }
 
         function toggleComment(id) {
-            const comment = document.getElementById('comment-' + id);
-            comment.classList.toggle('hidden');
-        }
+    const comment = document.getElementById('comment-' + id);
+    comment.classList.toggle('translate-y-full'); // Tambahkan atau hapus class untuk animasi translasi
+    comment.classList.toggle('opacity-0'); // Tambahkan atau hapus class untuk animasi opacity
+}
+
 
         window.addEventListener('scroll', function() {
             const dropdowns = document.querySelectorAll('.dropdown');
