@@ -3,14 +3,14 @@
 @section('content')
     <div class="fixed top-0 flex justify-center items-center h-16 w-full border-b border-white border-opacity-20 bg-black">
         <div class="w-full lg:w-1/2 flex items-center justify-center gap-36 font-bold text-xl">
-            <a href="/" class="border-b-2 border-[#2B7BC5] p-4">For You</a>
-            <a href="/following" class="p-4">Following</a>
+            <a href="/" class="p-4">For You</a>
+            <a href="/following" class="border-b border-[#2B7BC5] p-4">Following</a>
         </div>
     </div>
     <div class="popup fixed z-10 inset-0 flex items-center hidden justify-center  bg-black bg-opacity-80">
         <div class="bg-black rounded-lg p-2 px-5 w-full max-w-md relative">
             <span onclick="togglePopup()" class="text-white cursor-pointer">&times;</span>
-            <form method="POST" action="{{ route('posts.store') }}" class="space-y-4" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('posts.store') }}" class="space-y-4">
                 @csrf
                 <div class="flex">
                     <img src="{{ auth()->user()->image }}" alt="" class="w-12 h-12 rounded-full">
@@ -18,8 +18,8 @@
                         class="text-white w-full px-4 py-2 rounded-lg focus:outline-none focus:border-blue-500 bg-transparent">
                 </div>
                 <div>
-                    <input id="body" name="body" type="file" placeholder="URL Gambar"
-                        class=" w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
+                    <input id="body" name="body" type="text" placeholder="URL Gambar"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
                 </div>
                 <div>
                     <button type="submit"
@@ -71,7 +71,7 @@
                                     Your browser does not support the video tag.
                                 </video>
                             @else
-                                <img src="{{ asset('storage/' . $post->body) }}" alt="Post Image" class="w-full h-72 mt-4 rounded-lg">
+                                <img src="{{ $post->body }}" alt="Post Image" class="w-full h-72 mt-4 rounded-lg">
                             @endif
                         </div>
                         <div class="flex p-2">
@@ -84,6 +84,7 @@
                                         stroke-linejoin="round" />
                                 </svg>
                                 <h1>{{ $post->comment->count() }}</h1>
+
                             </div>
                             <div class="w-1/3 flex gap-2 items-center justify-center">
                                 <svg width="22" height="20" viewBox="0 0 22 20" fill="none"
@@ -96,7 +97,7 @@
                                         stroke-opacity="0.5" stroke-width="1.5" stroke-linecap="round"
                                         stroke-linejoin="round" />
                                 </svg>
-                                <h1>{{ $post->like->count() }}</h1>
+                                <h1>{{ $post->comment->count() }}</h1>
                             </div>
                             <div class="w-1/3 flex gap-3 justify-end">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -214,24 +215,11 @@
                                                 <p>{{ $comment->created_at->diffForHumans() }}</p>
                                             </div>
                                             <p class="text-white">{{ $comment->body }}</p>
-                                            <div>
+                                            <button class="text-[#2B7BC4] text-xs"
+                                                onclick="toggleReply({{ $comment->id }})">
+                                                Reply
+                                            </button>
 
-                                                <button class="text-[#2B7BC4] text-xs"
-                                                    onclick="toggleReply({{ $comment->id }})">
-                                                    <p>
-                                                        Reply
-                                                    </p>
-                                                </button>
-                                            </div>
-                                            <div id="lihat-{{$comment->id}}" class="block">
-                                                <button onclick="toggleReplyComment({{$comment->id}})">
-                                                    <p>
-                                                        {{ $comment->reply->count() ?  $comment->reply->count() . " Balasan" : '' }}
-                                                    </p>
-                                                </button>
-                                            </div>
-
-                                                <div class="hidden" id="replyComment-{{$comment->id}}">
                                             @foreach ($comment->reply as $reply)
                                                 <div class="flex items-start my-4">
                                                     <img src="{{ $reply->user->image }}" alt="{{ $reply->user->name }}"
@@ -252,7 +240,6 @@
                                                     </div>
                                                 </div>
                                             @endforeach
-                                        </div>
                                             <div class="flex gap-4 hidden  transition-opacity"
                                                 id="reply-{{ $comment->id }}">
                                                 <img src="{{ auth()->user()->image }}" alt=""
@@ -330,13 +317,6 @@
             const comment = document.getElementById('comment-' + id);
             comment.classList.toggle('translate-y-full');
             comment.classList.toggle('opacity-0');
-        }
-
-        function toggleReplyComment(id) {
-            const replyComment = document.getElementById('replyComment-' + id);
-            const lihatComment = document.getElementById('lihat-' + id)
-            replyComment.classList.toggle('hidden');
-            lihatComment.classList.toggle('hidden')
         }
 
         function toggleReply(id) {
