@@ -49,4 +49,23 @@ class PostController extends Controller
 
         return back();
     }
+
+    public function destroy($id)
+    {
+        $post = Post::findOrFail($id);
+        if ($post->user_id != auth()->user()->id) {
+            return abort(403);
+        }
+        $post->delete();
+        return back();
+    }
+
+    public function update(Request $request, $id){
+        $post = Post::findOrFail($id);
+        if ($post->user_id != auth()->user()->id) {
+            return abort(403);
+        }
+        $post->update($request->all());
+        return back();
+    }
 }

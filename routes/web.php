@@ -40,3 +40,6 @@ Route::get('/', [PostController::class, 'index'])->name('posts.index');
 
 Route::post('/comment', [CommentController::class, 'store'])->name('comments.store');
 Route::post('/reply', [CommentController::class, 'reply']);
+
+Route::delete('/post/{id}', [PostController::class, 'destroy']);
+Route::patch('/post/{id}', [PostController::class, 'update']);
