@@ -1,7 +1,8 @@
 @extends('template.index')
 
 @section('content')
-    <div class="fixed top-0 z-10 flex justify-center items-center h-16 w-full border-b border-white border-opacity-20 bg-black">
+    <div
+        class="fixed top-0 z-10 flex justify-center items-center h-16 w-full border-b border-white border-opacity-20 bg-black">
         <div class="w-full lg:w-1/2 flex items-center justify-center gap-36 font-bold text-xl">
             <a href="/" class="border-b-2 border-[#2B7BC5] p-4">For You</a>
             <a href="/following" class="p-4">Following</a>
@@ -34,22 +35,50 @@
     <div class="flex justify-center">
         <div class="w-full mt-16 lg:w-1/2 lg:px-10">
             @foreach ($posts as $post)
-            @if($post->user->id === auth()->user()->id)
-            <div class="popup fixed z-40 inset-0 flex items-center hidden justify-center bg-black bg-opacity-80" id="delete-{{ $post->id }}">
-                <div class="bg-gray-800 rounded-lg p-4 w-full max-w-md">
-                    <h2 class="text-lg font-semibold text-white mb-4">Confirmation</h2>
-                    <p class="text-gray-400 mb-4">Are you sure you want to delete this post?</p>
-                    <form method="POST" action="{{ url('/post', $post->id) }}">
-                        @csrf
-                        @method('DELETE')
-                        <div class="flex justify-end">
-                            <button type="button" onclick="confirmDelete({{ $post->id }})" class="px-4 py-2 bg-gray-600 text-gray-200 rounded-lg mr-2 hover:bg-gray-700">Cancel</button>
-                            <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">Delete</button>
+                @if ($post->user->id === auth()->user()->id)
+                    <div class="popup fixed z-40 inset-0 flex items-center hidden justify-center bg-black bg-opacity-80"
+                        id="delete-{{ $post->id }}">
+                        <div class="bg-gray-800 rounded-lg p-4 w-full max-w-md">
+                            <h2 class="text-lg font-semibold text-white mb-4">Confirmation</h2>
+                            <p class="text-gray-400 mb-4">Are you sure you want to delete this post?</p>
+                            <form method="POST" action="{{ url('/post', $post->id) }}">
+                                @csrf
+                                @method('DELETE')
+                                <div class="flex justify-end">
+                                    <button type="button" onclick="confirmDelete({{ $post->id }})"
+                                        class="px-4 py-2 bg-gray-600 text-gray-200 rounded-lg mr-2 hover:bg-gray-700">Cancel</button>
+                                    <button type="submit"
+                                        class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">Delete</button>
+                                </div>
+                            </form>
                         </div>
-                    </form>
-                </div>
-            </div>
-        @endif
+                    </div>
+                @endif
+                @if ($post->user->id === auth()->user()->id)
+                    <div class="popup fixed hidden z-40 inset-0 flex items-center justify-center bg-black bg-opacity-80"
+                        id="edit-{{ $post->id }}">
+                        <div class="bg-gray-800 rounded-lg p-4 w-full max-w-md">
+                            <h2 class="text-lg font-semibold text-white mb-4">Update Post</h2>
+                            <form method="POST" action="{{ url('/post', $post->id) }}">
+                                @csrf
+                                @method('PATCH')
+                                <div class="mb-4">
+                                    <label for="title" class="block text-gray-300 mb-1">Title</label>
+                                    <input type="text" id="title" name="title" value="{{ $post->title }}"
+                                        class="w-full px-3 py-2 text-gray-800 bg-gray-200 rounded-md focus:outline-none focus:bg-white"
+                                        placeholder="Enter title" required>
+                                </div>
+                      
+                                <div class="flex justify-end">
+                                    <button type="button" onclick="confirmEdit({{ $post->id }})"
+                                        class="px-4 py-2 bg-gray-600 text-gray-200 rounded-lg mr-2 hover:bg-gray-700">Cancel</button>
+                                    <button type="submit"
+                                        class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                @endif
                 <div class="py-5 flex items-start gap-4">
                     <div>
                         <img src="{{ $post->user->image }}" alt="{{ $post->user->name }}"
@@ -59,7 +88,8 @@
                         <div class="flex justify-between">
                             <div>
                                 <div class="flex items-center">
-                                    <h1 class="font-light text-base text-white text-opacity-50">{{ $post->user->name }}</h1>
+                                    <h1 class="font-light text-base text-white text-opacity-50">{{ $post->user->name }}
+                                    </h1>
                                     <svg width="4" height="4" viewBox="0 0 4 4" fill="none"
                                         xmlns="http://www.w3.org/2000/svg" class="mx-2">
                                         <circle cx="2" cy="2" r="2" fill="white" fill-opacity="0.5" />
@@ -72,25 +102,35 @@
                                 </p>
                             </div>
                             <div class="relative h-12">
-                                <button  onclick="toggleDropdown({{ $post->id }})" class="h-full rounded-full hover:bg-gray-400">
-                                  <svg width="45" height="4" viewBox="0 0 20 4" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect width="4" height="4" rx="2" fill="white" fill-opacity="0.5" />
-                                    <rect x="8" width="4" height="4" rx="2" fill="white" fill-opacity="0.5" />/
-                                    <rect x="16" width="4" height="4" rx="2" fill="white" fill-opacity="0.5" />
-                                  </svg>
+                                <button onclick="toggleDropdown({{ $post->id }})"
+                                    class="h-full rounded-full hover:bg-gray-400">
+                                    <svg width="45" height="4" viewBox="0 0 20 4" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="4" height="4" rx="2" fill="white"
+                                            fill-opacity="0.5" />
+                                        <rect x="8" width="4" height="4" rx="2" fill="white"
+                                            fill-opacity="0.5" />/
+                                        <rect x="16" width="4" height="4" rx="2" fill="white"
+                                            fill-opacity="0.5" />
+                                    </svg>
                                 </button>
-                                <div class="absolute hidden right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5" id="dropdown-{{ $post->id }}">
+                                <div class="absolute hidden right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+                                    id="dropdown-{{ $post->id }}">
                                     <div class="py-1 text-black">
-                                        @if($post->user->id === auth()->user()->id)
-                                            <button onclick="confirmDelete({{ $post->id }})" class="block w-full px-4 py-2 text-sm text-red-600 hover:bg-gray-100 hover:text-red-800">Delete</button>
+                                        @if ($post->user->id === auth()->user()->id)
+                                            <button onclick="confirmEdit({{ $post->id }})"
+                                                class="block w-full px-4 py-2 text-sm text-green-600 hover:bg-gray-100 hover:text-green-800">Update</button>
+                                            <button onclick="confirmDelete({{ $post->id }})"
+                                                class="block w-full px-4 py-2 text-sm text-red-600 hover:bg-gray-100 hover:text-red-800">Delete</button>
                                         @endif
-                                        @if($post->user->id !== auth()->user()->id)
-                                            <button class="block w-full px-4 py-2 text-sm text-red-600 hover:bg-gray-100 hover:text-red-800">Report</button>
+                                        @if ($post->user->id !== auth()->user()->id)
+                                            <button
+                                                class="block w-full px-4 py-2 text-sm text-red-600 hover:bg-gray-100 hover:text-red-800">Report</button>
                                         @endif
                                     </div>
                                 </div>
 
-                              </div>
+                            </div>
                         </div>
                         <div>
                             @if (strpos($post->body, '.mp4') !== false ||
@@ -101,7 +141,8 @@
                                     Your browser does not support the video tag.
                                 </video>
                             @else
-                                <img src="{{ asset('storage/' . $post->body) }}" alt="Post Image" class="w-full h-full mt-4 rounded-lg">
+                                <img src="{{ asset('storage/' . $post->body) }}" alt="Post Image"
+                                    class="w-full h-full mt-4 rounded-lg">
                             @endif
                         </div>
                         <div class="flex p-2">
@@ -170,7 +211,7 @@
                             </div>
                         </div>
                         <div class="h-full overflow-y-auto w-full relative">
-                            <img src="{{'storage/' .  $post->body }}" alt="" class="w-full h-fit object-cover">
+                            <img src="{{ 'storage/' . $post->body }}" alt="" class="w-full h-fit object-cover">
                             <div class="flex justify-between p-2 border-y border-white border-opacity-60">
                                 <div class="w-1/2 flex justify-between items-center gap-2">
                                     <div class="flex gap-1 items-center">
@@ -253,36 +294,37 @@
                                                     </p>
                                                 </button>
                                             </div>
-                                            <div id="lihat-{{$comment->id}}" class="block">
-                                                <button onclick="toggleReplyComment({{$comment->id}})">
+                                            <div id="lihat-{{ $comment->id }}" class="block">
+                                                <button onclick="toggleReplyComment({{ $comment->id }})">
                                                     <p>
-                                                        {{ $comment->reply->count() ?  $comment->reply->count() . " Balasan" : '' }}
+                                                        {{ $comment->reply->count() ? $comment->reply->count() . ' Balasan' : '' }}
                                                     </p>
                                                 </button>
                                             </div>
 
-                                                <div class="hidden" id="replyComment-{{$comment->id}}">
-                                            @foreach ($comment->reply as $reply)
-                                                <div class="flex items-start my-4">
-                                                    <img src="{{ $reply->user->image }}" alt="{{ $reply->user->name }}"
-                                                        class="w-12 h-12 rounded-full mr-3">
-                                                    <div class="rounded-lg">
-                                                        <div
-                                                            class="flex gap-2 items-center font-normal text-white text-opacity-50">
-                                                            <p>{{ $reply->user->username }}</p>
-                                                            <svg width="4" height="5" viewBox="0 0 4 5"
-                                                                fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                <circle cx="2" cy="2.5" r="2"
-                                                                    fill="white" fill-opacity="0.5" />
-                                                            </svg>
-                                                            <p>{{ $reply->created_at->diffForHumans() }}</p>
+                                            <div class="hidden" id="replyComment-{{ $comment->id }}">
+                                                @foreach ($comment->reply as $reply)
+                                                    <div class="flex items-start my-4">
+                                                        <img src="{{ $reply->user->image }}"
+                                                            alt="{{ $reply->user->name }}"
+                                                            class="w-12 h-12 rounded-full mr-3">
+                                                        <div class="rounded-lg">
+                                                            <div
+                                                                class="flex gap-2 items-center font-normal text-white text-opacity-50">
+                                                                <p>{{ $reply->user->username }}</p>
+                                                                <svg width="4" height="5" viewBox="0 0 4 5"
+                                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <circle cx="2" cy="2.5" r="2"
+                                                                        fill="white" fill-opacity="0.5" />
+                                                                </svg>
+                                                                <p>{{ $reply->created_at->diffForHumans() }}</p>
+                                                            </div>
+                                                            <p class="text-white">{{ $reply->body }}</p>
+                                                            <p class="text-[#2B7BC4] text-xs">reply</p>
                                                         </div>
-                                                        <p class="text-white">{{ $reply->body }}</p>
-                                                        <p class="text-[#2B7BC4] text-xs">reply</p>
                                                     </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
+                                                @endforeach
+                                            </div>
                                             <div class="flex gap-4 hidden  transition-opacity"
                                                 id="reply-{{ $comment->id }}">
                                                 <img src="{{ auth()->user()->image }}" alt=""
@@ -375,6 +417,11 @@
 
         function confirmDelete(id) {
             const confirm = document.getElementById('delete-' + id);
+            confirm.classList.toggle('hidden');
+        }
+
+        function confirmEdit(id) {
+            const confirm = document.getElementById('edit-' + id);
             confirm.classList.toggle('hidden');
         }
     </script>
