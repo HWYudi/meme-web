@@ -68,4 +68,19 @@ class PostController extends Controller
         $post->update($request->all());
         return back();
     }
+
+    public function search (Request $request){
+        $search = $request->input('q');
+        $posts = Post::with(['like', 'user', 'comment.reply'])
+        ->where('title', 'like', '%' . $search . '%')
+        ->orWhereHas('user', function($query) use ($search) {
+            $query->where('username', 'like', '%' . $search . '%');
+        })
+        ->orWhereHas('comment', function($query) use ($search) {
+            $query->where('body', 'like', '%' . $search . '%');
+        })
+        ->get();
+
+        return view('search', compact('posts'));
+    }
 }

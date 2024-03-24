@@ -37,6 +37,8 @@ Route::post('/posts/{id}/like', [PostController::class, 'like'])->name('posts.li
 
 
 Route::get('/', [PostController::class, 'index'])->name('posts.index');
+Route::get('/search', [PostController::class, 'search'])->name('posts.search');
+
 
 Route::post('/comment', [CommentController::class, 'store'])->name('comments.store');
 Route::post('/reply', [CommentController::class, 'reply']);
