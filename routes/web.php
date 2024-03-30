@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
@@ -16,32 +17,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-Route::get('/following', [PostController::class, 'following'])->name('posts.index');
-
+//for authentication
 Route::get('/register', function () {
     return view('auth.register');
 });
-
 Route::post('/register', [AuthController::class, 'register'])->name('register');
-
 
 Route::get('/login', function () {
     return view('auth.login');
 });
-
 Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::post('/post', [PostController::class, 'store'])->name('posts.store');
+
+//for posts
+Route::get('/', [PostController::class, 'index'])->name('posts.index')->middleware('auth');
+Route::get('/following', [PostController::class, 'following'])->name('posts.index');
+Route::post('/', [PostController::class, 'store'])->name('posts.store')->middleware('auth');
+Route::patch('/post/{id}', [PostController::class, 'update']);
+Route::delete('/post/{id}', [PostController::class, 'destroy']);
 Route::post('/posts/{id}/like', [PostController::class, 'like'])->name('posts.like');
-
-
-Route::get('/', [PostController::class, 'index'])->name('posts.index');
-Route::get('/search', [PostController::class, 'search'])->name('posts.search');
-
-
 Route::post('/comment', [CommentController::class, 'store'])->name('comments.store');
 Route::post('/reply', [CommentController::class, 'reply']);
 
-Route::delete('/post/{id}', [PostController::class, 'destroy']);
-Route::patch('/post/{id}', [PostController::class, 'update']);
+//other
+Route::get('/profile/{name}', [AuthController::class, 'profile'])->name('profile');
+Route::get('/search', [PostController::class, 'search'])->name('posts.search');

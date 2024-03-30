@@ -1,11 +1,15 @@
 @extends('template.index')
 
 @section('content')
+
+
     <div
         class="fixed top-0 z-10 flex justify-center items-center h-16 w-full border-b border-white border-opacity-20 bg-black">
         <div class="absolute left-3 lg:hidden" onclick="Openbar()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-list"
+                viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
             </svg>
         </div>
         <div class="w-full lg:w-1/2 flex items-center justify-center  font-bold text-xl">
@@ -13,6 +17,20 @@
             <a href="/following" class="p-4">Following</a>
         </div>
     </div>
+
+    @if (session('success'))
+    <div class="notif fixed top-0 left-0 right-0 p-4 bg-green-500 text-white text-center z-30">
+        {{ session('success') }}
+        <div class="absolute right-4 top-0 bottom-0 flex items-center" onclick="closeNotif()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+            </svg>
+        </div>
+    </div>
+@endif
+
+
     <div class="popup fixed z-40 inset-0 flex items-center hidden justify-center  bg-black bg-opacity-80">
         <div class="bg-black rounded-lg p-2 px-5 w-full max-w-md relative">
             <span onclick="togglePopup()" class="text-white cursor-pointer">&times;</span>
@@ -162,16 +180,20 @@
                                 <h1>{{ $post->comment->count() }}</h1>
                             </div>
                             <div class="w-1/3 flex gap-2 items-center justify-center">
-                                <svg width="22" height="20" viewBox="0 0 22 20" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M1.87187 9.59832C0.798865 6.24832 2.05287 2.41932 5.56987 1.28632C7.41987 0.689322 9.46187 1.04132 10.9999 2.19832C12.4549 1.07332 14.5719 0.693322 16.4199 1.28632C19.9369 2.41932 21.1989 6.24832 20.1269 9.59832C18.4569 14.9083 10.9999 18.9983 10.9999 18.9983C10.9999 18.9983 3.59787 14.9703 1.87187 9.59832Z"
-                                        stroke="white" stroke-opacity="0.5" stroke-width="1.5" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                    <path d="M15 4.70001C16.07 5.04601 16.826 6.00101 16.917 7.12201" stroke="white"
-                                        stroke-opacity="0.5" stroke-width="1.5" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
+                                <form action="{{ url('/posts/' . $post->id . '/like') }}" method="POST">
+                                    <button type="submit">
+                                        <svg width="22" height="20" viewBox="0 0 22 20" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M1.87187 9.59832C0.798865 6.24832 2.05287 2.41932 5.56987 1.28632C7.41987 0.689322 9.46187 1.04132 10.9999 2.19832C12.4549 1.07332 14.5719 0.693322 16.4199 1.28632C19.9369 2.41932 21.1989 6.24832 20.1269 9.59832C18.4569 14.9083 10.9999 18.9983 10.9999 18.9983C10.9999 18.9983 3.59787 14.9703 1.87187 9.59832Z"
+                                                stroke="white" stroke-opacity="0.5" stroke-width="1.5"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M15 4.70001C16.07 5.04601 16.826 6.00101 16.917 7.12201"
+                                                stroke="white" stroke-opacity="0.5" stroke-width="1.5"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </button>
+                                </form>
                                 <h1>{{ $post->like->count() }}</h1>
                             </div>
                             <div class="w-1/3 flex gap-3 justify-end">
@@ -322,7 +344,8 @@
                                                                     <circle cx="2" cy="2.5" r="2"
                                                                         fill="white" fill-opacity="0.5" />
                                                                 </svg>
-                                                                <p class="text-xs overflow-x-hidden">{{ $reply->created_at->diffForHumans() }}</p>
+                                                                <p class="text-xs overflow-x-hidden">
+                                                                    {{ $reply->created_at->diffForHumans() }}</p>
                                                             </div>
                                                             <p class="text-white">{{ $reply->body }}</p>
                                                             <p class="text-[#2B7BC4] text-xs">reply</p>
@@ -394,7 +417,6 @@
     </div>
 
     <script>
-
         function togglePopup() {
             document.querySelector('.popup').classList.toggle('hidden');
         }
@@ -431,15 +453,8 @@
             confirm.classList.toggle('hidden');
         }
 
-        function submitForm(){
-            var formdata = {
-                'body' : document.getElementById('body').value
-            }
-
-            $.ajax({
-                type: "POST",
-                url: "{{ url('/post') }}",
-            })
+        function closeNotif(){
+            document.querySelector('.notif').classList.toggle('hidden');
         }
     </script>
 @endsection

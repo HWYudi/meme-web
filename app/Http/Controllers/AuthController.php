@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -53,5 +54,20 @@ class AuthController extends Controller
         }
 
         return back()->with('error', 'The Provided credentials do not match our records.');
+    }
+
+    public function profile ($name){
+        $user = User::with('post')->where('name', $name)->first();
+        return ($user);
+    }
+
+    public function logout(Request $request){
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/'); // Redirect to desired location after logout
     }
 }

@@ -12,6 +12,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 
 <body class="bg-black text-white">
@@ -25,18 +26,18 @@
             <aside
                 class="sidebar hidden overflow-y-auto bg-black text-white lg:block fixed z-20 left-0 h-svh w-full lg:w-1/4 border-r border-white
                 border-opacity-20">
-                <div class="absolute right-4 block lg:hidden">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white"
-                        class="bi bi-x-lg" viewBox="0 0 16 16" onclick="Openbar()">
-                        <path
-                            d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
-                    </svg>
-                </div>
                 <div
-                    class="w-full h-16 gap-3 flex items-center justify-start lg:justify-center border-b border-white border-opacity-20">
+                    class="w-full px-4 relative h-16 gap-3 flex items-center justify-start lg:justify-center border-b border-white border-opacity-20">
                     <img src="https://ichef.bbci.co.uk/news/976/cpsprodpb/16620/production/_91408619_55df76d5-2245-41c1-8031-07a4da3f313f.jpg"
                         alt="" class="w-10 h-10 rounded-full">
                     <h1 class="text-xl font-bold">MIM</h1>
+                    <div class="absolute right-4 top-0 bottom-0 lg:hidden flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white"
+                            class="bi bi-x-lg" viewBox="0 0 16 16" onclick="Openbar()">
+                            <path
+                                d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
+                        </svg>
+                    </div>
                 </div>
                 <div class="flex flex-col gap-3 p-4">
                     <a href="#" class="hover:bg-opacity-10 hover:bg-white rounded-lg flex items-center gap-2 p-2">
@@ -52,7 +53,8 @@
                         <h1>Home</h1>
                     </a>
 
-                    <a href="#" class="hover:bg-opacity-10 hover:bg-white rounded-lg flex items-center gap-2 p-2">
+                    <button class="hover:bg-opacity-10 hover:bg-white rounded-lg flex items-center gap-2 p-2 lg:hidden"
+                        onclick="searchbar()">
                         <svg width="34" height="33" viewBox="0 0 35 33" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -62,7 +64,7 @@
                                 stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                         <h1>Explore</h1>
-                    </a>
+                    </button>
                     <a href="#" class="hover:bg-opacity-10 hover:bg-white rounded-lg flex items-center gap-2 p-2">
                         <svg width="34" height="33" viewBox="0 0 28 31" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -171,15 +173,39 @@
                 @yield('content')
             </div>
 
-            <aside
-                class="sidebar hidden z-20 lg:block fixed right-0 min-h-svh w-full lg:w-1/4 border-l border-white border-opacity-20  p-2 px-5 overflow-y-auto">
-                <div class="text-black">
+            {{-- <aside
+                class="searchbar hidden z-30 bg-black lg:block fixed right-0 min-h-svh w-full lg:w-1/4 border-l border-white border-opacity-20  overflow-y-auto">
+                <div class="h-16 w-full flex-1 border-b border-white border-opacity-25 px-4 py-2 items-center">
                     <form action="{{ route('posts.search') }}" method="GET">
-                        <input type="text" name="q" placeholder="Search posts...">
-                        <button type="submit">Search</button>
+                        <div class="flex items-center">
+                            <div class="flex items-center border w-full border-gray-300 py-1 rounded-lg">
+                                <button type="submit" class="w-20 flex items-center justify-center">
+                                    <svg width="35" height="33" viewBox="0 0 35 33" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M14.1168 27.2337C21.3611 27.2337 27.2337 21.3611 27.2337 14.1168C27.2337 6.87261 21.3611 1 14.1168 1C6.87261 1 1 6.87261 1 14.1168C1 21.3611 6.87261 27.2337 14.1168 27.2337Z"
+                                            stroke="white" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                        <path d="M25.0194 23.3258L33.0194 31.3258" stroke="white" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </button>
+                                <input type="text" name="q"
+                                    class="bg-black text-white py-2 pr-3 w-full rounded-lg focus:outline-none"
+                                    placeholder="Search posts...">
+                            </div>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="lg:hidden"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18 6L6 18" stroke="white" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M6 6L18 18" stroke="white" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </div>
                     </form>
                 </div>
-                <div class="w-full h-fit bg-white bg-opacity-10 rounded-lg my-3 p-4">
+
+                <div class="bg-white bg-opacity-10 rounded-lg p-4">
                     <h1 class="font-bold text-xl">Trend For You</h1>
                     <div class="flex text-sm font-thin gap-4">
                         <p>Entertainment</p>
@@ -190,7 +216,7 @@
                         <p>1 post</p>
                     </div>
                 </div>
-            </aside>
+            </aside> --}}
         </div>
     </main>
 
@@ -199,8 +225,9 @@
             document.querySelector('.sidebar').classList.toggle('hidden')
         }
 
-        function profile() {
-            document.querySelector('.profile').classList.toggle('hidden')
+        function searchbar() {
+            document.querySelector('.sidebar').classList.toggle('hidden')
+            document.querySelector('.searchbar').classList.toggle('hidden')
         }
     </script>
 </body>

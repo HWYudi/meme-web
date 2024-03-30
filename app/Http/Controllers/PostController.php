@@ -26,13 +26,11 @@ class PostController extends Controller
     {
         $request->validate([
             'title' => 'required',
-            'body' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // contoh validasi gambar dengan ekstensi jpeg, png, jpg, gif dan ukuran maksimal 2MB
+            'body' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Simpan gambar ke dalam storage
         $imagePath = $request->file('body')->store('posts');
 
-        // Simpan path gambar ke dalam database
         Post::create([
             'user_id' => auth()->user()->id,
             'title' => $request->title,
@@ -47,8 +45,10 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         $post->like()->create(['user_id' => auth()->id()]);
 
-        return back();
+        return response()->json(['likes_count' => $post->like->count()]);
     }
+
+
 
     public function destroy($id)
     {
