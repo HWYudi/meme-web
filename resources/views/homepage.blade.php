@@ -1,10 +1,7 @@
 @extends('template.index')
 
 @section('content')
-
-
-    <div
-        class="fixed top-0 z-10 flex justify-center items-center h-16 w-full border-b border-white border-opacity-20 bg-black">
+    <div class="fixed top-0 flex justify-center items-center h-16 w-full border-b border-white border-opacity-20 bg-black">
         <div class="absolute left-3 lg:hidden" onclick="Openbar()">
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-list"
                 viewBox="0 0 16 16">
@@ -19,16 +16,18 @@
     </div>
 
     @if (session('success'))
-    <div class="notif fixed top-0 left-0 right-0 p-4 bg-green-500 text-white text-center z-30">
-        {{ session('success') }}
-        <div class="absolute right-4 top-0 bottom-0 flex items-center" onclick="closeNotif()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
-                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
-            </svg>
+        <div class="notif fixed top-0 left-0 right-0 p-4 bg-green-500 text-white text-center z-30">
+            {{ session('success') }}
+            <div class="absolute right-4 top-0 bottom-0 flex items-center" onclick="closeNotif()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                    class="bi bi-x-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                    <path
+                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                </svg>
+            </div>
         </div>
-    </div>
-@endif
+    @endif
 
 
     <div class="popup fixed z-40 inset-0 flex items-center hidden justify-center  bg-black bg-opacity-80">
@@ -59,25 +58,6 @@
         <div class="w-full mt-16 lg:w-1/2 lg:px-10">
             @foreach ($posts as $post)
                 @if ($post->user->id === auth()->user()->id)
-                    <div class="popup fixed z-40 inset-0 flex items-center hidden justify-center bg-black bg-opacity-80"
-                        id="delete-{{ $post->id }}">
-                        <div class="bg-gray-800 rounded-lg p-4 w-full max-w-md">
-                            <h2 class="text-lg font-semibold text-white mb-4">Confirmation</h2>
-                            <p class="text-gray-400 mb-4">Are you sure you want to delete this post?</p>
-                            <form method="POST" action="{{ url('/post', $post->id) }}">
-                                @csrf
-                                @method('DELETE')
-                                <div class="flex justify-end">
-                                    <button type="button" onclick="confirmDelete({{ $post->id }})"
-                                        class="px-4 py-2 bg-gray-600 text-gray-200 rounded-lg mr-2 hover:bg-gray-700">Cancel</button>
-                                    <button type="submit"
-                                        class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">Delete</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                @endif
-                @if ($post->user->id === auth()->user()->id)
                     <div class="popup fixed hidden z-40 inset-0 flex items-center justify-center bg-black bg-opacity-80"
                         id="edit-{{ $post->id }}">
                         <div class="bg-gray-800 rounded-lg p-4 w-full max-w-md">
@@ -104,8 +84,10 @@
                 @endif
                 <div class="py-5 flex items-start gap-4">
                     <div>
-                        <img src="{{ $post->user->image }}" alt="{{ $post->user->name }}"
-                            class="w-14 h-12 object-cover rounded-full border border-[#A9DEF9]">
+                        <a href="{{ url('/profile', $post->user->name) }}">
+                            <img src="{{ asset('storage/' . $post->user->image) }}" alt="{{ $post->user->name }}"
+                                class="w-14 h-12 object-cover rounded-full border border-[#A9DEF9]">
+                        </a>
                     </div>
                     <div class="w-full">
                         <div class="flex justify-between">
@@ -143,7 +125,7 @@
                                         @if ($post->user->id === auth()->user()->id)
                                             <button onclick="confirmEdit({{ $post->id }})"
                                                 class="block w-full px-4 py-2 text-sm font-bold text-green-600 hover:bg-gray-900 hover:text-green-800">Update</button>
-                                            <button onclick="confirmDelete({{ $post->id }})"
+                                            <button onclick="openDeleteModal('{{ url('/post', $post->id) }}')"
                                                 class="block w-full px-4 py-2 text-sm font-bold text-red-600 hover:bg-gray-100 hover:text-red-800">Delete</button>
                                         @endif
                                         @if ($post->user->id !== auth()->user()->id)
@@ -413,6 +395,23 @@
                     </div>
                 </div>
             @endforeach
+            <div class="popup fixed z-40 inset-0 flex items-center hidden justify-center bg-black bg-opacity-80"
+                id="deleteForm">
+                <div class="bg-gray-800 rounded-lg p-4 w-full max-w-md">
+                    <h2 class="text-lg font-semibold text-white mb-4">Confirmation</h2>
+                    <p class="text-gray-400 mb-4">Are you sure you want to delete this post?</p>
+                    <form method="POST" id="routeDelete">
+                        @csrf
+                        @method('DELETE')
+                        <div class="flex justify-end">
+                            <button type="button" onclick="confirmDelete({{ $post->id }})"
+                                class="px-4 py-2 bg-gray-600 text-gray-200 rounded-lg mr-2 hover:bg-gray-700">Cancel</button>
+                            <button type="submit"
+                                class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -443,9 +442,9 @@
             reply.classList.toggle('hidden');
         }
 
-        function confirmDelete(id) {
-            const confirm = document.getElementById('delete-' + id);
-            confirm.classList.toggle('hidden');
+        function openDeleteModal(action) {
+            document.getElementById('routeDelete').action = action;
+            document.getElementById('deleteForm').classList.toggle('hidden');
         }
 
         function confirmEdit(id) {
@@ -453,7 +452,7 @@
             confirm.classList.toggle('hidden');
         }
 
-        function closeNotif(){
+        function closeNotif() {
             document.querySelector('.notif').classList.toggle('hidden');
         }
     </script>

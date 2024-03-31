@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function register(Request $request){
+    public function register(Request $request)
+    {
         $request->validate([
             'name' => 'required|string|unique:users|min:3|max:24',
             'username' => 'required|string|min:3|max:24',
@@ -42,13 +43,14 @@ class AuthController extends Controller
         return redirect('/login')->with('success', 'Registrasi Berhasil');
     }
 
-    public function login(request $request){
+    public function login(request $request)
+    {
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required'
         ]);
 
-        if(Auth::attempt($credentials)){
+        if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             return redirect('/dashboard');
         }
@@ -56,18 +58,52 @@ class AuthController extends Controller
         return back()->with('error', 'The Provided credentials do not match our records.');
     }
 
-    public function profile ($name){
+    public function profile($name)
+    {
         $user = User::with('post')->where('name', $name)->first();
-        return ($user);
+        return view('/profile', [
+            "user" => $user
+        ]);
     }
 
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
         Auth::logout();
 
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
 
-        return redirect('/'); // Redirect to desired location after logout
+        return redirect('/');
+    }
+
+    public function post($name, $id)
+    {
+        $user = user::where('name', $name)->firstOrFail();
+
+        $post = Post::with(["user", "comment.reply", "like"])->where('user_id', $user->id)
+            ->where('id', $id)
+            ->firstOrFail();
+        return $post;
+    }
+
+    public function update(Request $request, $name)
+    {
+        $user = User::where('name', $name)->firstOrFail(); // Menggunakan where() untuk mencari user dengan nama yang sesuai
+        $request->validate([
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $imagePath = $request->file('image')->store('posts');
+
+        $user->update([
+            'image' => $imagePath
+        ]);
+        return back();
+    }
+
+    public function user(){
+        $users = user::all();
+        return view('user', compact('users'));
     }
 }

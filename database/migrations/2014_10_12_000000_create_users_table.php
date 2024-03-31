@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->Unique();
             $table->string('username');
-            $table->string('image')->default('https://www.meme-arsenal.com/memes/db5c01189598bdd7666e4df4befe3048.jpg');
+            $table->string('image')->default('posts/f3dwhsH1LfICvGpLSQ3sxjkS9K4tWomYffWpUEuy.png');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

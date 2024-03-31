@@ -36,8 +36,8 @@ class PostController extends Controller
             'title' => $request->title,
             'body' => $imagePath,
         ]);
-
-        return back()->with('success', 'Post created successfully');
+        notify()->success('Laravel Notify is awesome!');
+        return back();
     }
 
     public function like($id)
@@ -57,6 +57,7 @@ class PostController extends Controller
             return abort(403);
         }
         $post->delete();
+        notify()->success('Postingan Berhasil Di Hapus', 'Deleted');
         return back();
     }
 

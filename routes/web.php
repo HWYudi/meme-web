@@ -42,4 +42,12 @@ Route::post('/reply', [CommentController::class, 'reply']);
 
 //other
 Route::get('/profile/{name}', [AuthController::class, 'profile'])->name('profile');
+Route::get('profile/{name}/{id}' , [AuthController::class , 'post'])->name('profile.post');
+Route::put('/profile/{name}', [AuthController::class, 'update']);
 Route::get('/search', [PostController::class, 'search'])->name('posts.search');
+
+Route::get('/tes' , function () {
+    notify()->success('Welcome to Laravel Notify ⚡️') or notify()->success('Welcome to Laravel Notify ⚡️', 'My custom title');
+    return view('tes');
+});
+Route::get('/user' , [AuthController::class , 'user']);
