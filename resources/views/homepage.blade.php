@@ -36,7 +36,13 @@
             <form method="POST" action="{{ route('posts.store') }}" class="space-y-4" enctype="multipart/form-data">
                 @csrf
                 <div class="flex">
-                    <img src="{{ auth()->user()->image }}" alt="" class="w-12 h-12 rounded-full">
+                    @if ( auth()->check() )
+                    <img src="{{ asset('storage/' . auth()->user()->image )}}" alt="" class="w-12 h-12 object-cover rounded-full">
+                @else
+                    <img src="{{ asset('storage/' . 'posts/f3dwhsH1LfICvGpLSQ3sxjkS9K4tWomYffWpUEuy.png' )}}" alt=""
+                        class="w-12 h-12 object-cover rounded-full">
+                @endif
+
                     <input type="text" name="title" placeholder="What You Want To Post?"
                         class="text-white w-full px-4 py-2 rounded-lg focus:outline-none focus:border-blue-500 bg-transparent">
                 </div>
@@ -57,7 +63,7 @@
     <div class="flex justify-center">
         <div class="w-full mt-16 lg:w-1/2 lg:px-10">
             @foreach ($posts as $post)
-                @if ($post->user->id === auth()->user()->id)
+                {{-- @if ($post->user->id === auth()->user()->id)
                     <div class="popup fixed hidden z-40 inset-0 flex items-center justify-center bg-black bg-opacity-80"
                         id="edit-{{ $post->id }}">
                         <div class="bg-gray-800 rounded-lg p-4 w-full max-w-md">
@@ -81,7 +87,7 @@
                             </form>
                         </div>
                     </div>
-                @endif
+                @endif --}}
                 <div class="py-5 flex items-start gap-4">
                     <div>
                         <a href="{{ url('/profile', $post->user->name) }}">
@@ -122,13 +128,15 @@
                                 <div class="absolute hidden right-0 mt-2 w-40 border rounded-md shadow-lg bg-black "
                                     id="dropdown-{{ $post->id }}">
                                     <div>
-                                        @if ($post->user->id === auth()->user()->id)
-                                            <button onclick="confirmEdit({{ $post->id }})"
+                                        @if ( auth()->check() && $post->user->id === auth()->user()->id)
+                                            {{-- Dropdown Menu Action --}}
+                                            <button onclick="openUpdateModal('{{ url('/post', $post->id) }}')"
                                                 class="block w-full px-4 py-2 text-sm font-bold text-green-600 hover:bg-gray-900 hover:text-green-800">Update</button>
                                             <button onclick="openDeleteModal('{{ url('/post', $post->id) }}')"
                                                 class="block w-full px-4 py-2 text-sm font-bold text-red-600 hover:bg-gray-100 hover:text-red-800">Delete</button>
+                                            {{-- Dropdown Menu Action --}}
                                         @endif
-                                        @if ($post->user->id !== auth()->user()->id)
+                                        @if ( auth()->check() && $post->user->id !== auth()->user()->id)
                                             <button
                                                 class="block w-full px-4 py-2 text-sm font-bold text-red-600 hover:bg-gray-900 hover:text-red-800 rounded-lg">Report</button>
                                         @endif
@@ -337,8 +345,13 @@
                                             </div>
                                             <div class="flex gap-4 hidden  transition-opacity"
                                                 id="reply-{{ $comment->id }}">
-                                                <img src="{{ auth()->user()->image }}" alt=""
-                                                    class="w-12 h-12 rounded-full">
+                                                @if ( auth()->check() && auth()->user()->image )
+                                                <img src="{{ asset('storage/' . auth()->user()->image )}}" alt="" class="w-12 h-12 object-cover rounded-full">
+                                            @else
+                                                <img src="{{ asset('storage/' . 'posts/f3dwhsH1LfICvGpLSQ3sxjkS9K4tWomYffWpUEuy.png' )}}" alt=""
+                                                    class="w-12 h-12 object-cover rounded-full">
+                                            @endif
+
                                                 <div class="w-full">
                                                     <form action="{{ url('/reply') }}" method="POST"
                                                         class="w-full relative flex items-center">
@@ -371,7 +384,13 @@
                         </div>
                         <div class="border-t border-white border-opacity-50 w-full py-10 px-5 sticky bottom-0">
                             <div class="flex gap-4 h-full " id="form">
-                                <img src="{{ auth()->user()->image }}" alt="" class="w-12 h-full rounded-full">
+                                @if ( auth()->check() && auth()->user()->image )
+                                <img src="{{ asset('storage/' . auth()->user()->image )}}" alt="" class="w-12 h-12 object-cover rounded-full">
+                            @else
+                                <img src="{{ asset('storage/' . 'posts/f3dwhsH1LfICvGpLSQ3sxjkS9K4tWomYffWpUEuy.png' )}}" alt=""
+                                    class="w-12 h-12 object-cover rounded-full">
+                            @endif
+
                                 <form action="{{ url('/comment') }}" method="POST"
                                     class="w-full relative flex items-center">
                                     @csrf
@@ -395,6 +414,37 @@
                     </div>
                 </div>
             @endforeach
+
+
+            {{-- Update Modal Popup --}}
+            <div class="popup fixed hidden z-40 inset-0 flex items-center justify-center bg-black bg-opacity-80"
+                id="updateForm">
+                <div class="bg-gray-800 rounded-lg p-4 w-full max-w-md">
+                    <h2 class="text-lg font-semibold text-white mb-4">Update Post</h2>
+                    <form method="POST" id="routeUpdate">
+                        @csrf
+                        @method('PATCH')
+                        <div class="mb-4">
+                            <label for="title" class="block text-gray-300 mb-1">Title</label>
+                            <input type="text" id="title" name="title" value="{{ $post->title }}"
+                                class="w-full px-3 py-2 text-gray-800 bg-gray-200 rounded-md focus:outline-none focus:bg-white"
+                                placeholder="Enter title" required>
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button type="button" onclick="cancelUpdate()"
+                                class="px-4 py-2 bg-gray-600 text-gray-200 rounded-lg mr-2 hover:bg-gray-700">Cancel</button>
+                            <button type="submit"
+                                class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {{-- Update Modal Popup --}}
+
+
+
+            {{-- Delete Notification Popup --}}
             <div class="popup fixed z-40 inset-0 flex items-center hidden justify-center bg-black bg-opacity-80"
                 id="deleteForm">
                 <div class="bg-gray-800 rounded-lg p-4 w-full max-w-md">
@@ -404,7 +454,7 @@
                         @csrf
                         @method('DELETE')
                         <div class="flex justify-end">
-                            <button type="button" onclick="confirmDelete({{ $post->id }})"
+                            <button type="button" onclick="cancelDelete()"
                                 class="px-4 py-2 bg-gray-600 text-gray-200 rounded-lg mr-2 hover:bg-gray-700">Cancel</button>
                             <button type="submit"
                                 class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">Delete</button>
@@ -412,18 +462,30 @@
                     </form>
                 </div>
             </div>
+            {{-- Delete Notification Popup --}}
+
         </div>
     </div>
 
     <script>
+        //post form modal
         function togglePopup() {
             document.querySelector('.popup').classList.toggle('hidden');
         }
 
+        //dropdown post menu
         function toggleDropdown(id) {
             const dropdown = document.getElementById('dropdown-' + id);
-            dropdown.classList.toggle('hidden');
+            dropdown.classList.remove('hidden');
+
+            document.addEventListener('scroll', function(event) {
+                if (!dropdown.contains(event.target) && event.target !== dropdown) {
+                    dropdown.classList.add('hidden');
+                }
+            });
         }
+
+
 
         function toggleComment(id) {
             const comment = document.getElementById('comment-' + id);
@@ -442,18 +504,28 @@
             reply.classList.toggle('hidden');
         }
 
+        //popup edit modal
+        function openUpdateModal(action) {
+            document.getElementById('routeUpdate').setAttribute('action', action);
+            document.getElementById('updateForm').classList.remove('hidden');
+        }
+
+        //cancel edit modal
+        function cancelUpdate() {
+            document.getElementById('routeUpdate').removeAttribute('action');
+            document.getElementById('updateForm').classList.add('hidden')
+        }
+
+        //popup delete modal
         function openDeleteModal(action) {
-            document.getElementById('routeDelete').action = action;
-            document.getElementById('deleteForm').classList.toggle('hidden');
+            document.getElementById('routeDelete').setAttribute('action', action);
+            document.getElementById('deleteForm').classList.remove('hidden');
         }
 
-        function confirmEdit(id) {
-            const confirm = document.getElementById('edit-' + id);
-            confirm.classList.toggle('hidden');
-        }
-
-        function closeNotif() {
-            document.querySelector('.notif').classList.toggle('hidden');
+        //cancel delete modal
+        function cancelDelete() {
+            document.getElementById('routeDelete').removeAttribute('action');
+            document.getElementById('deleteForm').classList.add('hidden');
         }
     </script>
 @endsection

@@ -31,14 +31,14 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 //for posts
-Route::get('/', [PostController::class, 'index'])->name('posts.index')->middleware('auth');
+Route::get('/', [PostController::class, 'index'])->name('posts.index');
 Route::get('/following', [PostController::class, 'following'])->name('posts.index');
-Route::post('/', [PostController::class, 'store'])->name('posts.store')->middleware('auth');
+Route::post('/', [PostController::class, 'store'])->name('posts.store')->middleware('checkauth');
 Route::patch('/post/{id}', [PostController::class, 'update']);
 Route::delete('/post/{id}', [PostController::class, 'destroy']);
-Route::post('/posts/{id}/like', [PostController::class, 'like'])->name('posts.like');
-Route::post('/comment', [CommentController::class, 'store'])->name('comments.store');
-Route::post('/reply', [CommentController::class, 'reply']);
+Route::post('/posts/{id}/like', [PostController::class, 'like'])->name('posts.like')->middleware('checkauth');
+Route::post('/comment', [CommentController::class, 'store'])->name('comments.store')->middleware('checkauth');
+Route::post('/reply', [CommentController::class, 'reply'])->middleware('checkauth');
 
 //other
 Route::get('/profile/{name}', [AuthController::class, 'profile'])->name('profile');
