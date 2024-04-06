@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Follow;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -60,9 +61,10 @@ class AuthController extends Controller
 
     public function profile($name)
     {
-        $user = User::with('post')->where('name', $name)->first();
+        $user = User::with(['post', 'follow'])->where('name', $name)->first();
+        $follower = Follow::where('following_id', $user->id)->get();
         return view('/profile', [
-            "user" => $user
+            "user" => $user, "follower" => $follower,
         ]);
     }
 
@@ -102,7 +104,8 @@ class AuthController extends Controller
         return back();
     }
 
-    public function user(){
+    public function user()
+    {
         $users = user::all();
         return view('user', compact('users'));
     }

@@ -27,6 +27,9 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required',
             'body' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ],[
+            'title.required' => 'Judul harus diisi.',
+            'body.required' => 'Gambar harus diisi.',
         ]);
 
         $imagePath = $request->file('body')->store('posts');
@@ -36,7 +39,7 @@ class PostController extends Controller
             'title' => $request->title,
             'body' => $imagePath,
         ]);
-        notify()->success('Laravel Notify is awesome!');
+        flash()->addSuccess('Your account has been re-verified.');
         return back();
     }
 
@@ -57,7 +60,7 @@ class PostController extends Controller
             return abort(403);
         }
         $post->delete();
-        notify()->success('Postingan Berhasil Di Hapus', 'Deleted');
+        toastr()->addSuccess('Postingan Berhasil Di Hapus', 'Deleted');
         return back();
     }
 
@@ -80,8 +83,10 @@ class PostController extends Controller
         ->orWhereHas('comment', function($query) use ($search) {
             $query->where('body', 'like', '%' . $search . '%');
         })
+        ->orwhere
         ->get();
 
         return view('search', compact('posts'));
     }
+
 }

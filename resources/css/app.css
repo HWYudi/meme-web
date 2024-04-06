@@ -6,6 +6,17 @@
     font-family: "Poppins", sans-serif;
 }
 
+label {
+    cursor: pointer;
+    /* Style as you please, it will become the visible UI component. */
+ }
+
+ #upload-photo {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+ }
+
 ::-webkit-scrollbar {
     width: 5px;
 }
@@ -26,3 +37,6 @@
     background: #555;
 }
 
+.notify{
+    z-index : 20;
+}

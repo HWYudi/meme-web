@@ -59,4 +59,8 @@ class User extends Authenticatable
     public function reply(){
         return $this->hasMany(Reply::class);
     }
+
+    public function follow(){
+        return $this->hasMany(Follow::class);
+    }
 }

@@ -38,7 +38,7 @@ Route::patch('/post/{id}', [PostController::class, 'update']);
 Route::delete('/post/{id}', [PostController::class, 'destroy']);
 Route::post('/posts/{id}/like', [PostController::class, 'like'])->name('posts.like')->middleware('checkauth');
 Route::post('/comment', [CommentController::class, 'store'])->name('comments.store')->middleware('checkauth');
-Route::post('/reply', [CommentController::class, 'reply'])->middleware('checkauth');
+Route::post('/reply', [CommentController::class, 'reply'])->middleware('checkauth') ;
 
 //other
 Route::get('/profile/{name}', [AuthController::class, 'profile'])->name('profile');

@@ -1,7 +1,19 @@
 @extends('template.index')
-
+@section('title', 'MIM | Home')
 @section('content')
-    <div class="fixed top-0 flex justify-center items-center h-16 w-full border-b border-white border-opacity-20 bg-black">
+
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+    <div
+        class="fixed top-0 z-10 flex justify-center items-center h-16 w-full border-b border-white border-opacity-20 bg-black">
         <div class="absolute left-3 lg:hidden" onclick="Openbar()">
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-list"
                 viewBox="0 0 16 16">
@@ -36,12 +48,13 @@
             <form method="POST" action="{{ route('posts.store') }}" class="space-y-4" enctype="multipart/form-data">
                 @csrf
                 <div class="flex">
-                    @if ( auth()->check() )
-                    <img src="{{ asset('storage/' . auth()->user()->image )}}" alt="" class="w-12 h-12 object-cover rounded-full">
-                @else
-                    <img src="{{ asset('storage/' . 'posts/f3dwhsH1LfICvGpLSQ3sxjkS9K4tWomYffWpUEuy.png' )}}" alt=""
-                        class="w-12 h-12 object-cover rounded-full">
-                @endif
+                    @if (auth()->check())
+                        <img src="{{ asset('storage/' . auth()->user()->image) }}" alt=""
+                            class="w-12 h-12 object-cover rounded-full">
+                    @else
+                        <img src="{{ asset('storage/' . 'posts/f3dwhsH1LfICvGpLSQ3sxjkS9K4tWomYffWpUEuy.png') }}"
+                            alt="" class="w-12 h-12 object-cover rounded-full">
+                    @endif
 
                     <input type="text" name="title" placeholder="What You Want To Post?"
                         class="text-white w-full px-4 py-2 rounded-lg focus:outline-none focus:border-blue-500 bg-transparent">
@@ -128,18 +141,18 @@
                                 <div class="absolute hidden right-0 mt-2 w-40 border rounded-md shadow-lg bg-black "
                                     id="dropdown-{{ $post->id }}">
                                     <div>
-                                        @if ( auth()->check() && $post->user->id === auth()->user()->id)
+                                        @if (auth()->check() && $post->user->id === auth()->user()->id)
                                             {{-- Dropdown Menu Action --}}
                                             <button onclick="openUpdateModal('{{ url('/post', $post->id) }}')"
                                                 class="block w-full px-4 py-2 text-sm font-bold text-green-600 hover:bg-gray-900 hover:text-green-800">Update</button>
                                             <button onclick="openDeleteModal('{{ url('/post', $post->id) }}')"
                                                 class="block w-full px-4 py-2 text-sm font-bold text-red-600 hover:bg-gray-100 hover:text-red-800">Delete</button>
                                             {{-- Dropdown Menu Action --}}
-                                        @endif
-                                        @if ( auth()->check() && $post->user->id !== auth()->user()->id)
+                                        @else
                                             <button
                                                 class="block w-full px-4 py-2 text-sm font-bold text-red-600 hover:bg-gray-900 hover:text-red-800 rounded-lg">Report</button>
                                         @endif
+
                                     </div>
                                 </div>
 
@@ -171,6 +184,7 @@
                             </div>
                             <div class="w-1/3 flex gap-2 items-center justify-center">
                                 <form action="{{ url('/posts/' . $post->id . '/like') }}" method="POST">
+                                    @csrf
                                     <button type="submit">
                                         <svg width="22" height="20" viewBox="0 0 22 20" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -345,12 +359,13 @@
                                             </div>
                                             <div class="flex gap-4 hidden  transition-opacity"
                                                 id="reply-{{ $comment->id }}">
-                                                @if ( auth()->check() && auth()->user()->image )
-                                                <img src="{{ asset('storage/' . auth()->user()->image )}}" alt="" class="w-12 h-12 object-cover rounded-full">
-                                            @else
-                                                <img src="{{ asset('storage/' . 'posts/f3dwhsH1LfICvGpLSQ3sxjkS9K4tWomYffWpUEuy.png' )}}" alt=""
-                                                    class="w-12 h-12 object-cover rounded-full">
-                                            @endif
+                                                @if (auth()->check() && auth()->user()->image)
+                                                    <img src="{{ asset('storage/' . auth()->user()->image) }}"
+                                                        alt="" class="w-12 h-12 object-cover rounded-full">
+                                                @else
+                                                    <img src="{{ asset('storage/' . 'posts/f3dwhsH1LfICvGpLSQ3sxjkS9K4tWomYffWpUEuy.png') }}"
+                                                        alt="" class="w-12 h-12 object-cover rounded-full">
+                                                @endif
 
                                                 <div class="w-full">
                                                     <form action="{{ url('/reply') }}" method="POST"
@@ -384,12 +399,13 @@
                         </div>
                         <div class="border-t border-white border-opacity-50 w-full py-10 px-5 sticky bottom-0">
                             <div class="flex gap-4 h-full " id="form">
-                                @if ( auth()->check() && auth()->user()->image )
-                                <img src="{{ asset('storage/' . auth()->user()->image )}}" alt="" class="w-12 h-12 object-cover rounded-full">
-                            @else
-                                <img src="{{ asset('storage/' . 'posts/f3dwhsH1LfICvGpLSQ3sxjkS9K4tWomYffWpUEuy.png' )}}" alt=""
-                                    class="w-12 h-12 object-cover rounded-full">
-                            @endif
+                                @if (auth()->check() && auth()->user()->image)
+                                    <img src="{{ asset('storage/' . auth()->user()->image) }}" alt=""
+                                        class="w-12 h-12 object-cover rounded-full">
+                                @else
+                                    <img src="{{ asset('storage/' . 'posts/f3dwhsH1LfICvGpLSQ3sxjkS9K4tWomYffWpUEuy.png') }}"
+                                        alt="" class="w-12 h-12 object-cover rounded-full">
+                                @endif
 
                                 <form action="{{ url('/comment') }}" method="POST"
                                     class="w-full relative flex items-center">
@@ -476,7 +492,7 @@
         //dropdown post menu
         function toggleDropdown(id) {
             const dropdown = document.getElementById('dropdown-' + id);
-            dropdown.classList.remove('hidden');
+            dropdown.classList.toggle('hidden');
 
             document.addEventListener('scroll', function(event) {
                 if (!dropdown.contains(event.target) && event.target !== dropdown) {

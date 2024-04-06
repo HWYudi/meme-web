@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>@yield('title')</title>
     @notifyCss
     @vite('resources/css/app.css')
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="flex flex-col gap-3 p-4">
-                    <a href="#" class="hover:bg-opacity-10 hover:bg-white rounded-lg flex items-center gap-2 p-2">
+                    <a href="/" class="hover:bg-opacity-10 hover:bg-white rounded-lg flex items-center gap-2 p-2">
                         <svg width="34" height="33" viewBox="0 0 30 32" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -56,7 +56,7 @@
                         <h1>Home</h1>
                     </a>
 
-                    <button class="hover:bg-opacity-10 hover:bg-white rounded-lg flex items-center gap-2 p-2 lg:hidden"
+                    <button class="hover:bg-opacity-10 hover:bg-white rounded-lg flex items-center gap-2 p-2 "
                         onclick="searchbar()">
                         <svg width="34" height="33" viewBox="0 0 35 33" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -68,7 +68,7 @@
                         </svg>
                         <h1>Explore</h1>
                     </button>
-                    <a href="#" class="hover:bg-opacity-10 hover:bg-white rounded-lg flex items-center gap-2 p-2">
+                    <a href="/notification" class="hover:bg-opacity-10 hover:bg-white rounded-lg flex items-center gap-2 p-2">
                         <svg width="34" height="33" viewBox="0 0 28 31" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -80,7 +80,7 @@
 
                         <h1>Notification</h1>
                     </a>
-                    <a href="#" class="hover:bg-opacity-10 hover:bg-white rounded-lg flex items-center gap-2 p-2">
+                    <a href="/messages" class="hover:bg-opacity-10 hover:bg-white rounded-lg flex items-center gap-2 p-2">
                         <svg width="34" height="33" viewBox="0 0 32 29" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -94,32 +94,8 @@
 
                         <h1>Messages</h1>
                     </a>
-                    <a href="#" class="hover:bg-opacity-10 hover:bg-white rounded-lg flex items-center gap-2 p-2">
-                        <svg width="34" height="33" viewBox="0 0 34 35" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M25.3408 15.7627C27.3171 15.4851 28.8386 13.7907 28.8428 11.738C28.8428 9.71497 27.3681 8.03764 25.4343 7.72031"
-                                stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            <path
-                                d="M27.9487 20.5137C29.8626 20.7998 31.1986 21.4699 31.1986 22.8512C31.1986 23.8018 30.5696 24.4194 29.5524 24.8076"
-                                stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M16.8394 21.0995C12.2862 21.0995 8.39746 21.7894 8.39746 24.5448C8.39746 27.2988 12.2621 28.0085 16.8394 28.0085C21.3925 28.0085 25.2799 27.3257 25.2799 24.5689C25.2799 21.812 21.4166 21.0995 16.8394 21.0995Z"
-                                stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M16.8395 17.1669C19.8273 17.1669 22.2498 14.7459 22.2498 11.7567C22.2498 8.76894 19.8273 6.34644 16.8395 6.34644C13.8518 6.34644 11.4292 8.76894 11.4292 11.7567C11.4179 14.7345 13.822 17.157 16.7999 17.1669H16.8395Z"
-                                stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            <path
-                                d="M8.33672 15.7627C6.35905 15.4851 4.83897 13.7907 4.83472 11.738C4.83472 9.71497 6.30947 8.03764 8.24322 7.72031"
-                                stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            <path
-                                d="M5.72884 20.5137C3.81492 20.7998 2.479 21.4699 2.479 22.8512C2.479 23.8018 3.108 24.4194 4.12517 24.8076"
-                                stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
 
-                        <h1>Communities</h1>
-                    </a>
-                    <a href="#"
+                    <a href="{{ auth()->check() ? "/profile/" . auth()->user()->name : "/login" }}"
                         class="hover:bg-opacity-10 hover:bg-white rounded-lg flex items-center gap-2 p-2">
                         <svg width="34" height="33" viewBox="0 0 34 35" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
