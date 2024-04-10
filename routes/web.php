@@ -50,7 +50,9 @@ Route::get('/search', [PostController::class, 'search'])->name('posts.search');
 Route::get('/user' , [AuthController::class , 'user']);
 
 //for chat
+Route::get('/messages' , [ChatController::class , 'index']);
 Route::get('/chat/{name}' , [ChatController::class , 'chat']);
+Route::post('/chat' , [ChatController::class , 'store']);
 
 //for admin
 Route::get('/dashboard' , function() {
