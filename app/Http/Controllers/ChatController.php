@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chat;
+use App\Models\Notif;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -46,12 +47,22 @@ class ChatController extends Controller
 
     public function store(Request $request){
 
-        $data = request()->validate([
+        $request->validate([
             'sender_id' => 'required',
             'receiver_id' => 'required',
             'message' => 'required',
         ]);
-        Chat::create($data);
+        Chat::create([
+            'sender_id' => $request->sender_id,
+            'receiver_id' => $request->receiver_id,
+            'message' => $request->message,
+        ]);
+
+        Notif::create([
+            'sender_id' => $request->sender_id,
+            'receiver_id' => $request->receiver_id,
+            'body' => auth()->user()->name . ' sent you a message',
+        ]);
 
         return back()->with('success', 'Message Sent');
     }

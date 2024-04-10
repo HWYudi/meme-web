@@ -49,9 +49,16 @@
                             class="px-4 py-2 bg-gray-600 text-gray-200 rounded-lg hover:bg-gray-700">Follow</button>
                     </form>
                 @endif --}}
-                    @if (auth()->check() && $user->id !== auth()->user()->id)
-                    <a href="/chat/{{ $user->name }}" class="px-4 py-2 bg-gray-600 text-gray-200 rounded-lg hover:bg-gray-700">Send Message</a>
-                    @endif
+                    <form action="{{ url('/profile' , $user->name) }}" method="POST" enctype="multipart/form-data">
+                        @method('PUT')
+                        @csrf
+                        <input type="file" name="image">
+                        <button type="submit">Submit</button>
+                    </form>
+                @if (auth()->check() && $user->id !== auth()->user()->id)
+                    <a href="/chat/{{ $user->name }}"
+                        class="px-4 py-2 bg-gray-600 text-gray-200 rounded-lg hover:bg-gray-700">Send Message</a>
+                @endif
 
             </div>
 

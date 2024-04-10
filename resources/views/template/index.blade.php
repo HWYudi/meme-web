@@ -43,7 +43,8 @@
                     </div>
                 </div>
                 <div class="flex flex-col gap-3 p-4">
-                    <a href="/" class="hover:bg-opacity-10 hover:bg-white @if(Route::currentRouteName() == 'home') bg-white bg-opacity-10 @endif rounded-lg flex items-center gap-2 p-2">
+                    <a href="/"
+                        class="hover:bg-opacity-10 hover:bg-white @if (Route::currentRouteName() == 'home') bg-white bg-opacity-10 @endif rounded-lg flex items-center gap-2 p-2">
                         <svg width="34" height="33" viewBox="0 0 30 32" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -56,7 +57,8 @@
                         <h1>Home</h1>
                     </a>
 
-                    <button class="hover:bg-opacity-10 hover:bg-white @if(Route::currentRouteName() == 'explore') bg-white bg-opacity-10 @endif rounded-lg flex items-center gap-2 p-2 "
+                    <button
+                        class="hover:bg-opacity-10 hover:bg-white @if (Route::currentRouteName() == 'explore') bg-white bg-opacity-10 @endif rounded-lg flex items-center gap-2 p-2 "
                         onclick="searchbar()">
                         <svg width="34" height="33" viewBox="0 0 35 33" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -68,21 +70,24 @@
                         </svg>
                         <h1>Explore</h1>
                     </button>
-                    <a href="/notification"
+                    <button onclick="notif()"
                         class="hover:bg-opacity-10 hover:bg-white rounded-lg flex items-center gap-2 p-2">
-                        <svg width="34" height="33" viewBox="0 0 28 31" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M13.9999 23.6099C21.9888 23.6099 25.6847 22.585 26.0416 18.4714C26.0416 14.3607 23.4649 14.625 23.4649 9.5813C23.4649 5.64159 19.7307 1.15906 13.9999 1.15906C8.26918 1.15906 4.53495 5.64159 4.53495 9.5813C4.53495 14.625 1.95825 14.3607 1.95825 18.4714C2.3166 22.6006 6.01243 23.6099 13.9999 23.6099Z"
-                                stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M17.3841 27.8735C15.4515 30.0193 12.4369 30.0448 10.4858 27.8735" stroke="white"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
+                        <div class="relative">
+                            @if(auth()->check() && auth()->user()->receiverNotif()->count() > 0)
+                            <div class="absolute left-0 top-0 w-5 h-5 flex items-center justify-center bg-red-500 rounded-full">
+                               <span class="text-xs text-white ">{{ auth()->user()->receiverNotif()->count() }}</span>
+                            </div>
+                            @endif
+                            <svg width="28" height="31" viewBox="0 0 28 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M13.9999 23.6099C21.9888 23.6099 25.6847 22.585 26.0416 18.4714C26.0416 14.3607 23.4649 14.625 23.4649 9.5813C23.4649 5.64159 19.7307 1.15906 13.9999 1.15906C8.26918 1.15906 4.53495 5.64159 4.53495 9.5813C4.53495 14.625 1.95825 14.3607 1.95825 18.4714C2.3166 22.6006 6.01243 23.6099 13.9999 23.6099Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M17.3841 27.8735C15.4515 30.0193 12.4369 30.0448 10.4858 27.8735" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                          </div>
 
-                        <h1>Notification</h1>
-                    </a>
+                          <h1>Notification</h1>
+                    </button>
                     <a href="/messages"
-                        class="hover:bg-opacity-10 hover:bg-white @if(Route::currentRouteName() == 'messages') bg-white bg-opacity-10 @endif rounded-lg flex items-center gap-2 p-2">
+                        class="hover:bg-opacity-10 hover:bg-white @if (Route::currentRouteName() == 'messages') bg-white bg-opacity-10 @endif rounded-lg flex items-center gap-2 p-2">
                         <svg width="34" height="33" viewBox="0 0 32 29" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -98,7 +103,7 @@
                     </a>
 
                     <a href="{{ auth()->check() ? '/profile/' . auth()->user()->name : '/login' }}"
-                        class="hover:bg-opacity-10 hover:bg-white @if(Route::currentRouteName() == 'profile') bg-white bg-opacity-20 @endif rounded-lg flex items-center gap-2 p-2">
+                        class="hover:bg-opacity-10 hover:bg-white @if (Route::currentRouteName() == 'profile') bg-white bg-opacity-20 @endif rounded-lg flex items-center gap-2 p-2">
                         <svg width="34" height="33" viewBox="0 0 34 35" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -181,6 +186,34 @@
                 </div>
             </aside>
 
+            @if (auth()->check() && auth()->user()->receiverNotif->count() > 0)
+            <aside class="notif duration-200 -translate-x-full overflow-y-auto bg-black text-white fixed z-20 left-0 h-svh w-full lg:w-1/4 border-r border-white border-opacity-20">
+                <div class="flex items-center h-16 justify-between px-4 py-2 border-b border-gray-700">
+                    <h1 class="text-white font-semibold">Notifications</h1>
+                    <Button onclick="notif()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13.41 12L17.71 7.71C17.8983 7.5217 18.0041 7.2663 18.0041 7C18.0041 6.7337 17.8983 6.4783 17.71 6.29C17.5217 6.1017 17.2663 5.99591 17 5.99591C16.7337 5.99591 16.4783 6.1017 16.29 6.29L12 10.59L7.71 6.29C7.5217 6.1017 7.2663 5.99591 7 5.99591C6.7337 5.99591 6.4783 6.1017 6.29 6.29C6.1017 6.4783 5.99591 6.7337 5.99591 7C5.99591 7.2663 6.1017 7.5217 6.29 7.71L10.59 12L6.29 16.29C6.19627 16.383 6.12188 16.4936 6.07111 16.6154C6.02034 16.7373 5.9942 16.868 5.9942 17C5.9942 17.132 6.02034 17.2627 6.07111 17.3846C6.12188 17.5064 6.19627 17.617 6.29 17.71C6.38296 17.8037 6.49356 17.8781 6.61542 17.9289C6.73728 17.9797 6.86799 18.0058 7 18.0058C7.13201 18.0058 7.26272 17.9797 7.38458 17.9289C7.50644 17.8781 7.61704 17.8037 7.71 17.71L12 13.41L16.29 17.71C16.383 17.8037 16.4936 17.8781 16.6154 17.9289C16.7373 17.9797 16.868 18.0058 17 18.0058C17.132 18.0058 17.2627 17.9797 17.3846 17.9289C17.5064 17.8781 17.617 17.8037 17.71 17.71C17.8037 17.617 17.8781 17.5064 17.9289 17.3846C17.9797 17.2627 18.0058 17.132 18.0058 17C18.0058 16.868 17.9797 16.7373 17.9289 16.6154C17.8781 16.4936 17.8037 16.383 17.71 16.29L13.41 12Z" fill="white"/>
+                            </svg>
+                    </Button>
+                </div>
+                <div class="flex flex-col gap-3 p-4">
+                    @foreach(auth()->user()->receiverNotif()->with('sender')->get() as $notification)
+                    <form class="flex items-center gap-4">
+                        <div>
+                            <img src="{{asset('storage/' . $notification->sender->image )}}" alt="{{ $notification->sender->name }}" class="w-10 h-10 rounded-full">
+                        </div>
+                        <div>
+                            <p class="text-sm">{{ $notification->body }}</p>
+                            <p class="text-xs text-gray-400">{{ $notification->created_at->diffForHumans() }}</p>
+                        </div>
+                    </form>
+
+                    @endforeach
+                </div>
+            </aside>
+            @endif
+
+
             <!-- main content page -->
             <div class="w-full">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white"
@@ -192,50 +225,50 @@
             </div>
 
             @if (Route::currentRouteName() == 'home')
-            <aside
-                class="searchbar hidden z-30 bg-black lg:block fixed right-0 min-h-svh w-full lg:w-1/4 border-l border-white border-opacity-20  overflow-y-auto">
-                <div class="h-16 w-full flex-1 border-b border-white border-opacity-25 px-4 py-2 items-center">
-                    <form action="{{ route('posts.search') }}" method="GET">
-                        <div class="flex items-center">
-                            <div class="flex items-center border w-full border-gray-300 py-1 rounded-lg">
-                                <button type="submit" class="w-20 flex items-center justify-center">
-                                    <svg width="35" height="33" viewBox="0 0 35 33" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M14.1168 27.2337C21.3611 27.2337 27.2337 21.3611 27.2337 14.1168C27.2337 6.87261 21.3611 1 14.1168 1C6.87261 1 1 6.87261 1 14.1168C1 21.3611 6.87261 27.2337 14.1168 27.2337Z"
-                                            stroke="white" stroke-width="2" stroke-linecap="round"
-                                            stroke-linejoin="round" />
-                                        <path d="M25.0194 23.3258L33.0194 31.3258" stroke="white" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </button>
-                                <input type="text" name="q"
-                                    class="bg-black text-white py-2 pr-3 w-full rounded-lg focus:outline-none"
-                                    placeholder="Search posts...">
+                <aside
+                    class="searchbar hidden z-30 bg-black lg:block fixed right-0 min-h-svh w-full lg:w-1/4 border-l border-white border-opacity-20  overflow-y-auto">
+                    <div class="h-16 w-full flex-1 border-b border-white border-opacity-25 px-4 py-2 items-center">
+                        <form action="{{ route('posts.search') }}" method="GET">
+                            <div class="flex items-center">
+                                <div class="flex items-center border w-full border-gray-300 py-1 rounded-lg">
+                                    <button type="submit" class="w-20 flex items-center justify-center">
+                                        <svg width="35" height="33" viewBox="0 0 35 33" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M14.1168 27.2337C21.3611 27.2337 27.2337 21.3611 27.2337 14.1168C27.2337 6.87261 21.3611 1 14.1168 1C6.87261 1 1 6.87261 1 14.1168C1 21.3611 6.87261 27.2337 14.1168 27.2337Z"
+                                                stroke="white" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                            <path d="M25.0194 23.3258L33.0194 31.3258" stroke="white" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </button>
+                                    <input type="text" name="q"
+                                        class="bg-black text-white py-2 pr-3 w-full rounded-lg focus:outline-none"
+                                        placeholder="Search posts...">
+                                </div>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    class="lg:hidden" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M18 6L6 18" stroke="white" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M6 6L18 18" stroke="white" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
                             </div>
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="lg:hidden"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M18 6L6 18" stroke="white" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                                <path d="M6 6L18 18" stroke="white" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                            </svg>
-                        </div>
-                    </form>
-                </div>
+                        </form>
+                    </div>
 
-                <div class="bg-white bg-opacity-10 rounded-lg p-4">
-                    <h1 class="font-bold text-xl">Trend For You</h1>
-                    <div class="flex text-sm font-thin gap-4">
-                        <p>Entertainment</p>
-                        <p>Trending</p>
+                    <div class="bg-white bg-opacity-10 rounded-lg p-4">
+                        <h1 class="font-bold text-xl">Trend For You</h1>
+                        <div class="flex text-sm font-thin gap-4">
+                            <p>Entertainment</p>
+                            <p>Trending</p>
+                        </div>
+                        <div>
+                            <h1>Bitcoin</h1>
+                            <p>1 post</p>
+                        </div>
                     </div>
-                    <div>
-                        <h1>Bitcoin</h1>
-                        <p>1 post</p>
-                    </div>
-                </div>
-            </aside>
+                </aside>
             @endif
         </div>
     </main>
@@ -250,6 +283,10 @@
 <script>
     function Openbar() {
         document.querySelector('.sidebar').classList.toggle('hidden')
+    }
+
+    function notif() {
+        document.querySelector('.notif').classList.toggle('translate-x-0')
     }
 
     function searchbar() {
@@ -293,8 +330,8 @@
     }
 
     //popup edit modal
-    function openUpdateModal(id , title) {
-        document.getElementById('routeUpdate').setAttribute('action', '{{ url("/post/") }}/' + id);
+    function openUpdateModal(id, title) {
+        document.getElementById('routeUpdate').setAttribute('action', '{{ url('/post/') }}/' + id);
         document.getElementById('title').value = title
         document.getElementById('updateForm').classList.remove('hidden');
     }

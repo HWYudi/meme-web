@@ -19,6 +19,7 @@
                             <div class="@if($chat->sender_id == auth()->id()) bg-[#3797F0] @else bg-[#262626] @endif rounded-lg shadow p-2">
                                 <p>{{ $chat->message }}</p>
                             </div>
+                            <p class="flex justify-end text-xs text-gray-300">{{ $chat->created_at->diffForHumans() }}</p>
                         </div>
                     </div>
                 @endforeach

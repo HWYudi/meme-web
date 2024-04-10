@@ -4,6 +4,7 @@ use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\NotifController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
