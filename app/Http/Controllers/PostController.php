@@ -27,7 +27,7 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required',
             'body' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ],[
+        ], [
             'title.required' => 'Judul harus diisi.',
             'body.required' => 'Gambar harus diisi.',
         ]);
@@ -39,8 +39,8 @@ class PostController extends Controller
             'title' => $request->title,
             'body' => $imagePath,
         ]);
-        flash()->addSuccess('Your account has been re-verified.');
-        return back();
+
+        return back()->with('success', 'Postingan Berhasil Di Tambahkan');
     }
 
     public function like($id)
@@ -60,33 +60,33 @@ class PostController extends Controller
             return abort(403);
         }
         $post->delete();
-        toastr()->addSuccess('Postingan Berhasil Di Hapus', 'Deleted');
-        return back();
+
+        return back()->with('success', 'Postingan Berhasil Di Hapus');
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         $post = Post::findOrFail($id);
         if ($post->user_id != auth()->user()->id) {
             return abort(403);
         }
         $post->update($request->all());
-        return back();
+        return back()->with('success', 'Postingan Berhasil Di Update');
     }
 
-    public function search (Request $request){
+    public function search(Request $request)
+    {
         $search = $request->input('q');
         $posts = Post::with(['like', 'user', 'comment.reply'])
-        ->where('title', 'like', '%' . $search . '%')
-        ->orWhereHas('user', function($query) use ($search) {
-            $query->where('username', 'like', '%' . $search . '%');
-        })
-        ->orWhereHas('comment', function($query) use ($search) {
-            $query->where('body', 'like', '%' . $search . '%');
-        })
-        ->orwhere
-        ->get();
+            ->where('title', 'like', '%' . $search . '%')
+            ->orWhereHas('user', function ($query) use ($search) {
+                $query->where('username', 'like', '%' . $search . '%');
+            })
+            ->orWhereHas('comment', function ($query) use ($search) {
+                $query->where('body', 'like', '%' . $search . '%');
+            })
+            ->get();
 
         return view('search', compact('posts'));
     }
-
 }

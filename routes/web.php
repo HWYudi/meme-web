@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
@@ -31,7 +32,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 //for posts
-Route::get('/', [PostController::class, 'index'])->name('posts.index');
+Route::get('/', [PostController::class, 'index'])->name('home');
 Route::get('/following', [PostController::class, 'following'])->name('posts.index');
 Route::post('/', [PostController::class, 'store'])->name('posts.store')->middleware('checkauth');
 Route::patch('/post/{id}', [PostController::class, 'update']);
@@ -40,14 +41,18 @@ Route::post('/posts/{id}/like', [PostController::class, 'like'])->name('posts.li
 Route::post('/comment', [CommentController::class, 'store'])->name('comments.store')->middleware('checkauth');
 Route::post('/reply', [CommentController::class, 'reply'])->middleware('checkauth') ;
 
-//other
+//for profile
 Route::get('/profile/{name}', [AuthController::class, 'profile'])->name('profile');
+Route::post('/profile/{name}' , [AuthController::class , 'follow']);
 Route::get('profile/{name}/{id}' , [AuthController::class , 'post'])->name('profile.post');
 Route::put('/profile/{name}', [AuthController::class, 'update']);
 Route::get('/search', [PostController::class, 'search'])->name('posts.search');
-
-Route::get('/tes' , function () {
-    notify()->success('Welcome to Laravel Notify ⚡️') or notify()->success('Welcome to Laravel Notify ⚡️', 'My custom title');
-    return view('tes');
-});
 Route::get('/user' , [AuthController::class , 'user']);
+
+//for chat
+Route::get('/chat/{name}' , [ChatController::class , 'chat']);
+
+//for admin
+Route::get('/dashboard' , function() {
+    return view('admin.dashboard');
+});

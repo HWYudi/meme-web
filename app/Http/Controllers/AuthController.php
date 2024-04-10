@@ -53,7 +53,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect('/dashboard');
+            return redirect('/');
         }
 
         return back()->with('error', 'The Provided credentials do not match our records.');
@@ -61,10 +61,9 @@ class AuthController extends Controller
 
     public function profile($name)
     {
-        $user = User::with(['post', 'follow'])->where('name', $name)->first();
-        $follower = Follow::where('following_id', $user->id)->get();
+        $user = User::with(['post', 'followers.follower', 'following.following'])->where('name', $name)->firstOrFail();
         return view('/profile', [
-            "user" => $user, "follower" => $follower,
+            "user" => $user ,
         ]);
     }
 
@@ -86,7 +85,9 @@ class AuthController extends Controller
         $post = Post::with(["user", "comment.reply", "like"])->where('user_id', $user->id)
             ->where('id', $id)
             ->firstOrFail();
-        return $post;
+        return view('/post', [
+            "post" => $post,
+        ]);
     }
 
     public function update(Request $request, $name)
@@ -108,5 +109,14 @@ class AuthController extends Controller
     {
         $users = user::all();
         return view('user', compact('users'));
+    }
+
+    public function follow($name){
+        $user = User::where('name', $name)->firstOrFail();
+        Follow::create([
+            'user_id' => auth()->id(),
+            'following_id' => $user->id
+        ]);
+        return back();
     }
 }

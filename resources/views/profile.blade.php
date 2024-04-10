@@ -1,3 +1,10 @@
+{{-- {{ json_encode($user) }}
+
+@foreach ($user->followers as $pengikut)
+{{ $pengikut->follower->image }}
+{{ $pengikut->follower->name }}
+@endforeach --}}
+
 @extends('template.index')
 @section('title', $user->name . ' - MIM')
 @section('content')
@@ -12,11 +19,11 @@
                         <p>Posts</p>
                     </div>
                     <div class="flex flex-col items-center">
-                        <h1 class="text-3xl font-bold">{{ $follower->count() }}</h1>
+                        <h1 class="text-3xl font-bold">{{ $user->followers->count() }}</h1>
                         <p>Follower</p>
                     </div>
                     <div class="flex flex-col items-center">
-                        <h1 class="text-3xl font-bold">{{ $user->follow->count() }}</h1>
+                        <h1 class="text-3xl font-bold">{{ $user->following->count() }}</h1>
                         <p>Following</p>
                     </div>
                 </div>
@@ -24,17 +31,25 @@
             <div class="flex w-fit flex-col">
                 <h1 class="ml-3 font-bold text-white text-opacity-50">@ {{ $user->name }}</h1>
                 <h1>{{ $user->username }}</h1>
-                @if (auth()->check() && $user->id === auth()->user()->id)
+                {{-- @if (auth()->check() && $user->id === auth()->user()->id)
                     <button class="px-4 py-2 bg-gray-600 text-gray-200 rounded-lg hover:bg-gray-700">Edit Profile</button>
-                @elseif(auth()->check() && $user->follow->contains(['following_id', auth()->user()->id, 'user_id', $user->id]))
-                    <button class="px-4 py-2 bg-gray-600 text-gray-200 rounded-lg hover:bg-gray-700">Friend</button>
                 @elseif(auth()->check() && $user->follow->contains('following_id', auth()->user()->id))
-                    <button class="px-4 py-2 bg-gray-600 text-gray-200 rounded-lg hover:bg-gray-700">Follow Back</button>
-                @elseif(auth()->check() && $follower->contains('user_id', auth()->user()->id))
-                    <button class="px-4 py-2 bg-gray-600 text-gray-200 rounded-lg hover:bg-gray-700">Unfollow</button>
+                    <button class="px-4 py-2 bg-gray-600 text-gray-200 rounded-lg hover:bg-gray-700">Friend</button>
+                @elseif(auth()->check() &&
+                        auth()->user()->follow->contains('following_id', $user->id))
+                    <form action="{{ url('/profile', $user->name) }}" method="POST">
+                        @csrf
+                        <button type="submit" name="following_id" value="{{ $user->id }}"
+                            class="px-4 py-2 bg-gray-600 text-gray-200 rounded-lg hover:bg-gray-700">Unfollow</button>
+                    </form>
                 @else
-                    <button class="px-4 py-2 bg-gray-600 text-gray-200 rounded-lg hover:bg-gray-700">Follow</button>
-                @endif
+                    <form action="{{ url('/profile', $user->name) }}" method="POST">
+                        @csrf
+                        <button type="submit" name="following_id" value="{{ $user->id }}"
+                            class="px-4 py-2 bg-gray-600 text-gray-200 rounded-lg hover:bg-gray-700">Follow</button>
+                    </form>
+                @endif --}}
+
 
             </div>
 

@@ -2,16 +2,6 @@
 @section('title', 'MIM | Home')
 @section('content')
 
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
     <div
         class="fixed top-0 z-10 flex justify-center items-center h-16 w-full border-b border-white border-opacity-20 bg-black">
         <div class="absolute left-3 lg:hidden" onclick="Openbar()">
@@ -143,8 +133,10 @@
                                     <div>
                                         @if (auth()->check() && $post->user->id === auth()->user()->id)
                                             {{-- Dropdown Menu Action --}}
-                                            <button onclick="openUpdateModal('{{ url('/post', $post->id) }}')"
+                                            <button onclick="openUpdateModal('{{ $post->id  }}', '{{ $post->title }}')"
+                                            id="buttonUpdate"
                                                 class="block w-full px-4 py-2 text-sm font-bold text-green-600 hover:bg-gray-900 hover:text-green-800">Update</button>
+
                                             <button onclick="openDeleteModal('{{ url('/post', $post->id) }}')"
                                                 class="block w-full px-4 py-2 text-sm font-bold text-red-600 hover:bg-gray-100 hover:text-red-800">Delete</button>
                                             {{-- Dropdown Menu Action --}}
@@ -432,19 +424,20 @@
             @endforeach
 
 
+
             {{-- Update Modal Popup --}}
             <div class="popup fixed hidden z-40 inset-0 flex items-center justify-center bg-black bg-opacity-80"
                 id="updateForm">
                 <div class="bg-gray-800 rounded-lg p-4 w-full max-w-md">
                     <h2 class="text-lg font-semibold text-white mb-4">Update Post</h2>
-                    <form method="POST" id="routeUpdate">
+                    <form method="POST" id="routeUpdate" action="{{ url('/post') }}">
                         @csrf
                         @method('PATCH')
                         <div class="mb-4">
                             <label for="title" class="block text-gray-300 mb-1">Title</label>
-                            <input type="text" id="title" name="title" value="{{ $post->title }}"
+                            <input type="text" id="title" name="title" value=""
                                 class="w-full px-3 py-2 text-gray-800 bg-gray-200 rounded-md focus:outline-none focus:bg-white"
-                                placeholder="Enter title" required>
+                                required>
                         </div>
 
                         <div class="flex justify-end">
@@ -466,7 +459,7 @@
                 <div class="bg-gray-800 rounded-lg p-4 w-full max-w-md">
                     <h2 class="text-lg font-semibold text-white mb-4">Confirmation</h2>
                     <p class="text-gray-400 mb-4">Are you sure you want to delete this post?</p>
-                    <form method="POST" id="routeDelete">
+                    <form method="POST" id="routeDelete" action="">
                         @csrf
                         @method('DELETE')
                         <div class="flex justify-end">
@@ -483,65 +476,5 @@
         </div>
     </div>
 
-    <script>
-        //post form modal
-        function togglePopup() {
-            document.querySelector('.popup').classList.toggle('hidden');
-        }
 
-        //dropdown post menu
-        function toggleDropdown(id) {
-            const dropdown = document.getElementById('dropdown-' + id);
-            dropdown.classList.toggle('hidden');
-
-            document.addEventListener('scroll', function(event) {
-                if (!dropdown.contains(event.target) && event.target !== dropdown) {
-                    dropdown.classList.add('hidden');
-                }
-            });
-        }
-
-
-
-        function toggleComment(id) {
-            const comment = document.getElementById('comment-' + id);
-            comment.classList.toggle('translate-y-full');
-        }
-
-        function toggleReplyComment(id) {
-            const replyComment = document.getElementById('replyComment-' + id);
-            const lihatComment = document.getElementById('lihat-' + id)
-            replyComment.classList.toggle('hidden');
-            lihatComment.classList.toggle('hidden')
-        }
-
-        function toggleReply(id) {
-            const reply = document.getElementById('reply-' + id);
-            reply.classList.toggle('hidden');
-        }
-
-        //popup edit modal
-        function openUpdateModal(action) {
-            document.getElementById('routeUpdate').setAttribute('action', action);
-            document.getElementById('updateForm').classList.remove('hidden');
-        }
-
-        //cancel edit modal
-        function cancelUpdate() {
-            document.getElementById('routeUpdate').removeAttribute('action');
-            document.getElementById('updateForm').classList.add('hidden')
-        }
-
-        //popup delete modal
-        function openDeleteModal(action) {
-            document.getElementById('routeDelete').setAttribute('action', action);
-            document.getElementById('deleteForm').classList.remove('hidden');
-        }
-
-        //cancel delete modal
-        function cancelDelete() {
-            document.getElementById('routeDelete').removeAttribute('action');
-            document.getElementById('deleteForm').classList.add('hidden');
-        }
-    </script>
 @endsection

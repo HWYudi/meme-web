@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title')</title>
-    @notifyCss
     @vite('resources/css/app.css')
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,6 +13,9 @@
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css"
+        integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body class="bg-black text-white">
@@ -21,8 +23,6 @@
 
     <!-- page -->
     <main class="min-h-screen w-full">
-        <x-notify::notify />
-        @notifyJs
         <!-- header page -->
         <div class="flex">
             <!-- aside -->
@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="flex flex-col gap-3 p-4">
-                    <a href="/" class="hover:bg-opacity-10 hover:bg-white rounded-lg flex items-center gap-2 p-2">
+                    <a href="/" class="hover:bg-opacity-10 hover:bg-white @if(Route::currentRouteName() == 'home') bg-white bg-opacity-10 @endif rounded-lg flex items-center gap-2 p-2">
                         <svg width="34" height="33" viewBox="0 0 30 32" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -56,7 +56,7 @@
                         <h1>Home</h1>
                     </a>
 
-                    <button class="hover:bg-opacity-10 hover:bg-white rounded-lg flex items-center gap-2 p-2 "
+                    <button class="hover:bg-opacity-10 hover:bg-white @if(Route::currentRouteName() == 'explore') bg-white bg-opacity-10 @endif rounded-lg flex items-center gap-2 p-2 "
                         onclick="searchbar()">
                         <svg width="34" height="33" viewBox="0 0 35 33" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -68,7 +68,8 @@
                         </svg>
                         <h1>Explore</h1>
                     </button>
-                    <a href="/notification" class="hover:bg-opacity-10 hover:bg-white rounded-lg flex items-center gap-2 p-2">
+                    <a href="/notification"
+                        class="hover:bg-opacity-10 hover:bg-white rounded-lg flex items-center gap-2 p-2">
                         <svg width="34" height="33" viewBox="0 0 28 31" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -80,7 +81,8 @@
 
                         <h1>Notification</h1>
                     </a>
-                    <a href="/messages" class="hover:bg-opacity-10 hover:bg-white rounded-lg flex items-center gap-2 p-2">
+                    <a href="/messages"
+                        class="hover:bg-opacity-10 hover:bg-white @if(Route::currentRouteName() == 'messages') bg-white bg-opacity-10 @endif rounded-lg flex items-center gap-2 p-2">
                         <svg width="34" height="33" viewBox="0 0 32 29" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -95,8 +97,8 @@
                         <h1>Messages</h1>
                     </a>
 
-                    <a href="{{ auth()->check() ? "/profile/" . auth()->user()->name : "/login" }}"
-                        class="hover:bg-opacity-10 hover:bg-white rounded-lg flex items-center gap-2 p-2">
+                    <a href="{{ auth()->check() ? '/profile/' . auth()->user()->name : '/login' }}"
+                        class="hover:bg-opacity-10 hover:bg-white @if(Route::currentRouteName() == 'profile') bg-white bg-opacity-20 @endif rounded-lg flex items-center gap-2 p-2">
                         <svg width="34" height="33" viewBox="0 0 34 35" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -131,42 +133,49 @@
                     </div>
                     <div class="flex gap-2 items-center">
                         <div class="flex">
-                            @if ( auth()->check() && auth()->user()->image )
-                            <img src="{{ asset('storage/' . auth()->user()->image )}}" alt="" class="w-12 h-12 object-cover rounded-full">
-                        @else
-                            <img src="{{ asset('storage/' . 'posts/f3dwhsH1LfICvGpLSQ3sxjkS9K4tWomYffWpUEuy.png' )}}" alt=""
-                                class="w-12 h-12 object-cover rounded-full">
-                        @endif
+                            @if (auth()->check() && auth()->user()->image)
+                                <img src="{{ asset('storage/' . auth()->user()->image) }}" alt=""
+                                    class="w-12 h-12 object-cover rounded-full">
+                            @else
+                                <img src="{{ asset('storage/' . 'posts/f3dwhsH1LfICvGpLSQ3sxjkS9K4tWomYffWpUEuy.png') }}"
+                                    alt="" class="w-12 h-12 object-cover rounded-full">
+                            @endif
 
                         </div>
                         <div>
-                            @if ( auth()->check() )
-                            <p class="font-semibold text-base">{{ auth()->user()->username }}</p>
-                            <p class="text-sm font-thin">@ {{  auth()->user()->name }}</p>
+                            @if (auth()->check())
+                                <p class="font-semibold text-base">{{ auth()->user()->username }}</p>
+                                <p class="text-sm font-thin">@ {{ auth()->user()->name }}</p>
                             @else
-                            <a href="{{ route('login') }}" class="flex items-center gap-1 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12.59 13L10.29 15.29C10.1963 15.383 10.1219 15.4936 10.0711 15.6154C10.0203 15.7373 9.9942 15.868 9.9942 16C9.9942 16.132 10.0203 16.2627 10.0711 16.3846C10.1219 16.5064 10.1963 16.617 10.29 16.71C10.383 16.8037 10.4936 16.8781 10.6154 16.9289C10.7373 16.9797 10.868 17.0058 11 17.0058C11.132 17.0058 11.2627 16.9797 11.3846 16.9289C11.5064 16.8781 11.617 16.8037 11.71 16.71L15.71 12.71C15.801 12.6149 15.8724 12.5028 15.92 12.38C16.02 12.1365 16.02 11.8635 15.92 11.62C15.8724 11.4972 15.801 11.3851 15.71 11.29L11.71 7.29C11.6168 7.19676 11.5061 7.1228 11.3842 7.07234C11.2624 7.02188 11.1319 6.99591 11 6.99591C10.8681 6.99591 10.7376 7.02188 10.6158 7.07234C10.4939 7.1228 10.3832 7.19676 10.29 7.29C10.1968 7.38324 10.1228 7.49393 10.0723 7.61575C10.0219 7.73757 9.99591 7.86814 9.99591 8C9.99591 8.13186 10.0219 8.26243 10.0723 8.38425C10.1228 8.50607 10.1968 8.61676 10.29 8.71L12.59 11H3C2.73478 11 2.48043 11.1054 2.29289 11.2929C2.10536 11.4804 2 11.7348 2 12C2 12.2652 2.10536 12.5196 2.29289 12.7071C2.48043 12.8946 2.73478 13 3 13H12.59ZM12 2C10.1311 1.99166 8.29724 2.50721 6.70647 3.48819C5.11569 4.46917 3.83165 5.87631 3 7.55C2.88065 7.7887 2.86101 8.06502 2.94541 8.3182C3.0298 8.57137 3.21131 8.78065 3.45 8.9C3.68869 9.01935 3.96502 9.03899 4.2182 8.9546C4.47137 8.8702 4.68065 8.6887 4.8 8.45C5.43219 7.17332 6.39383 6.08862 7.58555 5.30799C8.77727 4.52736 10.1558 4.07912 11.5788 4.00959C13.0017 3.94007 14.4174 4.25178 15.6795 4.91251C16.9417 5.57324 18.0045 6.55903 18.7581 7.768C19.5118 8.97696 19.9289 10.3652 19.9664 11.7894C20.0039 13.2135 19.6605 14.6218 18.9715 15.8688C18.2826 17.1158 17.2731 18.1562 16.0475 18.8824C14.8219 19.6087 13.4246 19.9945 12 20C10.5089 20.0065 9.04615 19.5924 7.77969 18.8052C6.51323 18.0181 5.49435 16.8899 4.84 15.55C4.72065 15.3113 4.51137 15.1298 4.2582 15.0454C4.00502 14.961 3.72869 14.9807 3.49 15.1C3.25131 15.2193 3.0698 15.4286 2.98541 15.6818C2.90101 15.935 2.92065 16.2113 3.04 16.45C3.83283 18.0455 5.03752 19.4002 6.52947 20.374C8.02142 21.3479 9.74645 21.9054 11.5261 21.989C13.3058 22.0726 15.0755 21.6792 16.6521 20.8495C18.2288 20.0198 19.5552 18.784 20.4941 17.2698C21.433 15.7557 21.9503 14.0181 21.9925 12.237C22.0347 10.4559 21.6003 8.69579 20.7342 7.13883C19.8682 5.58187 18.6018 4.28457 17.0663 3.38111C15.5307 2.47765 13.7816 2.00084 12 2V2Z" fill="white"/>
+                                <a href="{{ route('login') }}"
+                                    class="flex items-center gap-1 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M12.59 13L10.29 15.29C10.1963 15.383 10.1219 15.4936 10.0711 15.6154C10.0203 15.7373 9.9942 15.868 9.9942 16C9.9942 16.132 10.0203 16.2627 10.0711 16.3846C10.1219 16.5064 10.1963 16.617 10.29 16.71C10.383 16.8037 10.4936 16.8781 10.6154 16.9289C10.7373 16.9797 10.868 17.0058 11 17.0058C11.132 17.0058 11.2627 16.9797 11.3846 16.9289C11.5064 16.8781 11.617 16.8037 11.71 16.71L15.71 12.71C15.801 12.6149 15.8724 12.5028 15.92 12.38C16.02 12.1365 16.02 11.8635 15.92 11.62C15.8724 11.4972 15.801 11.3851 15.71 11.29L11.71 7.29C11.6168 7.19676 11.5061 7.1228 11.3842 7.07234C11.2624 7.02188 11.1319 6.99591 11 6.99591C10.8681 6.99591 10.7376 7.02188 10.6158 7.07234C10.4939 7.1228 10.3832 7.19676 10.29 7.29C10.1968 7.38324 10.1228 7.49393 10.0723 7.61575C10.0219 7.73757 9.99591 7.86814 9.99591 8C9.99591 8.13186 10.0219 8.26243 10.0723 8.38425C10.1228 8.50607 10.1968 8.61676 10.29 8.71L12.59 11H3C2.73478 11 2.48043 11.1054 2.29289 11.2929C2.10536 11.4804 2 11.7348 2 12C2 12.2652 2.10536 12.5196 2.29289 12.7071C2.48043 12.8946 2.73478 13 3 13H12.59ZM12 2C10.1311 1.99166 8.29724 2.50721 6.70647 3.48819C5.11569 4.46917 3.83165 5.87631 3 7.55C2.88065 7.7887 2.86101 8.06502 2.94541 8.3182C3.0298 8.57137 3.21131 8.78065 3.45 8.9C3.68869 9.01935 3.96502 9.03899 4.2182 8.9546C4.47137 8.8702 4.68065 8.6887 4.8 8.45C5.43219 7.17332 6.39383 6.08862 7.58555 5.30799C8.77727 4.52736 10.1558 4.07912 11.5788 4.00959C13.0017 3.94007 14.4174 4.25178 15.6795 4.91251C16.9417 5.57324 18.0045 6.55903 18.7581 7.768C19.5118 8.97696 19.9289 10.3652 19.9664 11.7894C20.0039 13.2135 19.6605 14.6218 18.9715 15.8688C18.2826 17.1158 17.2731 18.1562 16.0475 18.8824C14.8219 19.6087 13.4246 19.9945 12 20C10.5089 20.0065 9.04615 19.5924 7.77969 18.8052C6.51323 18.0181 5.49435 16.8899 4.84 15.55C4.72065 15.3113 4.51137 15.1298 4.2582 15.0454C4.00502 14.961 3.72869 14.9807 3.49 15.1C3.25131 15.2193 3.0698 15.4286 2.98541 15.6818C2.90101 15.935 2.92065 16.2113 3.04 16.45C3.83283 18.0455 5.03752 19.4002 6.52947 20.374C8.02142 21.3479 9.74645 21.9054 11.5261 21.989C13.3058 22.0726 15.0755 21.6792 16.6521 20.8495C18.2288 20.0198 19.5552 18.784 20.4941 17.2698C21.433 15.7557 21.9503 14.0181 21.9925 12.237C22.0347 10.4559 21.6003 8.69579 20.7342 7.13883C19.8682 5.58187 18.6018 4.28457 17.0663 3.38111C15.5307 2.47765 13.7816 2.00084 12 2V2Z"
+                                            fill="white" />
                                     </svg>
-                                Login
-                            </a>
-
+                                    Login
+                                </a>
                             @endif
 
                         </div>
                     </div>
 
-                    @if ( auth()->check() )
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button type="submit"
-                            class="inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-red-600 hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red active:bg-red-700 transition ease-in-out duration-150">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M4 12C4 12.2652 4.10536 12.5196 4.29289 12.7071C4.48043 12.8946 4.73478 13 5 13H12.59L10.29 15.29C10.1963 15.383 10.1219 15.4936 10.0711 15.6154C10.0203 15.7373 9.9942 15.868 9.9942 16C9.9942 16.132 10.0203 16.2627 10.0711 16.3846C10.1219 16.5064 10.1963 16.617 10.29 16.71C10.383 16.8037 10.4936 16.8781 10.6154 16.9289C10.7373 16.9797 10.868 17.0058 11 17.0058C11.132 17.0058 11.2627 16.9797 11.3846 16.9289C11.5064 16.8781 11.617 16.8037 11.71 16.71L15.71 12.71C15.801 12.6149 15.8724 12.5028 15.92 12.38C16.02 12.1365 16.02 11.8635 15.92 11.62C15.8724 11.4972 15.801 11.3851 15.71 11.29L11.71 7.29C11.6168 7.19676 11.5061 7.1228 11.3842 7.07234C11.2624 7.02188 11.1319 6.99591 11 6.99591C10.8681 6.99591 10.7376 7.02188 10.6158 7.07234C10.4939 7.1228 10.3832 7.19676 10.29 7.29C10.1968 7.38324 10.1228 7.49393 10.0723 7.61575C10.0219 7.73757 9.99591 7.86814 9.99591 8C9.99591 8.13186 10.0219 8.26243 10.0723 8.38425C10.1228 8.50607 10.1968 8.61676 10.29 8.71L12.59 11H5C4.73478 11 4.48043 11.1054 4.29289 11.2929C4.10536 11.4804 4 11.7348 4 12V12ZM17 2H7C6.20435 2 5.44129 2.31607 4.87868 2.87868C4.31607 3.44129 4 4.20435 4 5V8C4 8.26522 4.10536 8.51957 4.29289 8.70711C4.48043 8.89464 4.73478 9 5 9C5.26522 9 5.51957 8.89464 5.70711 8.70711C5.89464 8.51957 6 8.26522 6 8V5C6 4.73478 6.10536 4.48043 6.29289 4.29289C6.48043 4.10536 6.73478 4 7 4H17C17.2652 4 17.5196 4.10536 17.7071 4.29289C17.8946 4.48043 18 4.73478 18 5V19C18 19.2652 17.8946 19.5196 17.7071 19.7071C17.5196 19.8946 17.2652 20 17 20H7C6.73478 20 6.48043 19.8946 6.29289 19.7071C6.10536 19.5196 6 19.2652 6 19V16C6 15.7348 5.89464 15.4804 5.70711 15.2929C5.51957 15.1054 5.26522 15 5 15C4.73478 15 4.48043 15.1054 4.29289 15.2929C4.10536 15.4804 4 15.7348 4 16V19C4 19.7956 4.31607 20.5587 4.87868 21.1213C5.44129 21.6839 6.20435 22 7 22H17C17.7956 22 18.5587 21.6839 19.1213 21.1213C19.6839 20.5587 20 19.7956 20 19V5C20 4.20435 19.6839 3.44129 19.1213 2.87868C18.5587 2.31607 17.7956 2 17 2Z" fill="white"/>
+                    @if (auth()->check())
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit"
+                                class="inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-red-600 hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red active:bg-red-700 transition ease-in-out duration-150">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M4 12C4 12.2652 4.10536 12.5196 4.29289 12.7071C4.48043 12.8946 4.73478 13 5 13H12.59L10.29 15.29C10.1963 15.383 10.1219 15.4936 10.0711 15.6154C10.0203 15.7373 9.9942 15.868 9.9942 16C9.9942 16.132 10.0203 16.2627 10.0711 16.3846C10.1219 16.5064 10.1963 16.617 10.29 16.71C10.383 16.8037 10.4936 16.8781 10.6154 16.9289C10.7373 16.9797 10.868 17.0058 11 17.0058C11.132 17.0058 11.2627 16.9797 11.3846 16.9289C11.5064 16.8781 11.617 16.8037 11.71 16.71L15.71 12.71C15.801 12.6149 15.8724 12.5028 15.92 12.38C16.02 12.1365 16.02 11.8635 15.92 11.62C15.8724 11.4972 15.801 11.3851 15.71 11.29L11.71 7.29C11.6168 7.19676 11.5061 7.1228 11.3842 7.07234C11.2624 7.02188 11.1319 6.99591 11 6.99591C10.8681 6.99591 10.7376 7.02188 10.6158 7.07234C10.4939 7.1228 10.3832 7.19676 10.29 7.29C10.1968 7.38324 10.1228 7.49393 10.0723 7.61575C10.0219 7.73757 9.99591 7.86814 9.99591 8C9.99591 8.13186 10.0219 8.26243 10.0723 8.38425C10.1228 8.50607 10.1968 8.61676 10.29 8.71L12.59 11H5C4.73478 11 4.48043 11.1054 4.29289 11.2929C4.10536 11.4804 4 11.7348 4 12V12ZM17 2H7C6.20435 2 5.44129 2.31607 4.87868 2.87868C4.31607 3.44129 4 4.20435 4 5V8C4 8.26522 4.10536 8.51957 4.29289 8.70711C4.48043 8.89464 4.73478 9 5 9C5.26522 9 5.51957 8.89464 5.70711 8.70711C5.89464 8.51957 6 8.26522 6 8V5C6 4.73478 6.10536 4.48043 6.29289 4.29289C6.48043 4.10536 6.73478 4 7 4H17C17.2652 4 17.5196 4.10536 17.7071 4.29289C17.8946 4.48043 18 4.73478 18 5V19C18 19.2652 17.8946 19.5196 17.7071 19.7071C17.5196 19.8946 17.2652 20 17 20H7C6.73478 20 6.48043 19.8946 6.29289 19.7071C6.10536 19.5196 6 19.2652 6 19V16C6 15.7348 5.89464 15.4804 5.70711 15.2929C5.51957 15.1054 5.26522 15 5 15C4.73478 15 4.48043 15.1054 4.29289 15.2929C4.10536 15.4804 4 15.7348 4 16V19C4 19.7956 4.31607 20.5587 4.87868 21.1213C5.44129 21.6839 6.20435 22 7 22H17C17.7956 22 18.5587 21.6839 19.1213 21.1213C19.6839 20.5587 20 19.7956 20 19V5C20 4.20435 19.6839 3.44129 19.1213 2.87868C18.5587 2.31607 17.7956 2 17 2Z"
+                                        fill="white" />
                                 </svg>
-                            Logout
-                        </button>
-                    </form>
+                                Logout
+                            </button>
+                        </form>
                     @endif
 
                 </div>
@@ -182,7 +191,8 @@
                 @yield('content')
             </div>
 
-            {{-- <aside
+            @if (Route::currentRouteName() == 'home')
+            <aside
                 class="searchbar hidden z-30 bg-black lg:block fixed right-0 min-h-svh w-full lg:w-1/4 border-l border-white border-opacity-20  overflow-y-auto">
                 <div class="h-16 w-full flex-1 border-b border-white border-opacity-25 px-4 py-2 items-center">
                     <form action="{{ route('posts.search') }}" method="GET">
@@ -225,21 +235,95 @@
                         <p>1 post</p>
                     </div>
                 </div>
-            </aside> --}}
+            </aside>
+            @endif
         </div>
     </main>
 
 
 </body>
-    <script>
-        function Openbar() {
-            document.querySelector('.sidebar').classList.toggle('hidden')
-        }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+    integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-        function searchbar() {
-            document.querySelector('.sidebar').classList.toggle('hidden')
-            document.querySelector('.searchbar').classList.toggle('hidden')
-        }
-    </script>
+
+<script>
+    function Openbar() {
+        document.querySelector('.sidebar').classList.toggle('hidden')
+    }
+
+    function searchbar() {
+        document.querySelector('.sidebar').classList.toggle('hidden')
+        document.querySelector('.searchbar').classList.toggle('hidden')
+    }
+
+    function togglePopup() {
+        document.querySelector('.popup').classList.toggle('hidden');
+    }
+
+    //dropdown post menu
+    function toggleDropdown(id) {
+        const dropdown = document.getElementById('dropdown-' + id);
+        dropdown.classList.toggle('hidden');
+
+        document.addEventListener('scroll', function(event) {
+            if (!dropdown.contains(event.target) && event.target !== dropdown) {
+                dropdown.classList.add('hidden');
+            }
+        });
+    }
+
+
+
+    function toggleComment(id) {
+        const comment = document.getElementById('comment-' + id);
+        comment.classList.toggle('translate-y-full');
+    }
+
+    function toggleReplyComment(id) {
+        const replyComment = document.getElementById('replyComment-' + id);
+        const lihatComment = document.getElementById('lihat-' + id)
+        replyComment.classList.toggle('hidden');
+        lihatComment.classList.toggle('hidden')
+    }
+
+    function toggleReply(id) {
+        const reply = document.getElementById('reply-' + id);
+        reply.classList.toggle('hidden');
+    }
+
+    //popup edit modal
+    function openUpdateModal(id , title) {
+        document.getElementById('routeUpdate').setAttribute('action', '{{ url("/post/") }}/' + id);
+        document.getElementById('title').value = title
+        document.getElementById('updateForm').classList.remove('hidden');
+    }
+
+    //cancel edit modal
+    function cancelUpdate() {
+        document.getElementById('routeUpdate').removeAttribute('action');
+        document.getElementById('updateForm').classList.add('hidden')
+    }
+
+    //popup delete modal
+    function openDeleteModal(action) {
+        document.getElementById('routeDelete').setAttribute('action', action);
+        document.getElementById('deleteForm').classList.remove('hidden');
+    }
+
+    //cancel delete modal
+    function cancelDelete() {
+        document.getElementById('routeDelete').removeAttribute('action');
+        document.getElementById('deleteForm').classList.add('hidden');
+    }
+</script>
+
+@if ($errors->any())
+    @foreach ($errors->all() as $error)
+        <script>
+            toastr.warning('{{ $error }}')
+        </script>
+    @endforeach
+@endif
 
 </html>

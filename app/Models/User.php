@@ -60,7 +60,21 @@ class User extends Authenticatable
         return $this->hasMany(Reply::class);
     }
 
-    public function follow(){
-        return $this->hasMany(Follow::class);
+    public function followers()
+    {
+        return $this->hasMany(Follow::class, 'following_id');
+    }
+
+    public function following()
+    {
+        return $this->hasMany(Follow::class, 'follower_id');
+    }
+
+    public function sender(){
+        return $this->hasMany(Chat::class, 'sender_id');
+    }
+
+    public function receiver(){
+        return $this->hasMany(Chat::class, 'receiver_id');
     }
 }

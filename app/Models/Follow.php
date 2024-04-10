@@ -11,11 +11,13 @@ class Follow extends Model
 
     protected $table = 'follows';
 
-    protected $guarded = [
-        'id',
-    ];
+    public function follower()
+    {
+        return $this->belongsTo(User::class, 'follower_id');
+    }
 
-    public function user(){
-        return $this->belongsTo(User::class);
+    public function following()
+    {
+        return $this->belongsTo(User::class, 'following_id');
     }
 }
