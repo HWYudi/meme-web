@@ -85,4 +85,8 @@ class User extends Authenticatable
     public function receiverNotif(){
         return $this->hasMany(Notif::class , 'receiver_id');
     }
+
+    public function role(){
+        return $this->belongsTo(Role::class);
+    }
 }

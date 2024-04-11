@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChatController;
@@ -56,6 +57,4 @@ Route::get('/chat/{name}' , [ChatController::class , 'chat']);
 Route::post('/chat' , [ChatController::class , 'store']);
 
 //for admin
-Route::get('/dashboard' , function() {
-    return view('admin.dashboard');
-});
+Route::get('/dashboard' , [AdminController::class , 'dashboard'])->name('dashboard')->middleware('admin');

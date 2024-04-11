@@ -35,7 +35,7 @@
     <div class="popup fixed z-40 inset-0 flex items-center hidden justify-center  bg-black bg-opacity-80">
         <div class="bg-black rounded-lg p-2 px-5 w-full max-w-md relative">
             <span onclick="togglePopup()" class="text-white cursor-pointer">&times;</span>
-            <form method="POST" action="{{ route('posts.store') }}" class="space-y-4" enctype="multipart/form-data">
+            <form method="POST" id="postform" action="{{ route('posts.store') }}" class="space-y-4" enctype="multipart/form-data">
                 @csrf
                 <div class="flex">
                     @if (auth()->check())
@@ -66,31 +66,6 @@
     <div class="flex justify-center">
         <div class="w-full mt-16 lg:w-1/2 lg:px-10">
             @foreach ($posts as $post)
-                {{-- @if ($post->user->id === auth()->user()->id)
-                    <div class="popup fixed hidden z-40 inset-0 flex items-center justify-center bg-black bg-opacity-80"
-                        id="edit-{{ $post->id }}">
-                        <div class="bg-gray-800 rounded-lg p-4 w-full max-w-md">
-                            <h2 class="text-lg font-semibold text-white mb-4">Update Post</h2>
-                            <form method="POST" action="{{ url('/post', $post->id) }}">
-                                @csrf
-                                @method('PATCH')
-                                <div class="mb-4">
-                                    <label for="title" class="block text-gray-300 mb-1">Title</label>
-                                    <input type="text" id="title" name="title" value="{{ $post->title }}"
-                                        class="w-full px-3 py-2 text-gray-800 bg-gray-200 rounded-md focus:outline-none focus:bg-white"
-                                        placeholder="Enter title" required>
-                                </div>
-
-                                <div class="flex justify-end">
-                                    <button type="button" onclick="confirmEdit({{ $post->id }})"
-                                        class="px-4 py-2 bg-gray-600 text-gray-200 rounded-lg mr-2 hover:bg-gray-700">Cancel</button>
-                                    <button type="submit"
-                                        class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">Save</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                @endif --}}
                 <div class="py-5 flex items-start gap-4">
                     <div>
                         <a href="{{ url('/profile', $post->user->name) }}">
@@ -234,7 +209,7 @@
                             </div>
                         </div>
                         <div class="h-full overflow-y-auto w-full relative">
-                            <img src="{{ 'storage/' . $post->body }}" alt="" class="w-full h-fit object-cover">
+                            <img src="{{ asset('storage/' . $post->body )}}" alt="" class="w-full h-fit object-cover">
                             <div class="flex justify-between p-2 border-y border-white border-opacity-60">
                                 <div class="w-1/2 flex justify-between items-center gap-2">
                                     <div class="flex gap-1 items-center">
@@ -295,8 +270,8 @@
                             <div class="p-4">
                                 @foreach ($post->comment as $comment)
                                     <div class="flex items-start mb-4">
-                                        <img src="{{ $comment->user->image }}" alt="{{ $comment->user->name }}"
-                                            class="w-12 h-12 rounded-full mr-3">
+                                        <img src="{{ asset('storage/' . $comment->user->image) }}" alt="{{ $comment->user->name }}"
+                                            class="w-12 h-12 object-cover rounded-full mr-3">
                                         <div class="rounded-lg w-full">
                                             <div class="flex gap-2 items-center font-normal text-white text-opacity-50">
                                                 <p class="overflow-visible">{{ $comment->user->username }}</p>
@@ -400,6 +375,7 @@
                                 @endif
 
                                 <form action="{{ url('/comment') }}" method="POST"
+                                id="commentform"
                                     class="w-full relative flex items-center">
                                     @csrf
                                     <input type="hidden" name="post_id" value="{{ $post->id }}">

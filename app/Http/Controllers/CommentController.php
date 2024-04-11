@@ -14,13 +14,13 @@ class CommentController extends Controller
             'body' => 'required',
         ]);
 
-        Comment::create([
+            Comment::create([
             'post_id' => $request->post_id,
             'user_id' => auth()->user()->id,
             'body' => $request->body
         ]);
 
-        return back();
+        return back()->with('success', 'Komentar Berhasil Di Tambahkan');
     }
 
     public function reply(Request $request){
