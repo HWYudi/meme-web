@@ -1,13 +1,12 @@
 @extends('admin.template')
 @section('content')
     <!-- Container for demo purpose -->
-    <div class="container my-12 py-12 mx-auto px-4 md:px-6 lg:px-12">
-
+    <div class="container py-12 mx-auto px-4 md:px-6 lg:px-12">
         <!--Section: Design Block-->
-        <section class="mb-20 text-gray-800">
-            <div class="w-full flex justify-end items-center mb-4">
-                <form method="GET" class="flex items-center">
-                    <input type="text" placeholder="Search..."
+        <section class="flex flex-col gap-5 text-gray-800">
+            <div class="w-full flex justify-end items-center">
+                <form method="GET" class="flex items-center" action="{{ url('/dashboard/search') }}">
+                    <input type="text" name="search" placeholder="Search..."
                         class="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-blue-500">
                     <button type="submit"
                         class="ml-2 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Search</button>
@@ -57,17 +56,15 @@
                                                 </td>
                                             </tr>
                                         </tbody>
-                                    @endforeach
-                                </table>
+                                        @endforeach
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-        </section>
-        <!--Section: Design Block-->
-
+                {{ $users->links() }}
+            </section>
     </div>
     <!-- Container for demo purpose -->
 @endsection

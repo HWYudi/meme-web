@@ -58,3 +58,4 @@ Route::post('/chat' , [ChatController::class , 'store']);
 
 //for admin
 Route::get('/dashboard' , [AdminController::class , 'dashboard'])->name('dashboard')->middleware('admin');
+Route::get('/dashboard/search' , [AdminController::class , 'search'])->middleware('admin');

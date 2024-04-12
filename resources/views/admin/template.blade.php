@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   @vite('resources/css/app.css')
 </head>
-<body class="text-white">
+<body>
    <aside id="default-sidebar" class="-translate-x-full lg:translate-x-0 duration-200 fixed top-0 left-0 z-40 w-full md:w-64 h-screen bg-[#263544] text-[#CAD2CB]">
       <button onclick="toggleSidebar()" type="button" class="absolute right-2 mt-2 text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -64,23 +64,24 @@
       <div class="grid grid-cols-1 lg:grid-cols-4 mt-8 gap-5 text-[#CAD2CB]">
          <div class="bg-[#1F2940] p-4 rounded-lg">
             <h1 class="text-xl font-bold">User Total</h1>
-            <h1 class="text-xl font-bold">4</h1>
+            <h1 class="text-xl font-bold">{{ auth()->user()->count()}}</h1>
          </div>
          <div class="bg-[#1F2940] p-4 rounded-lg">
-            <h1 class="text-xl font-bold">User Total</h1>
-            <h1 class="text-xl font-bold">4</h1>
+            <h1 class="text-xl font-bold">Postingan Total</h1>
+            <h1 class="text-xl font-bold">{{ auth()->user()->post()->count()}}</h1>
          </div>
          <div class="bg-[#1F2940] p-4 rounded-lg">
-            <h1 class="text-xl font-bold">User Total</h1>
-            <h1 class="text-xl font-bold">4</h1>
+            <h1 class="text-xl font-bold">Komen Total</h1>
+            <h1 class="text-xl font-bold">{{ auth()->user()->comment()->count()}}</h1>
          </div>
          <div class="bg-[#1F2940] p-4 rounded-lg">
-            <h1 class="text-xl font-bold">User Total</h1>
-            <h1 class="text-xl font-bold">4</h1>
+            <h1 class="text-xl font-bold">Like Total</h1>
+            <h1 class="text-xl font-bold">{{ auth()->user()->like()->count()}}</h1>
          </div>
       </div>
    </div>
  @yield('content')
+
 </div>
 
 </body>
