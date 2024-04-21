@@ -1,5 +1,6 @@
 <?php
 
+use Inertia\Inertia;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\AuthController;
@@ -59,3 +60,5 @@ Route::post('/chat' , [ChatController::class , 'store']);
 //for admin
 Route::get('/dashboard' , [AdminController::class , 'dashboard'])->name('dashboard')->middleware('admin');
 Route::get('/dashboard/search' , [AdminController::class , 'search'])->middleware('admin');
+
+Route::get('/inertia' , [PostController::class , 'inertia']);

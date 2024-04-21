@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class PostController extends Controller
 {
@@ -12,6 +13,11 @@ class PostController extends Controller
     {
         $posts = Post::with(['like', 'user', 'comment.reply'])->latest()->get();
         return view('homepage', compact('posts'));
+    }
+
+    public function inertia(){
+        $posts = Post::with(['like', 'user', 'comment.reply'])->latest()->get();
+        return Inertia::render('Inertia', ['posts' => $posts]);
     }
 
 
