@@ -17,7 +17,8 @@ class PostController extends Controller
 
     public function inertia(){
         $posts = Post::with(['like', 'user', 'comment.reply'])->latest()->get();
-        return Inertia::render('Inertia', ['posts' => $posts]);
+        $user = auth()->user();
+        return Inertia::render('Inertia', ['posts' => $posts , 'user' => $user]);
     }
 
 
@@ -46,7 +47,7 @@ class PostController extends Controller
             'body' => $imagePath,
         ]);
 
-        return back()->with('success', 'Postingan Berhasil Di Tambahkan');
+        return to_route('posts.store')->with('success', 'Postingan Berhasil Di Tambahkan');
     }
 
     public function like($id)
@@ -54,9 +55,14 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         $post->like()->create(['user_id' => auth()->id()]);
 
-        return response()->json(['likes_count' => $post->like->count()]);
+        // return response()->json(['likes_count' => $post->like->count()]);
     }
 
+    public function unlike($id){
+        $post = Post::findOrFail($id);
+        $post->like()->where('user_id', auth()->id())->delete();
+        // return response()->json(['likes_count' => $post->like->count()]);
+    }
 
 
     public function destroy($id)
