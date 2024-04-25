@@ -62,4 +62,4 @@ Route::post('/chat' , [ChatController::class , 'store']);
 Route::get('/dashboard' , [AdminController::class , 'dashboard'])->name('dashboard')->middleware('admin');
 Route::get('/dashboard/search' , [AdminController::class , 'search'])->middleware('admin');
 
-Route::get('/inertia' , [PostController::class , 'inertia']);
+Route::get('/inertia' , [PostController::class , 'inertia'])->name('inertia');

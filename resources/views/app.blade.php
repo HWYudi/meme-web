@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <main class="bg-black text-white min-h-screen w-full">
+    <main class="bg-black text-white">
         <!-- header page -->
         <!-- aside -->
         <aside
