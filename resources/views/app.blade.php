@@ -209,7 +209,7 @@
 
 
         <!-- main content page -->
-        <div class="flex justify-center">
+        <div class="flex min-h-screen bg-black text-white justify-center">
             <div class="w-full lg:w-1/2 px-5 py-5">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white"
                         class="bi bi-list lg:hidden" viewBox="0 0 16 16" onclick="Openbar()">

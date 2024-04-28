@@ -15,10 +15,21 @@ class PostController extends Controller
         return view('homepage', compact('posts'));
     }
 
-    public function inertia(){
+    public function inertia()
+    {
         $posts = Post::with(['like', 'user', 'comment.reply'])->latest()->get();
         $user = auth()->user();
-        return Inertia::render('Inertia', ['posts' => $posts , 'user' => $user]);
+        return Inertia::render('Inertia', ['posts' => $posts, 'user' => $user]);
+    }
+
+    public function detailpost($name, $id)
+    {
+        $post = Post::with(['like', 'user', 'comment.reply' , 'comment.user'])->where('id', $id)->whereHas('user', function ($query) use ($name) {
+            $query->where('name', $name);
+        })->firstOrFail();
+        $user = auth()->user();
+
+        return Inertia::render('detailPost', ['post' => $post , 'user' => $user]);
     }
 
 
@@ -59,7 +70,8 @@ class PostController extends Controller
         // return response()->json(['likes_count' => $post->like->count()]);
     }
 
-    public function unlike($id){
+    public function unlike($id)
+    {
         $post = Post::findOrFail($id);
         $post->like()->where('user_id', auth()->id())->delete();
         // return response()->json(['likes_count' => $post->like->count()]);

@@ -20,7 +20,7 @@ class CommentController extends Controller
             'body' => $request->body
         ]);
 
-        return back()->with('success', 'Komentar Berhasil Di Tambahkan');
+        return back()->with('message', 'Komentar Berhasil Di Tambahkan');
     }
 
     public function reply(Request $request){

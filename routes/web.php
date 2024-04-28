@@ -63,3 +63,4 @@ Route::get('/dashboard' , [AdminController::class , 'dashboard'])->name('dashboa
 Route::get('/dashboard/search' , [AdminController::class , 'search'])->middleware('admin');
 
 Route::get('/inertia' , [PostController::class , 'inertia'])->name('inertia');
+Route::get('/{name}/post/{id}' , [PostController::class , 'detailpost'])->name('detailpost');

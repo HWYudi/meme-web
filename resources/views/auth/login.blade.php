@@ -29,13 +29,17 @@
                     <p class="absolute bottom-0 text-sm text-red-500">{{ $message }}</p>
                 @enderror
             </div>
-            <div class="pb-5 relative">
+            <div class="relative">
                 <label for="password" class="block">Password</label>
                 <input type="password" name="password" placeholder="Password" id="password"
                     class="w-full p-2 bg-slate-400 border @error('username') border-red-500 @enderror rounded-lg shadow-lg">
                 @error('password')
                     <p class="absolute bottom-0 text-sm text-red-500">{{ $message }}</p>
                 @enderror
+            </div>
+            <div class="flex items-center gap-1 py-2">
+                <input type="checkbox" name="remember" id="remember">
+                <label for="remember">Remember me</label>
             </div>
             <button type="submit" class="w-full p-2 bg-slate-800 rounded-lg shadow-lg">Register</button>
         </form>

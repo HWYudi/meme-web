@@ -1,7 +1,7 @@
 @extends('template.index')
 @section('title', 'MIM | Home')
 @section('content')
-
+{{json_encode($posts)}}
     <div
         class="fixed top-0 z-10 flex justify-center items-center h-16 w-full border-b border-white border-opacity-20 bg-black">
         <div class="absolute left-3 lg:hidden" onclick="Openbar()">
