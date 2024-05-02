@@ -13,7 +13,7 @@
     border-bottom-color: transparent;
     border-radius: 50%;
     display: inline-block;
-    box-sizing: border-box;
+    box-sizing : border-box;
     animation: rotation 1s linear infinite;
     }
 
@@ -24,6 +24,15 @@
     100% {
         transform: rotate(360deg);
     }
+    }
+
+    /* .comment-container {
+        overflow: hidden;
+    } */
+
+    .comment-container {
+        word-wrap: break-word;
+        word-break: break-all;
     }
 
 

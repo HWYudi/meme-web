@@ -66,7 +66,7 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         $post->like()->create(['user_id' => auth()->id()]);
 
-        return to_route('inertia')->with('success', 'Postingan Berhasil Di Like');
+        return back()->with('success', 'Postingan Berhasil Di Like');
         // return response()->json(['likes_count' => $post->like->count()]);
     }
 
@@ -75,7 +75,7 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         $post->like()->where('user_id', auth()->id())->delete();
         // return response()->json(['likes_count' => $post->like->count()]);
-        return to_route('inertia')->with('success', 'Postingan Berhasil Di UnLike');
+        return back()->with('success', 'Postingan Berhasil Di UnLike');
     }
 
 

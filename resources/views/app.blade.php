@@ -1,4 +1,4 @@
-<html>
+<html class="scroll-smooth">
 
 <head>
     <meta charset="utf-8" />
@@ -209,8 +209,8 @@
 
 
         <!-- main content page -->
-        <div class="flex min-h-screen bg-black text-white justify-center">
-            <div class="w-full lg:w-1/2 px-5 py-5">
+        <div class="flex  bg-black text-white justify-center">
+            <div class="w-full min-h-screen lg:w-1/2 px-5 py-5">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white"
                         class="bi bi-list lg:hidden" viewBox="0 0 16 16" onclick="Openbar()">
                         <path fill-rule="evenodd"
@@ -273,6 +273,22 @@
      function togglePopup() {
         document.querySelector('.popup').classList.toggle('hidden');
     }
+
+    function dropdownpost(id){
+        document.getElementById('dropdown-post-' + id).classList.toggle('hidden')
+    }
+
+    function dropdown(id){
+        document.getElementById('dropdown-' + id).classList.toggle('hidden')
+    }
+
+    function dropdowncomment(id){
+        document.getElementById('dropdown-comment-' + id).classList.toggle('hidden')
+    }
+    function formfocus() {
+    document.getElementById('comment-input').focus(); // Mengubah 'formfocus' menjadi 'comment-input'
+}
+
 </script>
 
 </html>
