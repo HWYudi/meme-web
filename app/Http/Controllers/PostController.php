@@ -24,7 +24,7 @@ class PostController extends Controller
 
     public function detailpost($name, $id)
     {
-        $post = Post::with(['like', 'user', 'comment.reply' , 'comment.user'])->where('id', $id)->whereHas('user', function ($query) use ($name) {
+        $post = Post::with(['like', 'user', 'comment.reply.user' , 'comment.user'])->where('id', $id)->whereHas('user', function ($query) use ($name) {
             $query->where('name', $name);
         })->firstOrFail();
         $user = auth()->user();

@@ -286,8 +286,13 @@
         document.getElementById('dropdown-comment-' + id).classList.toggle('hidden')
     }
     function formfocus() {
-    document.getElementById('comment-input').focus(); // Mengubah 'formfocus' menjadi 'comment-input'
-}
+    document.getElementById('comment-input').focus();
+    }
+    function toggleReply(id) {
+        const reply = document.getElementById('replyComment-' + id);
+        reply.classList.toggle('hidden');
+        document.getElementById('comment-' + id).focus();
+    }
 
 </script>
 
