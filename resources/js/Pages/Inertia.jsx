@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Inertia } from "@inertiajs/inertia";
 import { Link, usePage } from "@inertiajs/inertia-react";
+import dateFormat, { masks } from "dateformat";
 
 export default function home({ posts, user }) {
     const [Title, setTitle] = useState("");
@@ -131,10 +132,15 @@ export default function home({ posts, user }) {
                     <div className="w-full">
                         <div className="flex justify-between">
                             <div className="mb-4">
-                                <h1 className="font-semibold text-base text-[#DCDEE0]">
-                                    {post.user.name}
-                                </h1>
-                                <p className="text-[#E1E3E4]  text-sm">
+                                <div className="flex items-center gap-2">
+                                    <h1 className="font-semibold text-base text-[#DCDEE0]">
+                                        {post.user.name}
+                                    </h1>
+                                    <p className="text-[#E1E3E4] text-sm">
+                                        {dateFormat(post.created_at, "dd mm yyyy")}
+                                    </p>
+                                </div>
+                                <p className="text-[#E1E3E4]  text-md">
                                     {post.title}
                                 </p>
                             </div>
@@ -290,7 +296,10 @@ export default function home({ posts, user }) {
                                 </svg>
                             </Link>
                             <div>
-                                <button className="cursor-pointer hover:bg-gray-700 rounded-full w-fit p-2 h-fit" onClick={() => dropdownpost(post.id)}>
+                                <button
+                                    className="cursor-pointer hover:bg-gray-700 rounded-full w-fit p-2 h-fit"
+                                    onClick={() => dropdownpost(post.id)}
+                                >
                                     <svg
                                         width="25"
                                         height="27"
@@ -305,7 +314,10 @@ export default function home({ posts, user }) {
                                         />
                                     </svg>
                                 </button>
-                                <div className="absolute z-10 mt-2 w-48 bg-white shadow-lg rounded-md overflow-hidden hidden" id={`dropdown-post-${post.id}`}>
+                                <div
+                                    className="absolute z-10 mt-2 w-48 bg-white shadow-lg rounded-md overflow-hidden hidden"
+                                    id={`dropdown-post-${post.id}`}
+                                >
                                     <button
                                         href="#"
                                         className="flex w-full gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"

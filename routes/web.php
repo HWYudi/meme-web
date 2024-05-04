@@ -55,6 +55,8 @@ Route::get('/user' , [AuthController::class , 'user']);
 
 //for chat
 Route::get('/messages' , [ChatController::class , 'index']);
+Route::get('/inbox' , [ChatController::class , 'index']);
+Route::get('/message/{name}' , [ChatController::class , 'chat']);
 Route::get('/chat/{name}' , [ChatController::class , 'chat']);
 Route::post('/chat' , [ChatController::class , 'store']);
 
