@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Inertia } from "@inertiajs/inertia";
 import { Link, usePage } from "@inertiajs/inertia-react";
 import dateFormat, { masks } from "dateformat";
+import moment from "moment";
 
 export default function home({ posts, user }) {
     const [Title, setTitle] = useState("");
@@ -124,11 +125,13 @@ export default function home({ posts, user }) {
                     key={post.id}
                     className="flex py-4 border-y border-gray-600 gap-2 relative"
                 >
+                    <Link href={`/profile/${post.user.name}`}>
                     <img
                         src={"storage/" + post.user.image}
                         alt=""
                         className="w-12 h-12 object-cover rounded-full"
                     />
+                    </Link>
                     <div className="w-full">
                         <div className="flex justify-between">
                             <div className="mb-4">
@@ -137,7 +140,7 @@ export default function home({ posts, user }) {
                                         {post.user.name}
                                     </h1>
                                     <p className="text-[#E1E3E4] text-sm">
-                                        {dateFormat(post.created_at, "dd mm yyyy")}
+                                        {moment.utc(post.created_at).fromNow()}
                                     </p>
                                 </div>
                                 <p className="text-[#E1E3E4]  text-md">

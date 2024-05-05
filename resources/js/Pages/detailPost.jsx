@@ -3,6 +3,7 @@ import React from "react";
 import { useState } from "react";
 import { usePage } from "@inertiajs/inertia-react";
 import { Link } from "@inertiajs/inertia-react";
+import moment from "moment";
 
 export default function detailPost({ post, user }) {
     const { flash } = usePage().props;
@@ -64,7 +65,7 @@ export default function detailPost({ post, user }) {
         console.log(commentId);
     };
     return (
-        <div className="flex py-4 border-y border-gray-600 gap-2 relative">
+        <div className="flex px-4 lg:px-10 py-4 border-y border-gray-600 gap-2 relative">
             <img
                 src={"/storage/" + post.user.image}
                 alt=""
@@ -310,7 +311,7 @@ export default function detailPost({ post, user }) {
                                         {comment.user.name}
                                     </p>
                                     <p className="text-[#E1E3E4] text-sm">
-                                        {comment.created_at}
+                                    {moment.utc(comment.created_at).fromNow()}
                                     </p>
                                 </div>
                             </div>

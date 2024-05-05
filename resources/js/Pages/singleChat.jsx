@@ -1,8 +1,25 @@
 import { Link } from "@inertiajs/inertia-react";
+import { useState } from "react";
 import React from "react";
+import { Inertia } from "@inertiajs/inertia";
+import moment from "moment";
 
 export default function SingleChat({ messages ,user ,receiver }) {
+    const [message ,setmessage] = useState('');
     console.log(messages);
+    console.log(user);
+    console.log(receiver);
+
+    const handleChat = (e) => {
+        e.preventDefault();
+        const formData = {
+            sender_id : user.id,
+            receiver_id : receiver.id,
+            message : message
+        }
+
+        Inertia.post('/chat' , formData);
+    }
     return (
         <div className="w-full">
                 <div className="h-16 border border-white border-opacity-20 flex items-center">
@@ -28,7 +45,7 @@ export default function SingleChat({ messages ,user ,receiver }) {
                             >
                                 {message.sender_id !== user.id && (
                                     <img
-                                        src={message.sender.image}
+                                        src={`/storage/${message.sender.image}`}
                                         alt={message.sender.name}
                                         className="w-10 h-10 object-cover rounded-full mr-4"
                                     />
@@ -43,8 +60,8 @@ export default function SingleChat({ messages ,user ,receiver }) {
                                     >
                                         <p>{message.message}</p>
                                     </div>
-                                    <p className="flex justify-end text-xs text-gray-300">
-                                        {message.created_at}
+                                    <p className="flex justify-end capitalize text-xs text-gray-300">
+                                    {moment.utc(message.created_at).fromNow()}
                                     </p>
                                 </div>
                             </div>
@@ -62,17 +79,13 @@ export default function SingleChat({ messages ,user ,receiver }) {
                     )}
                 </div>
                 <div className="fixed bottom-0 w-full lg:w-3/4 border-t border-white border-opacity-20 py-4 px-6 gap-4">
-                    <form className="flex items-center gap-4">
-                        <input type="hidden" name="sender_id" value={user.id} />
-                        <input
-                            type="hidden"
-                            name="receiver_id"
-                            value={user.id}
-                        />
+                    <form onSubmit={handleChat} className="flex items-center gap-4">
                         <input
                             type="text"
                             placeholder="Type your message..."
                             name="message"
+                            value={message}
+                            onChange={(e) => setmessage(e.target.value)}
                             className="w-full px-4 py-2 rounded-lg border text-black border-gray-300 focus:outline-none focus:border-blue-500"
                         />
                         <button

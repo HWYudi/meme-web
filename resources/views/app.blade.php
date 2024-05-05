@@ -211,11 +211,23 @@
         <!-- main content page -->
         <div class="flex bg-black text-white justify-end">
             <div class="w-full min-h-screen lg:w-3/4">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white"
+                <div class="h-16 lg:hidden sticky top-0 z-10 bg-black flex items-center justify-between px-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white"
                         class="bi bi-list lg:hidden" viewBox="0 0 16 16" onclick="Openbar()">
                         <path fill-rule="evenodd"
                             d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
                     </svg>
+                    <div>
+                        <a href="/inertia" class="w-full flex gap-2 items-center">
+                            <img src="https://ichef.bbci.co.uk/news/976/cpsprodpb/16620/production/_91408619_55df76d5-2245-41c1-8031-07a4da3f313f.jpg"
+                            alt="" class="w-10 h-10 rounded-full">
+                            <h1 class="text-xl font-bold">MIM</h1>
+                        </a>
+                    </div>
+                    <a href="{{ route('profile', auth()->user()->name) }}">
+                        <img src="{{ asset('storage/' . auth()->user()->image) }}" alt="" class="w-10 h-10 object-cover rounded-full">
+                    </a>
+                </div>
                     @inertia
             </div>
         </div>
@@ -270,6 +282,10 @@
 
 </body>
 <script>
+    function Openbar() {
+        document.querySelector('.sidebar').classList.toggle('hidden');
+    }
+
      function togglePopup() {
         document.querySelector('.popup').classList.toggle('hidden');
     }
