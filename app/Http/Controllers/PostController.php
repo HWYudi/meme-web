@@ -31,13 +31,7 @@ class PostController extends Controller
 
         return Inertia::render('detailPost', ['post' => $post , 'user' => $user]);
     }
-
-
-    public function following()
-    {
-        $posts = Post::with(['like', 'user', 'comment.reply'])->latest()->get();
-        return view('following', compact('posts'));
-    }
+    
 
 
     public function store(Request $request)

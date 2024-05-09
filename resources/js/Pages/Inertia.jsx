@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Inertia } from "@inertiajs/inertia";
 import { Link, usePage } from "@inertiajs/inertia-react";
 import dateFormat, { masks } from "dateformat";
+import { Head } from "@inertiajs/inertia-react";
 import moment from "moment";
 
 export default function home({ posts, user }) {
@@ -49,6 +50,9 @@ export default function home({ posts, user }) {
     console.log(flash.message);
     return (
         <div className="px-2 lg:px-10 w-full lg:w-2/3">
+            <Head>
+                <title>MIMERS</title>
+            </Head>
             {flash.message && (
                 <div class="fixed top-0 right-0 p-3">{flash.message}</div>
             )}

@@ -29,7 +29,7 @@
             </div>
             <div class="flex flex-col gap-3 p-4">
                 <a href="/"
-                    class="hover:bg-opacity-10 hover:bg-white @if (Route::currentRouteName() == 'home') bg-white bg-opacity-10 @endif rounded-lg flex items-center gap-2 p-2">
+                    class="hover:bg-opacity-10 hover:bg-white @if (Route::currentRouteName() == 'home' || Route::currentRouteName() == 'detailpost') bg-white bg-opacity-10 @endif rounded-lg flex items-center gap-2 p-2">
                     <svg width="34" height="33" viewBox="0 0 30 32" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -308,6 +308,11 @@
         const reply = document.getElementById('replyComment-' + id);
         reply.classList.toggle('hidden');
         document.getElementById('comment-' + id).focus();
+    }
+
+    function toggleSeeReply(id){
+        const reply = document.getElementById('seeReplyComment-' + id);
+        reply.classList.toggle('hidden');
     }
 
 </script>

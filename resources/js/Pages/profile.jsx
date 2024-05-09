@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "@inertiajs/inertia-react";
 import moment from "moment";
 import { Inertia } from "@inertiajs/inertia";
+import { Head } from "@inertiajs/inertia-react";
 
 export default function Profile({ user, auth_user }) {
     console.log(user);
@@ -16,6 +17,9 @@ export default function Profile({ user, auth_user }) {
     };
     return (
         <div>
+            <Head>
+                <title>{`${user.name} (@${user.username})`}</title>
+            </Head>
             <div className="flex gap-5 px-4 lg:px-10 py-6 lg:py-14">
                 <div className="flex flex-col gap-5 w-28 min-w-28 max-w-28 items-center">
                     <img
@@ -127,7 +131,7 @@ export default function Profile({ user, auth_user }) {
                 {user.post.map((post) => {
                     return (
                         <div key={post.id}>
-                            <Link href={`/post/${post.id}`}>
+                            <Link href={`/${post.user.name}/post/${post.id}`}>
                                 <img
                                     src={`/storage/${post.body}`}
                                     alt=""

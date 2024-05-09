@@ -4,6 +4,7 @@ import { useState } from "react";
 import { usePage } from "@inertiajs/inertia-react";
 import { Link } from "@inertiajs/inertia-react";
 import moment from "moment";
+import { Head } from "@inertiajs/inertia-react";
 
 export default function detailPost({ post, user }) {
     const { flash } = usePage().props;
@@ -61,11 +62,15 @@ export default function detailPost({ post, user }) {
         };
         Inertia.post(`/reply`, formData, {
             preserveScroll: true,
+            onFinish: () => setreply(""),
         });
         console.log(commentId);
     };
     return (
         <div className="px-4 lg:px-10 py-4">
+            <Head>
+                <title>{`MIMERS - ${post.title}`}</title>
+            </Head>
             <div className="w-full lg:w-2/3 flex gap-2 relative">
                 <img
                     src={"/storage/" + post.user.image}
@@ -250,7 +255,9 @@ export default function detailPost({ post, user }) {
                             </svg>
                         </div>
                     </div>
-                <p className="text-white text-sm text-opacity-50">{post.comment.length} balasan</p>
+                    <p className="text-white text-sm text-opacity-50">
+                        {post.comment.length} balasan
+                    </p>
                 </div>
             </div>
             {loading ? (
@@ -315,39 +322,37 @@ export default function detailPost({ post, user }) {
                                 </p>
                             </div>
                         </div>
-                        <p>{comment.body}</p>
+                        <p className="break-all">{comment.body}</p>
                         <button
-                            className="text-[#2B7BC4] text-xs"
+                            className="text-sm font-medium px-3 py-1 rounded-lg hover:bg-opacity-20 hover:bg-white"
                             onClick={() => toggleReply(comment.id)}
                         >
                             reply
                         </button>
-                        {loading ? (
-                            <div className="flex items-center justify-center">
-                                <span class="loader"></span>
-                            </div>
-                        ) : (
-                            <form
-                                onSubmit={(e) => handlereply(e, comment.id)}
-                                class="w-full hidden py-2 relative flex items-center gap-4"
-                                id={`replyComment-${comment.id}`}
-                            >
-                                <img
-                                    src={`/storage/${user.image}`}
-                                    alt=""
-                                    className="w-12 h-12 object-cover rounded-full"
-                                />
-                                <input
-                                    id={`comment-${comment.id}`}
-                                    type="text"
-                                    autoComplete="off"
-                                    spellCheck="false"
-                                    placeholder={`Reply to ${comment.user.name}`}
-                                    onChange={(e) => setreply(e.target.value)}
-                                    name="body"
-                                    class="placeholder-text-white w-full h-full bg-transparent border-b border-white border-opacity-50 focus:border-opacity-100 focus:outline-none"
-                                />
 
+                        <form
+                            onSubmit={(e) => handlereply(e, comment.id)}
+                            class="w-full hidden py-2 relative flex items-center gap-4"
+                            id={`replyComment-${comment.id}`}
+                        >
+                            <img
+                                src={`/storage/${user.image}`}
+                                alt=""
+                                className="w-12 h-12 object-cover rounded-full"
+                            />
+                            <input
+                                id={`comment-${comment.id}`}
+                                type="text"
+                                autoComplete="off"
+                                spellCheck="false"
+                                value={reply}
+                                placeholder={`Reply to ${comment.user.name}`}
+                                onChange={(e) => setreply(e.target.value)}
+                                name="body"
+                                class="placeholder-text-white w-full h-full bg-transparent border-b border-white border-opacity-50 focus:border-opacity-100 focus:outline-none"
+                            />
+
+                            <div className="flex items-center justify-center gap-2">
                                 <button
                                     type="submit"
                                     className="hover:bg-blue-600 rounded-full p-2 flex items-center justify-center"
@@ -365,10 +370,32 @@ export default function detailPost({ post, user }) {
                                         />
                                     </svg>
                                 </button>
-                            </form>
-                        )}
+                                <button
+                                    onClick={() => toggleReply(comment.id)}
+                                    className="p-2 flex items-center justify-center rounded-full hover:bg-white hover:bg-opacity-30"
+                                >
+                                    <svg
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            fill-rule="evenodd"
+                                            clip-rule="evenodd"
+                                            d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12ZM12 13.4142L8.70711 16.7071L7.29289 15.2929L10.5858 12L7.29289 8.70711L8.70711 7.29289L12 10.5858L15.2929 7.29289L16.7071 8.70711L13.4142 12L16.7071 15.2929L15.2929 16.7071L12 13.4142Z"
+                                            fill="#B2071D"
+                                        />
+                                    </svg>
+                                </button>
+                            </div>
+                        </form>
                         {comment.reply.length > 0 && (
-                            <button className="flex items-center bg-slate-300 rounded-lg hover:bg-slate-600">
+                            <button
+                                onClick={() => toggleSeeReply(comment.id)}
+                                className="flex items-center py-2 px-2 rounded-lg hover:bg-[#263850]"
+                            >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="20"
@@ -382,25 +409,41 @@ export default function detailPost({ post, user }) {
                                         d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4"
                                     />
                                 </svg>
-                                <p>{comment.reply.length} Balasan</p>
+                                <p className="text-[#3DA0F5] text-base">
+                                    {comment.reply.length} Balasan
+                                </p>
                             </button>
                         )}
-                        {comment.reply.map((reply) => (
-                            <div
-                                key={reply.id}
-                                className="flex gap-2 w-fit rounded-lg"
-                            >
-                                <img
-                                    src={`/storage/${reply.user.image}`}
-                                    alt=""
-                                    className="w-12 h-12 object-cover rounded-full"
-                                />
-                                <div>
-                                    <p>{reply.user.name}</p>
-                                    <p>{reply.body}</p>
+                        <div
+                            className="hidden"
+                            id={`seeReplyComment-${comment.id}`}
+                        >
+                            {comment.reply.map((reply) => (
+                                <div
+                                    key={reply.id}
+                                    className="flex gap-4 py-2 w-fit rounded-lg"
+                                >
+                                    <img
+                                        src={`/storage/${reply.user.image}`}
+                                        alt=""
+                                        className="w-12 h-12 object-cover rounded-full"
+                                    />
+                                    <div>
+                                        <div className="flex gap-2 items-center">
+                                            <h1 className="font-semibold">
+                                                {reply.user.name}
+                                            </h1>
+                                            <p className="text-xs">
+                                                {moment
+                                                    .utc(reply.created_at)
+                                                    .fromNow()}
+                                            </p>
+                                        </div>
+                                        <p>{reply.body}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
                     <div>
                         <button

@@ -35,7 +35,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 //for posts
-Route::get('/following', [PostController::class, 'following'])->name('posts.index');
 Route::post('/', [PostController::class, 'store'])->name('posts.store')->middleware('checkauth');
 Route::patch('/post/{id}', [PostController::class, 'update']);
 Route::delete('/post/{id}', [PostController::class, 'destroy']);
@@ -65,5 +64,5 @@ Route::post('/chat' , [ChatController::class , 'store']);
 Route::get('/dashboard' , [AdminController::class , 'dashboard'])->name('dashboard')->middleware('admin');
 Route::get('/dashboard/search' , [AdminController::class , 'search'])->middleware('admin');
 
-Route::get('/' , [PostController::class , 'inertia'])->name('inertia');
+Route::get('/' , [PostController::class , 'inertia'])->name('home');
 Route::get('/{name}/post/{id}' , [PostController::class , 'detailpost'])->name('detailpost');
