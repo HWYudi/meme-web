@@ -48,6 +48,7 @@ Route::post('/reply', [CommentController::class, 'reply'])->middleware('checkaut
 Route::get('/profile/{name}', [AuthController::class, 'profile'])->name('profile');
 Route::get('/account/edit', [AuthController::class, 'edit'])->name('profile.edit');
 Route::post('/profile/{name}' , [AuthController::class , 'follow']);
+Route::delete('/profile/{name}' , [AuthController::class , 'unfollow']);
 Route::get('profile/{name}/{id}' , [AuthController::class , 'post'])->name('profile.post');
 Route::post('/account/edit/{id}', [AuthController::class, 'update']);
 Route::get('/search', [PostController::class, 'search'])->name('posts.search');

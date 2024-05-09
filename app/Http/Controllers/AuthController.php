@@ -130,9 +130,16 @@ class AuthController extends Controller
     {
         $user = User::where('name', $name)->firstOrFail();
         Follow::create([
-            'user_id' => auth()->id(),
+            'follower_id' => auth()->id(),
             'following_id' => $user->id
         ]);
         return back();
+    }
+
+    public function unfollow($name)
+    {
+        $user = User::where('name', $name)->firstOrFail();
+        Follow::where('follower_id', auth()->id())->where('following_id', $user->id)->delete();
+        return back();  
     }
 }

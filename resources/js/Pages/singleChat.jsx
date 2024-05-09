@@ -50,7 +50,7 @@ export default function SingleChat({ messages ,user ,receiver }) {
                                         className="w-10 h-10 object-cover rounded-full mr-4"
                                     />
                                 )}
-                                <div>
+                                <div className="max-w-[50%]">
                                     <div
                                         className={`${
                                             message.sender_id === user.id
@@ -58,7 +58,7 @@ export default function SingleChat({ messages ,user ,receiver }) {
                                                 : "bg-[#262626]"
                                         } rounded-lg shadow p-2`}
                                     >
-                                        <p>{message.message}</p>
+                                        <p className="break-all">{message.message}</p>
                                     </div>
                                     <p className="flex justify-end capitalize text-xs text-gray-300">
                                     {moment.utc(message.created_at).fromNow()}

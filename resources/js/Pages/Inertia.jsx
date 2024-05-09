@@ -17,7 +17,7 @@ export default function home({ posts, user }) {
             title: Title,
             body: Body,
         };
-        Inertia.post("/inertia", formData, {
+        Inertia.post("/", formData, {
             onProgress: () => setloading(true),
             onFinish: () => setloading(false),
         });
@@ -162,7 +162,7 @@ export default function home({ posts, user }) {
                                         {moment.utc(post.created_at).fromNow()}
                                     </p>
                                 </div>
-                                <p className="text-md">{post.title}</p>
+                                <p className="text-md whitespace-normal break-words break-all">{post.title}</p>
                             </div>
                             <div>
                                 <button

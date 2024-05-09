@@ -1,13 +1,23 @@
 import React from "react";
 import { Link } from "@inertiajs/inertia-react";
 import moment from "moment";
+import { Inertia } from "@inertiajs/inertia";
 
 export default function Profile({ user, auth_user }) {
     console.log(user);
+    const handleUnFollow = (e) => {
+        e.preventDefault();
+        Inertia.delete(`/profile/${user.name}`, { preserveScroll: true });
+    };
+
+    const handleFollow = (e) => {
+        e.preventDefault();
+        Inertia.post(`/profile/${user.name}`, {}, { preserveScroll: true });
+    };
     return (
         <div>
-            <div className="flex gap-5 p-4">
-                <div className="flex flex-col gap-2 w-28 min-w-28 max-w-28 items-center">
+            <div className="flex gap-5 px-4 lg:px-10 py-6 lg:py-14">
+                <div className="flex flex-col gap-5 w-28 min-w-28 max-w-28 items-center">
                     <img
                         src={`/storage/${user.image}`}
                         alt=""
@@ -15,9 +25,32 @@ export default function Profile({ user, auth_user }) {
                     />
                     {user.id === auth_user.id ? (
                         <Link href="/account/edit">
-                            <button className="px-2 w-full py-2 bg-gray-600 text-gray-200 rounded-lg hover:bg-gray-700">Edit Profile</button>
+                            <button className="px-2 w-full py-2 bg-gray-600 text-gray-200 rounded-lg hover:bg-gray-700">
+                                Edit Profile
+                            </button>
                         </Link>
-                    ) : null}
+                    ) : (
+                        <>
+                            {user.followers.some(
+                                (follower) =>
+                                    follower.follower_id === auth_user.id
+                            ) ? (
+                                <button
+                                    onClick={handleUnFollow}
+                                    className="px-2 w-full py-2 bg-gray-600 text-gray-200 rounded-lg hover:bg-gray-700"
+                                >
+                                    Following
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={handleFollow}
+                                    className="px-2 w-full py-2 bg-gray-600 text-gray-200 rounded-lg hover:bg-gray-700"
+                                >
+                                    Follow
+                                </button>
+                            )}
+                        </>
+                    )}
                 </div>
                 <div>
                     <div className="flex gap-1 items-center">
@@ -77,7 +110,7 @@ export default function Profile({ user, auth_user }) {
                         </div>
                         <div className="flex gap-1 items-center">
                             <p className="font-semibold text-lg">
-                                {user.followers.length}
+                                {user.post.length}
                             </p>
                             <p className="font-light text-xs text-white text-opacity-50">
                                 Post
@@ -90,7 +123,7 @@ export default function Profile({ user, auth_user }) {
                     </p>
                 </div>
             </div>
-            <div className="border-t border-white border-opacity-25 grid grid-cols-3 gap-5 p-4">
+            <div className="border-t border-white border-opacity-25 grid grid-cols-3 gap-1 px-1 lg:px-10 py-4 lg:py-5">
                 {user.post.map((post) => {
                     return (
                         <div key={post.id}>

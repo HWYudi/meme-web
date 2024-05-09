@@ -7,7 +7,7 @@ export default function AllChat({ chats, user }) {
     console.log(user);
     return (
         <div className="w-full flex">
-            <div className="w-full lg:w-1/4 min-h-screen border-r border-white border-opacity-20">
+            <div className="w-full lg:w-1/3 min-h-screen border-r border-white border-opacity-20">
                 <div className="h-16 border-r border-white border-opacity-25 flex items-center justify-center">
                     <h1 className="font-bold">All Chats</h1>
                 </div>
@@ -41,32 +41,17 @@ export default function AllChat({ chats, user }) {
                                                 ? chat.receiver.name
                                                 : chat.sender.name}
                                         </h1>
-                                        <div className="flex gap-2 items-center">
-                                            <p className="text-[#E1E3E4]  text-sm">
+                                        <div className="flex gap-2 items-start">
+                                            <div>
+                                            <p className="text-[#E1E3E4] break-all">
                                                 {chat.message}
-                                            </p>
-                                            <p>
-                                                <svg
-                                                    width="4"
-                                                    height="5"
-                                                    viewBox="0 0 4 5"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                >
-                                                    <circle
-                                                        cx="2"
-                                                        cy="2.5"
-                                                        r="2"
-                                                        fill="white"
-                                                        fill-opacity="0.5"
-                                                    />
-                                                </svg>
                                             </p>
                                             <p className="text-[#E1E3E4] text-xs">
                                                 {moment
                                                     .utc(chat.created_at)
                                                     .fromNow()}
                                             </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
