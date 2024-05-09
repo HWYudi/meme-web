@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-    @vite(['resources/js/app.jsx', 'resources/css/app.css'])
+    @vite(['resources/css/app.css','resources/js/app.jsx'])
     @inertiaHead
 </head>
 
@@ -15,7 +15,7 @@
             class="sidebar hidden overflow-y-auto bg-black text-white lg:block fixed z-20 left-0 h-svh w-full lg:w-1/4 border-r border-white
               border-opacity-20">
             <div
-                class="w-full px-4 relative h-16 gap-3 flex items-center justify-start lg:justify-center border-b border-white border-opacity-20">
+                class="w-full px-4 relative h-16 gap-3 flex items-center justify-start lg:justify-center">
                 <img src="https://ichef.bbci.co.uk/news/976/cpsprodpb/16620/production/_91408619_55df76d5-2245-41c1-8031-07a4da3f313f.jpg"
                     alt="" class="w-10 h-10 rounded-full">
                 <h1 class="text-xl font-bold">MIM</h1>
@@ -211,7 +211,7 @@
         <!-- main content page -->
         <div class="flex bg-black text-white justify-end">
             <div class="w-full min-h-screen lg:w-3/4">
-                <div class="h-16 lg:hidden sticky top-0 z-10 bg-black flex items-center justify-between px-4">
+                <div class="h-16 lg:hidden sticky top-0 z-10 border-b bg-black flex items-center justify-between px-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white"
                         class="bi bi-list lg:hidden" viewBox="0 0 16 16" onclick="Openbar()">
                         <path fill-rule="evenodd"

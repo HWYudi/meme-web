@@ -35,9 +35,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 //for posts
-Route::get('/', [PostController::class, 'index'])->name('home');
 Route::get('/following', [PostController::class, 'following'])->name('posts.index');
-Route::post('/inertia', [PostController::class, 'store'])->name('posts.store')->middleware('checkauth');
+Route::post('/', [PostController::class, 'store'])->name('posts.store')->middleware('checkauth');
 Route::patch('/post/{id}', [PostController::class, 'update']);
 Route::delete('/post/{id}', [PostController::class, 'destroy']);
 Route::post('/posts/{id}/like', [PostController::class, 'like'])->name('posts.like')->middleware('checkauth');
@@ -47,9 +46,10 @@ Route::post('/reply', [CommentController::class, 'reply'])->middleware('checkaut
 
 //for profile
 Route::get('/profile/{name}', [AuthController::class, 'profile'])->name('profile');
+Route::get('/account/edit', [AuthController::class, 'edit'])->name('profile.edit');
 Route::post('/profile/{name}' , [AuthController::class , 'follow']);
 Route::get('profile/{name}/{id}' , [AuthController::class , 'post'])->name('profile.post');
-Route::put('/profile/{name}', [AuthController::class, 'update']);
+Route::post('/account/edit/{id}', [AuthController::class, 'update']);
 Route::get('/search', [PostController::class, 'search'])->name('posts.search');
 Route::get('/user' , [AuthController::class , 'user']);
 
@@ -64,5 +64,5 @@ Route::post('/chat' , [ChatController::class , 'store']);
 Route::get('/dashboard' , [AdminController::class , 'dashboard'])->name('dashboard')->middleware('admin');
 Route::get('/dashboard/search' , [AdminController::class , 'search'])->middleware('admin');
 
-Route::get('/inertia' , [PostController::class , 'inertia'])->name('inertia');
+Route::get('/' , [PostController::class , 'inertia'])->name('inertia');
 Route::get('/{name}/post/{id}' , [PostController::class , 'detailpost'])->name('detailpost');

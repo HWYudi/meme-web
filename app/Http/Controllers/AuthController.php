@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Inertia\Inertia;
 
 class AuthController extends Controller
 {
@@ -52,7 +53,7 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        if (Auth::attempt($credentials , $remember)) {
+        if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
             return redirect('/');
         }
@@ -62,9 +63,19 @@ class AuthController extends Controller
 
     public function profile($name)
     {
-        $user = User::with(['post', 'followers.follower', 'following.following'])->where('name', $name)->firstOrFail();
-        return view('/profile', [
-            "user" => $user ,
+        $auth_user = Auth::user();
+        $user = User::with(['post.user', 'followers.follower', 'following.following'])->where('name', $name)->firstOrFail();
+        return Inertia::render('Profile', [
+            'user' => $user,
+            'auth_user' => $auth_user
+        ]);
+    }
+
+    public function edit()
+    {
+        $user = auth()->user();
+        return Inertia::render('editProfile', [
+            'user' => $user
         ]);
     }
 
@@ -91,19 +102,22 @@ class AuthController extends Controller
         ]);
     }
 
-    public function update(Request $request, $name)
+    public function update(Request $request, $id)
     {
-        $user = User::where('name', $name)->firstOrFail(); // Menggunakan where() untuk mencari user dengan nama yang sesuai
+        // dd($request->all());
+        $user = User::find(auth()->user()->id);
         $request->validate([
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'username' => 'required|string|min:3|max:24',
         ]);
 
         $imagePath = $request->file('image')->store('posts');
 
         $user->update([
-            'image' => $imagePath
+            'image' => $imagePath,
+            'username' => $request->username,
         ]);
-        return back();
+        return redirect()->route('profile', ['name' => $user->name])->with('success', 'Profil berhasil diperbarui');
     }
 
     public function user()
@@ -112,7 +126,8 @@ class AuthController extends Controller
         return view('user', compact('users'));
     }
 
-    public function follow($name){
+    public function follow($name)
+    {
         $user = User::where('name', $name)->firstOrFail();
         Follow::create([
             'user_id' => auth()->id(),

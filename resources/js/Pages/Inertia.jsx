@@ -48,7 +48,7 @@ export default function home({ posts, user }) {
     console.log(posts);
     console.log(flash.message);
     return (
-        <div>
+        <div className="px-2 lg:px-10 w-full lg:w-2/3">
             {flash.message && (
                 <div class="fixed top-0 right-0 p-3">{flash.message}</div>
             )}
@@ -123,29 +123,46 @@ export default function home({ posts, user }) {
             {posts.map((post) => (
                 <div
                     key={post.id}
-                    className="flex py-4 border-y border-gray-600 gap-2 relative"
+                    className="flex py-4 border-b border-white border-opacity-20 gap-2 relative"
                 >
-                    <Link href={`/profile/${post.user.name}`}>
-                    <img
-                        src={"storage/" + post.user.image}
-                        alt=""
-                        className="w-12 h-12 object-cover rounded-full"
-                    />
+                    <Link
+                        href={`/profile/${post.user.name}`}
+                        className="w-12 flex justify-center"
+                    >
+                        <img
+                            src={"storage/" + post.user.image}
+                            alt=""
+                            className="w-10 h-10 object-cover rounded-full"
+                        />
                     </Link>
                     <div className="w-full">
                         <div className="flex justify-between">
                             <div className="mb-4">
-                                <div className="flex items-center gap-2">
-                                    <h1 className="font-semibold text-base text-[#DCDEE0]">
+                                <div className="flex items-center gap-2 text-white text-opacity-50">
+                                    <p className="text-base">
                                         {post.user.name}
-                                    </h1>
-                                    <p className="text-[#E1E3E4] text-sm">
+                                    </p>
+                                    <svg
+                                        width="4"
+                                        height="4"
+                                        viewBox="0 0 4 4"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <circle
+                                            cx="2"
+                                            cy="2"
+                                            r="2"
+                                            fill="white"
+                                            fill-opacity="0.5"
+                                        />
+                                    </svg>
+
+                                    <p className="text-sm">
                                         {moment.utc(post.created_at).fromNow()}
                                     </p>
                                 </div>
-                                <p className="text-[#E1E3E4]  text-md">
-                                    {post.title}
-                                </p>
+                                <p className="text-md">{post.title}</p>
                             </div>
                             <div>
                                 <button
@@ -215,7 +232,7 @@ export default function home({ posts, user }) {
                             alt=""
                             className="w-fit rounded-lg overflow-hidden"
                         />
-                        <div className="flex mt-4 mb-1 gap-1 items-center">
+                        <div className="flex py-1 items-center">
                             <div className="cursor-pointer hover:bg-gray-700 rounded-full w-fit p-2 h-fit">
                                 {post.like.some(
                                     (like) => like.user_id === user.id
@@ -243,16 +260,17 @@ export default function home({ posts, user }) {
                                         disabled={disabled}
                                     >
                                         <svg
-                                            width="25"
-                                            height="25"
-                                            viewBox="0 0 29 27"
+                                            width="24"
+                                            height="24"
+                                            viewBox="0 0 24 24"
                                             fill="none"
                                             xmlns="http://www.w3.org/2000/svg"
                                         >
                                             <path
-                                                d="M3.13903 14.0803L13.7761 25.2405C14.1702 25.6539 14.8298 25.6539 15.2239 25.2405L25.861 14.0803C28.713 11.088 28.713 6.23653 25.861 3.24423C23.0089 0.251924 18.3849 0.251924 15.5328 3.24423L15.2239 3.56837C14.8298 3.98178 14.1702 3.98178 13.7761 3.56837L13.4672 3.24423C10.6151 0.251925 5.99107 0.251925 3.13903 3.24423C0.28699 6.23653 0.28699 11.088 3.13903 14.0803Z"
+                                                d="M3.58447 12.941L11.2674 21.2113C11.663 21.6372 12.337 21.6372 12.7326 21.2113L20.4155 12.941C22.5282 10.6669 22.5282 6.97976 20.4155 4.70561C18.3029 2.43146 14.8777 2.43146 12.765 4.70561L12.7326 4.74049C12.337 5.16635 11.663 5.16635 11.2674 4.74049L11.235 4.70561C9.12233 2.43146 5.69709 2.43146 3.58447 4.70561C1.47184 6.97976 1.47184 10.6669 3.58447 12.941Z"
                                                 stroke="white"
-                                                strokeWidth="2"
+                                                stroke-opacity="0.75"
+                                                stroke-width="2"
                                             />
                                         </svg>
                                     </button>
@@ -263,38 +281,39 @@ export default function home({ posts, user }) {
                                 className="cursor-pointer flex items-center justify-center hover:bg-gray-700 rounded-full w-fit p-2 h-fit"
                             >
                                 <svg
-                                    width="25"
-                                    height="25"
-                                    viewBox="0 0 31 31"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
                                     fill="none"
                                     xmlns="http://www.w3.org/2000/svg"
                                 >
                                     <mask
-                                        id="path-1-outside-1_236_149"
+                                        id="path-1-outside-1_0_308"
                                         maskUnits="userSpaceOnUse"
-                                        x="1.99414"
+                                        x="1.99402"
                                         y="2"
-                                        width="29"
-                                        height="29"
+                                        width="21"
+                                        height="21"
                                         fill="black"
                                     >
                                         <rect
                                             fill="white"
-                                            x="1.99414"
+                                            x="1.99402"
                                             y="2"
-                                            width="29"
-                                            height="29"
+                                            width="21"
+                                            height="21"
                                         />
                                         <path
                                             fill-rule="evenodd"
                                             clip-rule="evenodd"
-                                            d="M25.8272 24.8154C27.7971 22.6061 28.9941 19.6929 28.9941 16.5C28.9941 9.59644 23.3977 4 16.4941 4C9.59058 4 3.99414 9.59644 3.99414 16.5C3.99414 23.4036 9.59058 29 16.4941 29C18.8689 29 21.0889 28.3378 22.9797 27.188L26.498 27.9427L25.8272 24.8154Z"
+                                            d="M17.9777 17.3318C19.2393 15.9168 20.006 14.0509 20.006 12.006C20.006 7.5844 16.4216 4 12 4C7.57842 4 3.99402 7.5844 3.99402 12.006C3.99402 16.4276 7.57842 20.012 12 20.012C13.521 20.012 14.9429 19.5878 16.1539 18.8514L18.4073 19.3347L17.9777 17.3318Z"
                                         />
                                     </mask>
                                     <path
-                                        d="M25.8272 24.8154L24.3344 23.4845L23.6588 24.2423L23.8717 25.2349L25.8272 24.8154ZM22.9797 27.188L23.3992 25.2325L22.6208 25.0655L21.9405 25.4791L22.9797 27.188ZM26.498 27.9427L26.0786 29.8982L29.1021 30.5468L28.4536 27.5232L26.498 27.9427ZM26.9941 16.5C26.9941 19.1833 25.9902 21.6273 24.3344 23.4845L27.32 26.1464C29.6039 23.5849 30.9941 20.2024 30.9941 16.5H26.9941ZM16.4941 6C22.2931 6 26.9941 10.701 26.9941 16.5H30.9941C30.9941 8.49187 24.5023 2 16.4941 2V6ZM5.99414 16.5C5.99414 10.701 10.6952 6 16.4941 6V2C8.48601 2 1.99414 8.49187 1.99414 16.5H5.99414ZM16.4941 27C10.6952 27 5.99414 22.299 5.99414 16.5H1.99414C1.99414 24.5081 8.48601 31 16.4941 31V27ZM21.9405 25.4791C20.354 26.4439 18.4921 27 16.4941 27V31C19.2456 31 21.8238 30.2317 24.0189 28.8968L21.9405 25.4791ZM22.5602 29.1435L26.0786 29.8982L26.9175 25.9872L23.3992 25.2325L22.5602 29.1435ZM28.4536 27.5232L27.7827 24.396L23.8717 25.2349L24.5425 28.3622L28.4536 27.5232Z"
+                                        d="M17.9777 17.3318L16.4849 16.0008L15.8092 16.7586L16.0222 17.7513L17.9777 17.3318ZM16.1539 18.8514L16.5734 16.8958L15.795 16.7289L15.1148 17.1425L16.1539 18.8514ZM18.4073 19.3347L17.9878 21.2902L21.0114 21.9388L20.3628 18.9152L18.4073 19.3347ZM18.006 12.006C18.006 13.5414 17.4325 14.938 16.4849 16.0008L19.4705 18.6628C21.0461 16.8956 22.006 14.5605 22.006 12.006H18.006ZM12 6C15.317 6 18.006 8.68897 18.006 12.006H22.006C22.006 6.47983 17.5262 2 12 2V6ZM5.99402 12.006C5.99402 8.68897 8.68299 6 12 6V2C6.47385 2 1.99402 6.47983 1.99402 12.006H5.99402ZM12 18.012C8.68299 18.012 5.99402 15.323 5.99402 12.006H1.99402C1.99402 17.5321 6.47385 22.012 12 22.012V18.012ZM15.1148 17.1425C14.208 17.6939 13.1442 18.012 12 18.012V22.012C13.8978 22.012 15.6778 21.4817 17.1931 20.5602L15.1148 17.1425ZM15.7345 20.8069L17.9878 21.2902L18.8268 17.3792L16.5734 16.8958L15.7345 20.8069ZM20.3628 18.9152L19.9332 16.9123L16.0222 17.7513L16.4518 19.7542L20.3628 18.9152Z"
                                         fill="white"
-                                        mask="url(#path-1-outside-1_236_149)"
+                                        fill-opacity="0.75"
+                                        mask="url(#path-1-outside-1_0_308)"
                                     />
                                 </svg>
                             </Link>
@@ -304,15 +323,16 @@ export default function home({ posts, user }) {
                                     onClick={() => dropdownpost(post.id)}
                                 >
                                     <svg
-                                        width="25"
-                                        height="27"
-                                        viewBox="0 0 29 27"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
                                         fill="none"
                                         xmlns="http://www.w3.org/2000/svg"
                                     >
                                         <path
-                                            d="M12.7222 14.3333L15.2281 25.6097C15.3261 26.0508 15.9125 26.1459 16.1449 25.7585L27.5457 6.75725C27.7456 6.42399 27.5056 6 27.1169 6H4.35163C3.88743 6 3.67378 6.57753 4.02623 6.87963L12.7222 14.3333ZM12.7222 14.3333L26.6111 6.69444"
+                                            d="M10 12L11.7281 19.7764C11.8261 20.2174 12.4125 20.3126 12.6449 19.9251L20.5457 6.75725C20.7456 6.42399 20.5056 6 20.1169 6H4.35163C3.88743 6 3.67378 6.57753 4.02623 6.87963L10 12ZM10 12L20 6.5"
                                             stroke="white"
+                                            stroke-opacity="0.75"
                                             stroke-width="2"
                                         />
                                     </svg>
@@ -360,7 +380,7 @@ export default function home({ posts, user }) {
                             </div>
                         </div>
                         <Link href={`/${post.user.name}/post/${post.id}`}>
-                            <p>{post.comment.length} balasan</p>
+                            <p className="text-sm text-white text-opacity-50">{post.comment.length} balasan</p>
                         </Link>
                     </div>
                 </div>
