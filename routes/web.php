@@ -37,7 +37,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 //for posts
 Route::post('/', [PostController::class, 'store'])->name('posts.store')->middleware('checkauth');
 Route::patch('/{name}/post/{id}', [PostController::class, 'update']);
-// Route::delete('/post/{id}', [PostController::class, 'destroy']);
+Route::delete('/{name}/post/{id}', [PostController::class, 'destroy']);
 Route::post('/posts/{id}/like', [PostController::class, 'like'])->name('posts.like')->middleware('checkauth');
 Route::delete('/posts/{id}/unlike', [PostController::class, 'unlike'])->name('posts.delete')->middleware('checkauth');
 Route::post('/comment', [CommentController::class, 'store'])->name('comments.store')->middleware('checkauth');

@@ -6,6 +6,7 @@ import { Link } from "@inertiajs/inertia-react";
 import moment from "moment";
 import { Head } from "@inertiajs/inertia-react";
 
+
 export default function detailPost({ post, user }) {
     const { flash } = usePage().props;
     console.log(flash.message);
@@ -83,6 +84,14 @@ export default function detailPost({ post, user }) {
             },
         });
     };
+
+    const handleDelete = (e) => {
+        e.preventDefault();
+        Inertia.delete(`/${post.user.name}/post/${post.id}`, {
+            preserveScroll: true,
+        })
+    }
+
     return (
         <div className="px-4 lg:px-10 py-4">
             <Head>
@@ -118,7 +127,7 @@ export default function detailPost({ post, user }) {
                     <p class="mb-4">
                         Are you sure you want to delete this post?
                     </p>
-                    <form method="POST" id="routeDelete" action="">
+                    <div>
                         <div class="flex justify-end">
                             <button
                             onClick={togglePopupDelete}
@@ -128,13 +137,13 @@ export default function detailPost({ post, user }) {
                                 Cancel
                             </button>
                             <button
-                                type="submit"
+                                onClick={handleDelete}
                                 class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
                             >
                                 Delete
                             </button>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
 
