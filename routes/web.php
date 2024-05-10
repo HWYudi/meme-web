@@ -36,14 +36,11 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 //for posts
 Route::post('/', [PostController::class, 'store'])->name('posts.store')->middleware('checkauth');
-Route::patch('/{name}/post/{id}', [Pos<<<<<<< HEAD
 Route::patch('/{name}/post/{id}', [PostController::class, 'update'])->middleware('checkauth');
 Route::delete('/{name}/post/{id}', [PostController::class, 'destroy'])->middleware('checkauth');
-=======
-Route::patch('/{name}/post/{id}', [PostController::class, 'update']);
-Route::delete('/{name}/post/{id}', [PostController::class, 'destroy']);
->>>>>>> aaa69ea06f5f8601cedd3f0deec5142aa1e29928
-troller::class, 'like'])->name('posts.like')->middleware('checkauth');
+
+
+Route::post('/posts/{id}/like', [PostController::class, 'like'])->name('posts.like')->middleware('checkauth');
 Route::delete('/posts/{id}/unlike', [PostController::class, 'unlike'])->name('posts.delete')->middleware('checkauth');
 Route::post('/comment', [CommentController::class, 'store'])->name('comments.store')->middleware('checkauth');
 Route::post('/reply', [CommentController::class, 'reply'])->middleware('checkauth') ;
