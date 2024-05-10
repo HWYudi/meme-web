@@ -73,15 +73,15 @@ class PostController extends Controller
     }
 
 
-    public function destroy($id)
+    public function destroy($name, $id)
     {
         $post = Post::findOrFail($id);
-        if ($post->user_id != auth()->user()->id) {
+        if ($post->user->id != auth()->user()->id) {
             return abort(403);
         }
         $post->delete();
 
-        return back()->with('success', 'Postingan Berhasil Di Hapus');
+        return to_route('profile', $name)->with('success', 'Postingan Berhasil Di Hapus');
     }
 
     public function update(Request $request, $name, $id)

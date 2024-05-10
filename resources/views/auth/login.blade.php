@@ -41,7 +41,7 @@
                 <input type="checkbox" name="remember" id="remember">
                 <label for="remember">Remember me</label>
             </div>
-            <button type="submit" class="w-full p-2 bg-slate-800 rounded-lg shadow-lg">Register</button>
+            <button type="submit" class="w-full p-2 bg-slate-800 rounded-lg shadow-lg">Login</button>
         </form>
     </div>
 </body>
