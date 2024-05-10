@@ -4,6 +4,8 @@ import { Link, usePage } from "@inertiajs/inertia-react";
 import dateFormat, { masks } from "dateformat";
 import { Head } from "@inertiajs/inertia-react";
 import moment from "moment";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function home({ posts, user }) {
     const [Title, setTitle] = useState("");
@@ -53,9 +55,12 @@ export default function home({ posts, user }) {
             <Head>
                 <title>MIMERS</title>
             </Head>
-            {flash.message && (
-                <div class="fixed top-0 right-0 p-3">{flash.message}</div>
-            )}
+
+            {flash.message &&
+                toast.success("Success Notification !", {
+                    position: "top-center",
+                })}
+            <ToastContainer />
             <div className="popup fixed z-40 inset-0 flex hidden items-center justify-center bg-black bg-opacity-80">
                 <div className="bg-black rounded-lg p-2 px-5 w-full max-w-md ">
                     <div
@@ -166,7 +171,9 @@ export default function home({ posts, user }) {
                                         {moment.utc(post.created_at).fromNow()}
                                     </p>
                                 </div>
-                                <p className="text-md whitespace-normal break-words break-all">{post.title}</p>
+                                <p className="text-md whitespace-normal break-words break-all">
+                                    {post.title}
+                                </p>
                             </div>
                             <div>
                                 <button
@@ -384,7 +391,9 @@ export default function home({ posts, user }) {
                             </div>
                         </div>
                         <Link href={`/${post.user.name}/post/${post.id}`}>
-                            <p className="text-sm text-white text-opacity-50">{post.comment.length} balasan</p>
+                            <p className="text-sm text-white text-opacity-50">
+                                {post.comment.length} balasan
+                            </p>
                         </Link>
                     </div>
                 </div>

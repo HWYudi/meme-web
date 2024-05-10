@@ -31,7 +31,7 @@ class PostController extends Controller
 
         return Inertia::render('detailPost', ['post' => $post , 'user' => $user]);
     }
-    
+
 
 
     public function store(Request $request)
@@ -52,7 +52,7 @@ class PostController extends Controller
             'body' => $imagePath,
         ]);
 
-        return to_route('posts.store')->with('success', 'Postingan Berhasil Di Tambahkan');
+        return to_route('posts.store')->with('message', 'Postingan Berhasil Di Tambahkan');
     }
 
     public function like($id)
@@ -84,10 +84,14 @@ class PostController extends Controller
         return back()->with('success', 'Postingan Berhasil Di Hapus');
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $name, $id)
     {
+        // dd($request->all());
+        $request->validate([
+            'title' => 'required|max:255',
+        ]);
         $post = Post::findOrFail($id);
-        if ($post->user_id != auth()->user()->id) {
+        if ($post->user->id != auth()->user()->id) {
             return abort(403);
         }
         $post->update($request->all());

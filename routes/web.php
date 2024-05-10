@@ -36,8 +36,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 //for posts
 Route::post('/', [PostController::class, 'store'])->name('posts.store')->middleware('checkauth');
-Route::patch('/post/{id}', [PostController::class, 'update']);
-Route::delete('/post/{id}', [PostController::class, 'destroy']);
+Route::patch('/{name}/post/{id}', [PostController::class, 'update']);
+// Route::delete('/post/{id}', [PostController::class, 'destroy']);
 Route::post('/posts/{id}/like', [PostController::class, 'like'])->name('posts.like')->middleware('checkauth');
 Route::delete('/posts/{id}/unlike', [PostController::class, 'unlike'])->name('posts.delete')->middleware('checkauth');
 Route::post('/comment', [CommentController::class, 'store'])->name('comments.store')->middleware('checkauth');
@@ -45,24 +45,24 @@ Route::post('/reply', [CommentController::class, 'reply'])->middleware('checkaut
 
 //for profile
 Route::get('/profile/{name}', [AuthController::class, 'profile'])->name('profile');
-Route::get('/account/edit', [AuthController::class, 'edit'])->name('profile.edit');
-Route::post('/profile/{name}' , [AuthController::class , 'follow']);
-Route::delete('/profile/{name}' , [AuthController::class , 'unfollow']);
-Route::get('profile/{name}/{id}' , [AuthController::class , 'post'])->name('profile.post');
-Route::post('/account/edit/{id}', [AuthController::class, 'update']);
-Route::get('/search', [PostController::class, 'search'])->name('posts.search');
-Route::get('/user' , [AuthController::class , 'user']);
+Route::get('/account/edit', [AuthController::class, 'edit'])->name('profile.edit')->middleware('checkauth');
+Route::post('/profile/{name}' , [AuthController::class , 'follow'])->middleware('checkauth');
+Route::delete('/profile/{name}' , [AuthController::class , 'unfollow'])->middleware('checkauth');
+// Route::get('profile/{name}/{id}' , [AuthController::class , 'post'])->name('profile.post');
+// Route::post('/account/edit/{id}', [AuthController::class, 'update']);
+// Route::get('/search', [PostController::class, 'search'])->name('posts.search');
+// Route::get('/user' , [AuthController::class , 'user']);
 
 //for chat
-Route::get('/messages' , [ChatController::class , 'index']);
-Route::get('/inbox' , [ChatController::class , 'index']);
-Route::get('/message/{name}' , [ChatController::class , 'chat']);
-Route::get('/chat/{name}' , [ChatController::class , 'chat']);
-Route::post('/chat' , [ChatController::class , 'store']);
+Route::get('/messages' , [ChatController::class , 'index'])->middleware('checkauth');
+// Route::get('/inbox' , [ChatController::class , 'index']);
+Route::get('/message/{name}' , [ChatController::class , 'chat'])->middleware('checkauth');
+// Route::get('/chat/{name}' , [ChatController::class , 'chat']);
+Route::post('/chat' , [ChatController::class , 'store'])->middleware('checkauth');
 
 //for admin
-Route::get('/dashboard' , [AdminController::class , 'dashboard'])->name('dashboard')->middleware('admin');
-Route::get('/dashboard/search' , [AdminController::class , 'search'])->middleware('admin');
+// Route::get('/dashboard' , [AdminController::class , 'dashboard'])->name('dashboard')->middleware('admin');
+// Route::get('/dashboard/search' , [AdminController::class , 'search'])->middleware('admin');
 
 Route::get('/' , [PostController::class , 'inertia'])->name('home');
 Route::get('/{name}/post/{id}' , [PostController::class , 'detailpost'])->name('detailpost');

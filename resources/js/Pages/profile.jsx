@@ -130,12 +130,12 @@ export default function Profile({ user, auth_user }) {
             <div className="border-t border-white border-opacity-25 grid grid-cols-3 gap-1 px-1 lg:px-10 py-4 lg:py-5">
                 {user.post.map((post) => {
                     return (
-                        <div key={post.id}>
+                        <div key={post.id} >
                             <Link href={`/${post.user.name}/post/${post.id}`}>
                                 <img
                                     src={`/storage/${post.body}`}
                                     alt=""
-                                    className="w-full h-40 lg:h-80 object-cover object-top"
+                                    className="w-full h-40 lg:h-80 object-cover object-top hover:opacity-50"
                                 />
                             </Link>
                         </div>

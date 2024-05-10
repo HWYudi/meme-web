@@ -59,12 +59,11 @@ class ChatController extends Controller
     {
 
         $request->validate([
-            'sender_id' => 'required',
             'receiver_id' => 'required',
             'message' => 'required',
         ]);
         Chat::create([
-            'sender_id' => $request->sender_id,
+            'sender_id' => auth()->user()->id,
             'receiver_id' => $request->receiver_id,
             'message' => $request->message,
         ]);

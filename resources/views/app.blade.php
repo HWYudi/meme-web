@@ -290,6 +290,14 @@
         document.querySelector('.popup').classList.toggle('hidden');
     }
 
+     function togglePopupEdit() {
+        document.querySelector('.popupEdit').classList.toggle('hidden');
+    }
+
+    function togglePopupDelete(){
+        document.querySelector('.popupDelete').classList.toggle('hidden');
+    }
+
     function dropdownpost(id){
         document.getElementById('dropdown-post-' + id).classList.toggle('hidden')
     }
