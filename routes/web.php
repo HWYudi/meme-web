@@ -52,7 +52,7 @@ Route::post('/profile/{name}' , [AuthController::class , 'follow'])->middleware(
 Route::delete('/profile/{name}' , [AuthController::class , 'unfollow'])->middleware('checkauth');
 // Route::get('profile/{name}/{id}' , [AuthController::class , 'post'])->name('profile.post');
 // Route::post('/account/edit/{id}', [AuthController::class, 'update']);
-// Route::get('/search', [PostController::class, 'search'])->name('posts.search');
+Route::get('/search', [PostController::class, 'search'])->name('posts.search');
 // Route::get('/user' , [AuthController::class , 'user']);
 
 //for chat

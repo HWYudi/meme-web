@@ -11,8 +11,30 @@
     <main class="bg-black text-white">
         <!-- header page -->
         <!-- aside -->
+        <aside class="search min-h-svh -translate-x-full bg-black duration-200 fixed z-30 left-0 w-full lg:w-1/4 border-r border-white">
+            <div class="w-full px-4 relative h-16 gap-3 flex items-center justify-start lg:justify-center">
+                <img src="https://ichef.bbci.co.uk/news/976/cpsprodpb/16620/production/_91408619_55df76d5-2245-41c1-8031-07a4da3f313f.jpg"
+                    alt="" class="w-10 h-10 rounded-full">
+                <h1 class="text-xl font-bold">MIM</h1>
+                <div class="absolute right-4 top-0 bottom-0 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white"
+                        class="bi bi-x-lg" viewBox="0 0 16 16" onclick="searchbar()">
+                        <path
+                            d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
+                    </svg>
+                </div>
+            </div>
+            <div class="px-4 mt-4">
+                <form action="{{ route('posts.search') }}" method="GET">
+                    <input type="text" placeholder="Search" name="q" class="w-full bg-gray-800 text-white py-2 px-4 rounded-lg outline-none border-none">
+                    <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-lg mt-2 w-full">Search</button>
+                </form>
+            </div>
+        </aside>
+
+
         <aside
-            class="sidebar hidden overflow-y-auto bg-black text-white lg:block fixed z-20 left-0 h-svh w-full lg:w-1/4 border-r border-white
+            class="sidebar -translate-x-full duration-200 lg:translate-x-0 overflow-y-auto bg-black text-white fixed z-20 left-0 h-svh w-full lg:w-1/4 border-r border-white
               border-opacity-20">
             <div
                 class="w-full px-4 relative h-16 gap-3 flex items-center justify-start lg:justify-center">
@@ -283,7 +305,11 @@
 </body>
 <script>
     function Openbar() {
-        document.querySelector('.sidebar').classList.toggle('hidden');
+        document.querySelector('.sidebar').classList.toggle('-translate-x-full');
+    }
+
+    function searchbar() {
+        document.querySelector('.search').classList.toggle('-translate-x-full');
     }
 
      function togglePopup() {

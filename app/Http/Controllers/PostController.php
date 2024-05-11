@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\User;
 
 class PostController extends Controller
 {
@@ -104,13 +106,12 @@ class PostController extends Controller
         $posts = Post::with(['like', 'user', 'comment.reply'])
             ->where('title', 'like', '%' . $search . '%')
             ->orWhereHas('user', function ($query) use ($search) {
-                $query->where('username', 'like', '%' . $search . '%');
-            })
-            ->orWhereHas('comment', function ($query) use ($search) {
-                $query->where('body', 'like', '%' . $search . '%');
+                $query->where('name', 'like', '%' . $search . '%');
             })
             ->get();
 
-        return view('search', compact('posts'));
+        return Inertia::render('Inertia', ['posts' => $posts]);
     }
+
+
 }
