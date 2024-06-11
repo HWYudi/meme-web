@@ -106,19 +106,32 @@ class AuthController extends Controller
     {
         // dd($request->all());
         $user = User::find(auth()->user()->id);
+
+        // Validasi input
         $request->validate([
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'username' => 'required|string|min:3|max:24',
+            'bio' => 'nullable|string|max:150',
         ]);
 
-        $imagePath = $request->file('image')->store('posts');
+        // Proses gambar jika ada yang diunggah
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('posts');
+        } else {
+            $imagePath = $user->image; // gunakan gambar yang sudah ada jika tidak ada yang baru diunggah
+        }
 
+
+        // Perbarui data pengguna
         $user->update([
             'image' => $imagePath,
             'username' => $request->username,
+            'bio' => $request->bio,
         ]);
+
         return redirect()->route('profile', ['name' => $user->name])->with('success', 'Profil berhasil diperbarui');
     }
+
 
     public function user()
     {
@@ -140,6 +153,6 @@ class AuthController extends Controller
     {
         $user = User::where('name', $name)->firstOrFail();
         Follow::where('follower_id', auth()->id())->where('following_id', $user->id)->delete();
-        return back();  
+        return back();
     }
 }

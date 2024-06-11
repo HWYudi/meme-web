@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     @vite('resources/css/app.css')
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body{
             background-color: black;
@@ -42,6 +43,7 @@
                 <label for="remember">Remember me</label>
             </div>
             <button type="submit" class="w-full p-2 bg-slate-800 rounded-lg shadow-lg">Login</button>
+            <a href="{{ route('register') }}" class="mt-2 text-sm">don't have an account? <span class="text-blue-500 hover:underline">Register</span></a>
         </form>
     </div>
 </body>

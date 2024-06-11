@@ -4,13 +4,15 @@ import { useState } from "react";
 export default function editProfile({ user }) {
 
   const [Image , setImage] = useState(null);
-  const [Username , setUsername] = useState("");
+  const [Username , setUsername] = useState(null);
+  const [Bio , setBio] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = {
       image: Image,
-      username: Username
+      username: Username !== null ? Username : user.username,
+      bio: Bio !== null ? Bio : user.bio
     }
     Inertia.post(`/account/edit/${user.id}`, formData)
   }
@@ -73,7 +75,7 @@ export default function editProfile({ user }) {
                         PNG or JPG Up To 5MB
                     </p>
                 </div>
-                <div className="w-full lg:w-fit border-l border-white pl-5">
+                <div className="w-full lg:w-1/2 border-l border-white pl-5">
                     <div className="py-2">
                         <label htmlFor="name" className="text-sm font-semibold">
                             Username
@@ -86,6 +88,22 @@ export default function editProfile({ user }) {
                             onChange={(e) => setUsername(e.target.value)}
                             className="block w-full px-3 py-1 mt-1 text-sm border border-gray-300 rounded-md bg-transparent focus:outline-none focus:border-blue-500"
                         />
+                    </div>
+                    <div className="py-2">
+                        <label htmlFor="bio" className="text-sm font-semibold">
+                            Bio
+                        </label>
+                        <textarea
+                id="bio"
+                name="bio"
+                autoComplete="off"
+                placeholder={user.bio ? user.bio : "No Bio Yet ."}
+                value={Bio}
+                onChange={(e) => setBio(e.target.value)}
+                className="no-resize break-all block w-full px-3 py-1 mt-1 text-sm border border-gray-300 rounded-md bg-transparent focus:outline-none focus:border-blue-500"
+                rows="4" // Anda bisa menyesuaikan jumlah baris sesuai kebutuhan
+                style={{resize: "none"}}
+            />
                     </div>
 
                     <div className="py-2">

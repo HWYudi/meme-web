@@ -402,7 +402,7 @@ export default function detailPost({ post, user }) {
                         className="w-fit rounded-lg overflow-hidden"
                     />
                     <div className="flex gap-1 items-center">
-                        <div className="cursor-pointer hover:bg-gray-700 rounded-full w-fit p-2 h-fit">
+                        <div className="cursor-pointer hover:bg-gray-700 rounded-full w-fit flex items-center p-2 h-fit">
                             {post.like.some(
                                 (like) => like.user_id === user.id
                             ) ? (

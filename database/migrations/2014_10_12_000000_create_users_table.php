@@ -18,6 +18,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->Unique();
             $table->string('username');
+            $table->string('bio')->nullable();
             $table->string('image')->default('posts/f3dwhsH1LfICvGpLSQ3sxjkS9K4tWomYffWpUEuy.png');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();

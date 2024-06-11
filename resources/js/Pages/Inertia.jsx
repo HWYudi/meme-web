@@ -49,19 +49,18 @@ export default function home({ posts, user }) {
     };
 
     console.log(posts);
-    console.log(flash.message);
     return (
         <div className="px-2 lg:px-10 w-full lg:w-2/3">
             <Head>
                 <title>MIMERS</title>
             </Head>
 
-            {flash.message &&
+            {/* {flash.message &&
                 toast.success("Success Notification !", {
                     position: "top-center",
                 })}
-            <ToastContainer />
-            <div className="popup fixed z-40 inset-0 flex hidden items-center justify-center bg-black bg-opacity-80">
+            <ToastContainer /> */}
+            {/* <div className="popup fixed z-40 inset-0 flex hidden items-center justify-center bg-black bg-opacity-80">
                 <div className="bg-black rounded-lg p-2 px-5 w-full max-w-md ">
                     <div
                         className="p-4 absolute top-0 right-0 cursor-pointer"
@@ -127,7 +126,7 @@ export default function home({ posts, user }) {
                         </form>
                     )}
                 </div>
-            </div>
+            </div> */}
 
             {posts.length > 0 ? (
                 posts.map((post) => (

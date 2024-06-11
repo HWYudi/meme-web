@@ -122,8 +122,7 @@ export default function Profile({ user, auth_user }) {
                         </div>
                     </div>
                     <p className="break-words whitespace-normal break-all font-light text-sm text-white text-opacity-50">
-                        Life Is Better When You Have
-                        Friendswwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+                       {user.bio ? user.bio : "No bio Yet ."}
                     </p>
                 </div>
             </div>

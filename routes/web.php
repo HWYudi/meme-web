@@ -51,16 +51,16 @@ Route::get('/account/edit', [AuthController::class, 'edit'])->name('profile.edit
 Route::post('/profile/{name}' , [AuthController::class , 'follow'])->middleware('checkauth');
 Route::delete('/profile/{name}' , [AuthController::class , 'unfollow'])->middleware('checkauth');
 // Route::get('profile/{name}/{id}' , [AuthController::class , 'post'])->name('profile.post');
-// Route::post('/account/edit/{id}', [AuthController::class, 'update']);
+Route::post('/account/edit/{id}', [AuthController::class, 'update']);
 Route::get('/search', [PostController::class, 'search'])->name('posts.search');
 // Route::get('/user' , [AuthController::class , 'user']);
 
 //for chat
 Route::get('/messages' , [ChatController::class , 'index'])->name('messages')->middleware('checkauth');
 // Route::get('/inbox' , [ChatController::class , 'index']);
-Route::get('/message/{name}' , [ChatController::class , 'chat'])->name('messages')->middleware('checkauth');
+// Route::get('/message/{name}' , [ChatController::class , 'chat'])->name('messages')->middleware('checkauth');
 // Route::get('/chat/{name}' , [ChatController::class , 'chat']);
-Route::post('/chat' , [ChatController::class , 'store'])->middleware('checkauth');
+// Route::post('/chat' , [ChatController::class , 'store'])->middleware('checkauth');
 
 //for admin
 // Route::get('/dashboard' , [AdminController::class , 'dashboard'])->name('dashboard')->middleware('admin');
